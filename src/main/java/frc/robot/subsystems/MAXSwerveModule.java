@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
+import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -43,6 +44,7 @@ public class MAXSwerveModule {
     m_turningSpark = new SparkMax(turningCANId, MotorType.kBrushless);
 
     m_drivingEncoder = m_drivingSpark.getEncoder();
+    //m_turningEncoder = m_turningSpark.getAbsoluteEncoder(SparkAbsoluteEncoder.class);
     m_turningEncoder = m_turningSpark.getAbsoluteEncoder();
 
     m_drivingClosedLoopController = m_drivingSpark.getClosedLoopController();

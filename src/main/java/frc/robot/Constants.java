@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -29,6 +28,7 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = 4.8;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
+    
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(26.5);
     // Distance between centers of right and left wheels on robot
@@ -47,17 +47,19 @@ public final class Constants {
     public static final double kBackRightChassisAngularOffset = Math.PI / 2;
 
     // SPARK MAX CAN IDs
-    public static final int kFrontLeftDrivingCanId = 11;
-    public static final int kRearLeftDrivingCanId = 13;
-    public static final int kFrontRightDrivingCanId = 15;
-    public static final int kRearRightDrivingCanId = 17;
+    public static final int kFrontLeftDrivingCanId = 40;
+    public static final int kRearLeftDrivingCanId = 20;
+    public static final int kFrontRightDrivingCanId = 30;
+    public static final int kRearRightDrivingCanId = 10;
 
-    public static final int kFrontLeftTurningCanId = 10;
-    public static final int kRearLeftTurningCanId = 12;
-    public static final int kFrontRightTurningCanId = 14;
-    public static final int kRearRightTurningCanId = 16;
+    public static final int kFrontLeftTurningCanId = 41;
+    public static final int kRearLeftTurningCanId = 21;
+    public static final int kFrontRightTurningCanId = 31;
+    public static final int kRearRightTurningCanId = 11;
 
     public static final boolean kGyroReversed = false;
+
+    public static final int kPigeon2CanId = 60;
   }
 
   public static final class ModuleConstants {
