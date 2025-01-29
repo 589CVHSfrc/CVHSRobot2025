@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.ADIS16470_IMU;
 // import edu.wpi.first.wpilibj.ADIS16470_IMU;
 // import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import frc.robot.Constants.DriveConstants;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase; //  \\  //  \\  //  \\  //  \\
 
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
@@ -95,7 +95,8 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     m_odometry.resetPosition(
-        // Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),
+        // Rotation2d.fromDegrees(-m_pitAngle(IMUAxis.kZ)),
+          //Rotation2d.fromDegrees(-m_pigeon.getAngle()),
         m_pigeon.getRotation2d(),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
@@ -181,6 +182,7 @@ public class DriveSubsystem extends SubsystemBase {
   public double getHeading() {
     // return Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)).getDegrees();
     return m_pigeon.getRotation2d().getDegrees();
+   
   }
 
   /**
