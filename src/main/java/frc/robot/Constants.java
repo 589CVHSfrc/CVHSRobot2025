@@ -105,6 +105,22 @@ public final class Constants {
 
   public static class ElevatorConstants{
     public static final int kElevatorMotorCANID = 0; //change
+    public static final double kElevatorP = 0.1;
+    public static final double kElevatorI = 0.00005;
+    public static final double kElevatorD = 0;
+    public static final double kElevatorRangeBottom = -0.2;
+    public static final double kElevatorRangeTop = 0.2;
+    public static final double kElevatorPositionConversionFactor = 1; //change
+    public static final double kElevatorVelocityConversionFactor = 1; //change
+  }
+
+  public static class ShooterConstants{
+    public static final int kShooterLeftMotorCANID = 0; //change
+    public static final int kShooterRightMotorCANID = 0; //change
+    public static final int kBeamBreakDIOPort = 0; // change
+    public static final double kShooterP = 0.1;
+    public static final double kShooterI = 0.00005;
+    public static final double kShooterD = 0;
   }
 
 }
