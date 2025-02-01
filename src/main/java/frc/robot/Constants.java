@@ -103,7 +103,7 @@ public final class Constants {
     public static final double kFreeSpeedRpm = 5676;
   }
 
-  public static class ElevatorConstants{
+  public static final class ElevatorConstants{
     public static final int kElevatorMotorCANID = 0; //change
     public static final double kElevatorP = 0.1;
     public static final double kElevatorI = 0.00005;
@@ -114,13 +114,36 @@ public final class Constants {
     public static final double kElevatorVelocityConversionFactor = 1; //change
   }
 
-  public static class ShooterConstants{
+  public static final class ShooterConstants{
     public static final int kShooterLeftMotorCANID = 0; //change
     public static final int kShooterRightMotorCANID = 0; //change
     public static final int kBeamBreakDIOPort = 0; // change
     public static final double kShooterP = 0.1;
     public static final double kShooterI = 0.00005;
     public static final double kShooterD = 0;
+  }
+
+  public static final class GroundIntakeConstants{
+    public static final int ktopRollerCANID = 0; //change
+    public static final int kbottomRollerCANID = 0; //change
+    public static final double kGroundIntakeP = 0; //change
+    public static final double kGroundIntakeI = 0; //change
+    public static final double kGroundIntakeD = 0; //change
+  }
+
+  public static final class ClimberConstants{
+    public static final int kcageMotorCANID = 0; //change
+    public static final double kClimbP = 0; //change
+    public static final double kClimbI = 0; //change
+    public static final double kClimbD = 0; //change
+  }
+
+  public static final class IntakePivotConstants{
+    public static final int kpivotMotorCANID = 0; //change
+    public static final double kPivotP = 0; //change
+    public static final double kPivotI = 0; //change
+    public static final double kPivotD = 0; //change
+
   }
 
 }
