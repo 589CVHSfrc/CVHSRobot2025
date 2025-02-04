@@ -123,4 +123,29 @@ public final class Constants {
     public static final double kShooterD = 0;
   }
 
+  public static class ClimberConstants{
+    public static final int kcageMotorCANID = 0; //change
+    public static final double kClimbP = 0; 
+    public static final double kClimbI = 0;
+    public static final double kClimbD = 0;
+  }
+
+  public static class GroundIntakeConstants{
+    public static final int kBeamBreakDIOPort = 0; //change
+    public static final int kbottomRollerCANID = 0; //change
+    public static final int kcageMotorCANID = 0; //change
+    public static final int ktopRollerCANID = 0; // change
+    public static final double kGroundIntakeP = 0; //change
+    public static final double kGroundIntakeI = 0; //change
+    public static final double kGroundIntakeD = 0; //change
+
+  }
+
+  public static class IntakePivotConstants{
+    public static final int kpivotMotorCANID = 0; //change
+    public static final double kPivotP = 0; //change
+    public static final double kPivotI = 0; //change
+    public static final double kPivotD = 0; //change
+  }
+
 }

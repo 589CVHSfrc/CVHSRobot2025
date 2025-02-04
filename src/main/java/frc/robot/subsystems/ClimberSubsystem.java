@@ -15,7 +15,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.ClimberConstants;
+
 
 public class ClimberSubsystem extends SubsystemBase {
 
@@ -26,7 +26,7 @@ public class ClimberSubsystem extends SubsystemBase {
   
   /** Creates a new DeepCageClimb. */
   public ClimberSubsystem() {
-    m_cageMotor = new SparkMax(ClimberConstants.kcageMotorCANID, MotorType.kBrushless);
+    m_cageMotor = new SparkMax(Constants.ClimberConstants.kcageMotorCANID, MotorType.kBrushless);
     m_config = new SparkMaxConfig();
     m_bottomLimitSwitch = m_cageMotor.getForwardLimitSwitch();
     m_topLimitSwitch = m_cageMotor.getReverseLimitSwitch();
