@@ -5,6 +5,11 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
@@ -22,6 +27,7 @@ import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase; //  \\  //  \\  //  \\  //  \\
 
 public class DriveSubsystem extends SubsystemBase {
+
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
       DriveConstants.kFrontLeftDrivingCanId,
@@ -61,6 +67,25 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    RobotConfig config;
+    try{
+      config = RobotConfig.fromGUISettings();
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+
+    AutoBuilder.configure(
+        this::getPose,
+        this::resetPose,
+        this::getRelativeSpeeds,
+        this::driveRobotRelative,
+        new PPHolonomicDriveController(
+          new PIDConstants(5.0,0.0,0.0),
+          new PIDConstants(5.0,0.0,0.0)
+        ), config, 
+        null, 
+        null
+      );
     // Usage reporting for MAXSwerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
   }
@@ -86,6 +111,29 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
+  }
+
+  public SwerveModulePosition[] getPositions(){
+    return new SwerveModulePosition[] {
+      m_frontLeft.getPosition(),
+      m_frontRight.getPosition(),
+      m_rearLeft.getPosition(),
+      m_rearRight.getPosition()
+    };
+  }
+  
+
+  public void resetPose(Pose2d pose) {
+    System.out.println(pose);
+    m_odometry.resetPosition(m_pigeon.getRotation2d(), getPositions(), pose);
+  }
+
+  public ChassisSpeeds getRelativeSpeeds(){
+    return DriveConstants.kDriveKinematics.toChassisSpeeds(m_frontLeft.getState(),m_frontRight.getState(),m_rearLeft.getState(),m_rearRight.getState());
+  }
+
+  public void driveRobotRelative(ChassisSpeeds speeds){
+    this.drive(speeds.vxMetersPerSecond,speeds.vyMetersPerSecond,speeds.omegaRadiansPerSecond,false);
   }
 
   /**
