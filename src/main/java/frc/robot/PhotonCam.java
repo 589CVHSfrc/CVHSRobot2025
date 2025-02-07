@@ -25,7 +25,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 // import frc.robot.Constants.VisualConstants;
 /** Add your docs here. */
 public class PhotonCam {
-    private static PhotonCamera m_arduCam;
+    private static PhotonCam m_arduCam;
     public AprilTagFieldLayout m_aprilTagLayout;
     private PhotonCamera m_photonArduCam = new PhotonCamera("ArduCam");
     private PhotonPoseEstimator m_poseEstimator;
@@ -46,6 +46,54 @@ public class PhotonCam {
         m_poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
         PortForwarder.add(5800, "photonvision.local", 5800);
         PortForwarder.add(5800, "10.5.89.11", 5800);
+
         
+    }
+
+    public boolean getAlliance() {
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+
+            return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;
+    }
+    
+    public static PhotonCam get() {
+        if (m_arduCam == null) {
+            m_arduCam = new PhotonCam();
+        }
+        return m_arduCam;
+    }
+
+    public void estimatePose(SwerveDrivePoseEstimator estimator) {
+        // Gets Estimation from camera
+        Optional<EstimatedRobotPose> OPestimation = m_poseEstimator.update(m_photonArduCam.getLatestResult());
+
+        if (OPestimation.isPresent()) {
+            EstimatedRobotPose estimation = OPestimation.get();
+            Pose2d estimatedPose2d = estimation.estimatedPose.toPose2d();
+            
+            // if estimation exists, then add Vision Measurement, to odom in class
+            estimator.addVisionMeasurement(estimatedPose2d, estimation.timestampSeconds);
+
+            // estimator.resetPosition(estimatedPose2d.getRotation(),
+            // drive.getSwerveModulePositions(),
+            // estimatedPose2d);
+        }
+    }
+
+    /*--------------
+    * | Check this |
+    * --------------
+    */
+    public void setAlliance(boolean alliance){
+        if (alliance) {
+            m_aprilTagLayout.setOrigin(OriginPosition.kRedAllianceWallRightSide);
+
+        } else {
+            m_aprilTagLayout.setOrigin(OriginPosition.kBlueAllianceWallRightSide);
+
+        }
     }
 }
