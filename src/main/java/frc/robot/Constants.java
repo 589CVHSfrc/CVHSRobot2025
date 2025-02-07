@@ -28,6 +28,10 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = 4.8;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
+    // CHANGE THIS!!!
+    // Wheel radius
+    public static final double kWheelRadius = 1.0;
+
     
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(26.5);

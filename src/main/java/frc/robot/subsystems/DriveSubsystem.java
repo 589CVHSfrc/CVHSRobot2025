@@ -3,12 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-
+import com.pathplanner.lib.*;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import frc.robot.config.ModuleConfig;
 
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
@@ -24,9 +25,11 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import frc.robot.Constants.AutoConstants;
 // import edu.wpi.first.wpilibj.ADIS16470_IMU;
 // import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.util.Units;
 
@@ -170,7 +173,36 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
+  // private HolonomicPathFollowerConfig m_driveConfig = new HolonomicPathFollowerConfig(
+  //         new PIDConstants(ModuleConstants.kDrivingP, ModuleConstants.kDrivingI,
+  //         ModuleConstants.kDrivingD),
+  //     new PIDConstants(ModuleConstants.kTurningP, ModuleConstants.kTurningI,
+  //         ModuleConstants.kDrivingD),
+  //     AutoConstants.kMaxSpeedMetersPerSecond,
+  //     DriveConstants.kDrivePlatformRadius,
+  //     new ReplanningConfig(),
+  //     0.02);
+  // private SwerveDrivePoseEstimator m_estimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics,
+  //     new Rotation2d(Units.degreesToRadians(getGyroYawDeg())), getSwerveModulePositions(), getPose());
+  // private Field2d m_field = new Field2d();
+  // public DriveSubsystem() {
 
+  //   configureHolonomicAutoBuilder();
+  // )
+  private ModuleConfig m_driveConfig = new ModuleConfig(DriveConstants.kWheelRadius);
+
+
+
+  public void configureHolonomicAutoBuilder()  {
+      AutoBuilder.configureHolonomic(
+        this::getPose, // getPose,
+        this::resetOdometry,
+        this::getChassisSpeeds,
+        this::driveRobotRelative,
+        m_driveConfig,
+        this::getAlliance,
+        this);
+  }
   
 
   public ChassisSpeeds getRelativeSpeeds(){
