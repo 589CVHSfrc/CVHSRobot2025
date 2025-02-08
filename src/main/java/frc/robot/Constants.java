@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -64,6 +65,10 @@ public final class Constants {
     public static final boolean kGyroReversed = false;
 
     public static final int kPigeon2CanId = 60;
+  }
+
+  public static final class VisualConstants{
+    public static final Transform3d kCameraRelativeToRobot =;
   }
 
   public static final class ModuleConstants {
