@@ -32,8 +32,10 @@ public class ElevatorSubsystem extends SubsystemBase {
   SparkLimitSwitch m_bottomLimitSwitch;
   SparkLimitSwitch m_topLimitSwitch;
   SparkMaxConfig m_elevatorMotorConfig;
-  AbsoluteEncoder m_encoder;
+  //AbsoluteEncoder m_encoder;
+  RelativeEncoder m_encoder;
   SparkClosedLoopController m_closedLoopController;
+  double m_position;
   //SparkBase m_elevatorMotor;
   
   
@@ -43,8 +45,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_elevatorMotor = new SparkMax(Constants.ElevatorConstants.kElevatorMotorCANID, MotorType.kBrushless);
     m_topLimitSwitch = m_elevatorMotor.getForwardLimitSwitch(); //change
     m_bottomLimitSwitch = m_elevatorMotor.getReverseLimitSwitch(); //change
-    m_encoder = m_elevatorMotor.getAbsoluteEncoder();
-    m_closedLoopController = m_elevatorMotor.getClosedLoopController();
+   
+   
     m_elevatorMotorConfig.limitSwitch
         .forwardLimitSwitchEnabled(true)
         .reverseLimitSwitchEnabled(true)
@@ -72,6 +74,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     m_elevatorMotor.configure(m_elevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     SmartDashboard.setDefaultNumber("Target Position", 0);
+     //m_encoder = m_elevatorMotor.getAbsoluteEncoder();
+    m_encoder = m_elevatorMotor.getEncoder();
+    m_closedLoopController = m_elevatorMotor.getClosedLoopController();
+
   }
 
   public boolean bottomIsPressed() {
@@ -90,11 +96,22 @@ public class ElevatorSubsystem extends SubsystemBase {
   public double getElevatorPosition(){
     return m_encoder.getPosition();
   }
-  public void setPose(double position){
-    m_closedLoopController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+
+  public void zeroEncoder() {
+    m_encoder.setPosition(0);
   }
-  // public double getEncoder(){
-  // }
+
+  public void setPose(double position){
+    m_position = position;
+    m_closedLoopController.setReference(m_position, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+  }
+  
+  public boolean checkPosition(){
+    if(getElevatorPosition() == m_position){
+      return true;
+    }
+    return false;
+  }
 
   @Override
   public void periodic() {

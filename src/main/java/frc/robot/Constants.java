@@ -51,15 +51,15 @@ public final class Constants {
     public static final double kBackRightChassisAngularOffset = Math.PI / 2;
 
     // SPARK MAX CAN IDs
-    public static final int kFrontLeftDrivingCanId = 40;
-    public static final int kRearLeftDrivingCanId = 20;
-    public static final int kFrontRightDrivingCanId = 30;
-    public static final int kRearRightDrivingCanId = 10;
+    public static final int kFrontLeftDrivingCanId = 60;
+    public static final int kRearLeftDrivingCanId = 70;
+    public static final int kFrontRightDrivingCanId = 80;
+    public static final int kRearRightDrivingCanId = 90;
 
-    public static final int kFrontLeftTurningCanId = 41;
-    public static final int kRearLeftTurningCanId = 21;
-    public static final int kFrontRightTurningCanId = 31;
-    public static final int kRearRightTurningCanId = 11;
+    public static final int kFrontLeftTurningCanId = 61;
+    public static final int kRearLeftTurningCanId = 71;
+    public static final int kFrontRightTurningCanId = 81;
+    public static final int kRearRightTurningCanId = 91;
 
     public static final boolean kGyroReversed = false;
 
@@ -119,7 +119,7 @@ public final class Constants {
   }
 
   public static class ElevatorConstants{
-    public static final int kElevatorMotorCANID = 0; //change
+    public static final int kElevatorMotorCANID = 11; //change
     public static final double kElevatorP = 0.1;
     public static final double kElevatorI = 0.00005;
     public static final double kElevatorD = 0;
@@ -127,11 +127,12 @@ public final class Constants {
     public static final double kElevatorRangeTop = 0.2;
     public static final double kElevatorPositionConversionFactor = 1; //change
     public static final double kElevatorVelocityConversionFactor = 1; //change
+    public static final double kPositionMargin = 5; // change
   }
 
   public static class ShooterConstants{
-    public static final int kShooterLeftMotorCANID = 0; //change
-    public static final int kShooterRightMotorCANID = 0; //change
+    public static final int kShooterLeftMotorCANID = 21; //change
+    public static final int kShooterRightMotorCANID = 22; //change
     public static final int kBeamBreakDIOPort = 0; // change
     public static final double kShooterP = 0.1;
     public static final double kShooterI = 0.00005;
@@ -139,7 +140,7 @@ public final class Constants {
   }
 
   public static class ClimberConstants{
-    public static final int kcageMotorCANID = 0; //change
+    public static final int kcageMotorCANID = 31; //change
     public static final double kClimbP = 0; 
     public static final double kClimbI = 0;
     public static final double kClimbD = 0;
@@ -147,9 +148,8 @@ public final class Constants {
 
   public static class GroundIntakeConstants{
     public static final int kBeamBreakDIOPort = 0; //change
-    public static final int kbottomRollerCANID = 0; //change
-    public static final int kcageMotorCANID = 0; //change
-    public static final int ktopRollerCANID = 0; // change
+    public static final int kbottomRollerCANID = 41; //change
+    public static final int ktopRollerCANID = 42; // change
     public static final double kGroundIntakeP = 0; //change
     public static final double kGroundIntakeI = 0; //change
     public static final double kGroundIntakeD = 0; //change
@@ -157,7 +157,7 @@ public final class Constants {
   }
 
   public static class IntakePivotConstants{
-    public static final int kpivotMotorCANID = 0; //change
+    public static final int kpivotMotorCANID = 51; //change
     public static final double kPivotP = 0; //change
     public static final double kPivotI = 0; //change
     public static final double kPivotD = 0; //change

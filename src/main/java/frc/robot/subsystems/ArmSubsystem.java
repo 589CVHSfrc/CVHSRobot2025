@@ -17,14 +17,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakePivotConstants;
 
-public class IntakePivotSubsystem extends SubsystemBase {
+public class ArmSubsystem extends SubsystemBase {
 
   SparkMax m_pivotMotor;
   SparkLimitSwitch m_topLimitSwitch, m_bottomLlimitSwitch;
   SparkMaxConfig m_config;
 
   /** Creates a new IntakePivotSubsystem. */
-  public IntakePivotSubsystem() {
+  public ArmSubsystem() {
     m_pivotMotor = new SparkMax(IntakePivotConstants.kpivotMotorCANID, MotorType.kBrushless);
     m_topLimitSwitch = m_pivotMotor.getForwardLimitSwitch();
     m_bottomLlimitSwitch = m_pivotMotor.getReverseLimitSwitch();

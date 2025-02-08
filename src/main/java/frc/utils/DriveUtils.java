@@ -57,20 +57,20 @@ public class DriveUtils {
 
         // Create the path using the bezier points created above
 
-        PathPlannerPath path = new PathPlannerPath(
-                bezierPoints,
-                new PathConstraints(
-                        DriveConstants.kMaxSpeedMetersPerSecond * speed.getAsDouble(),
-                        AutoConstants.kMaxAccelerationMetersPerSecondSquared,
-                        DriveConstants.kMaxAngularSpeed,
-                        AutoConstants.kMaxAngularSpeedRadiansPerSecondSquared
-                ),
-                //new IdealStartingState(0, requestedPose.getRotation()),
-                new GoalEndState(0.05, requestedPose.getRotation())
-        );
+        // PathPlannerPath path = new PathPlannerPath(
+        //         bezierPoints,
+        //         new PathConstraints(
+        //                 DriveConstants.kMaxSpeedMetersPerSecond * speed.getAsDouble(),
+        //                 AutoConstants.kMaxAccelerationMetersPerSecondSquared,
+        //                 DriveConstants.kMaxAngularSpeed,
+        //                 AutoConstants.kMaxAngularSpeedRadiansPerSecondSquared
+        //         ),
+        //         //new IdealStartingState(0, requestedPose.getRotation()),
+        //         new GoalEndState(0.05, requestedPose.getRotation())
+        // );
 
         // Prevent the path from being flipped if the coordinates are already correct
-        path.preventFlipping = true;
+        //path.preventFlipping = true;
         // return AutoBuilder.pathfindToPose(requestedPose, new PathConstraints(
         //                 DriveConstants.kMaxSpeedMetersPerSecond * speed.getAsDouble(),
         //                 AutoConstants.kMaxAccelerationMetersPerSecondSquared,
