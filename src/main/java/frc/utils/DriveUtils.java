@@ -65,9 +65,10 @@ public class DriveUtils {
                         DriveConstants.kMaxAngularSpeed,
                         AutoConstants.kMaxAngularSpeedRadiansPerSecondSquared
                 ),
-                //new IdealStartingState(0, requestedPose.getRotation()),
+                new IdealStartingState(0, requestedPose.getRotation()),
                 new GoalEndState(0.05, requestedPose.getRotation())
         );
+
 
         // Prevent the path from being flipped if the coordinates are already correct
         path.preventFlipping = true;

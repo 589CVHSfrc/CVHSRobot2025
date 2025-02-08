@@ -4,30 +4,17 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import java.util.List;
-
-import com.pathplanner.lib.commands.PathPlannerAuto;
+import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.DriveSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -39,7 +26,7 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
-  private SendableChooser<Command> m_autoChooser = new SendableChooser<>();
+  private SendableChooser<Command> m_autoChooser;
 
 
   // The driver's controller
@@ -49,6 +36,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    m_autoChooser = AutoBuilder.buildAutoChooser();
     // Configure the button bindings
     configureButtonBindings();
 
@@ -63,6 +51,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getRawAxis(2), OIConstants.kDriveDeadband),
                 true),
             m_robotDrive));
+    SmartDashboard.putData("Auto Chooser", m_autoChooser);
   }
 
   /**
@@ -86,6 +75,12 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+
+
+
+
+
+  
   public Command getAutonomousCommand() {
     // // Create config for trajectory
     // TrajectoryConfig config = new TrajectoryConfig(
@@ -126,24 +121,26 @@ public class RobotContainer {
     // // Run path following command, then stop at the end.
     // return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
 
-    try {
+  //   try {
 
-                        Pose2d startingpose = PathPlannerAuto
-                                        .getStaringPoseFromAutoFile(m_autoChooser.getSelected().getName());
-                        m_robotDrive.resetOdometry(startingpose.rotateBy(new Rotation2d(Units.degreesToRadians(180))));
-                        System.out.print("====================STARTING POSE: " + startingpose +
-                                        "====================");
+  //                       Pose2d startingpose = PathPlannerAuto
+  //                                       .(m_autoChooser.getSelected().getName());
+  //                       m_robotDrive.resetOdometry(startingpose.rotateBy(new Rotation2d(Units.degreesToRadians(180))));
+  //                       System.out.print("====================STARTING POSE: " + startingpose +
+  //                                       "====================");
 
-                        return m_autoChooser.getSelected();// .andThen(new RunCommand(
-                        // () -> m_robotDrive.resetOdometry(m_robotDrive.getPose()
-                        // .rotateBy(new Rotation2d(Units.degreesToRadians(180)))))
-                        // .alongWith(new ResetGyro(m_robotDrive)));
+  //                       return m_autoChooser.getSelected();// .andThen(new RunCommand(
+  //                       // () -> m_robotDrive.resetOdometry(m_robotDrive.getPose()
+  //                       // .rotateBy(new Rotation2d(Units.degreesToRadians(180)))))
+  //                       // .alongWith(new ResetGyro(m_robotDrive)));
 
-                } catch (RuntimeException e) {
-                        System.out.print("==================" + e);
-                        System.out.print("COULD NOT FIND AUTO WITH SELECTED NAME"
-                                        + m_autoChooser.getSelected().getName());
-                        return new WaitCommand(1);
-                }
+  //               } catch (RuntimeException e) {
+  //                       System.out.print("==================" + e);
+  //                       System.out.print("COULD NOT FIND AUTO WITH SELECTED NAME"
+  //                                       + m_autoChooser.getSelected().getName());
+  //                       return new WaitCommand(1);
+  //               }
+
+    return m_autoChooser.getSelected();
   }
 }

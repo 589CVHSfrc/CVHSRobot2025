@@ -3,12 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 // from pathplannerlib.auto import NamedCommands
 package frc.robot.subsystems;
-import com.pathplanner.lib.*;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.revrobotics.spark.SparkMax;
+
 import frc.robot.config.ModuleConfig;
 
 import edu.wpi.first.hal.FRCNetComm.tInstances;
@@ -22,6 +23,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -60,8 +62,8 @@ public class DriveSubsystem extends SubsystemBase {
   // private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
   private final Pigeon2 m_pigeon = new Pigeon2(DriveConstants.kPigeon2CanId);
 
-  private SwerveDrivePoseEstimator m_estimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics,
-    new Rotation2d(Units.degreesToRadians(getGyroYawDeg())), getSwerveModulePositions(), getPose());
+  public SwerveDrivePoseEstimator m_estimator;
+  
 
   private Field2d m_field = new Field2d();
 
@@ -83,10 +85,14 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    m_estimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics,
+    new Rotation2d(Units.degreesToRadians(getGyroYawDeg())), getSwerveModulePositions(), getPose());
     RobotConfig config;
+    config = null;
     try{
       config = RobotConfig.fromGUISettings();
     } catch (Exception e){
+      config = new RobotConfig(74.088, 6.883, null, null);
       e.printStackTrace();
     }
 
@@ -107,7 +113,7 @@ public class DriveSubsystem extends SubsystemBase {
           }
           return false;
         },
-        this    
+        this
       );
     // Usage reporting for MAXSwerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
@@ -160,7 +166,7 @@ public class DriveSubsystem extends SubsystemBase {
       m_rearRight.getPosition()
     };
   }
-  
+
   public Pose2d getAutoPoseReversed() {
     if (m_first) {
       m_first = false;
@@ -189,20 +195,28 @@ public class DriveSubsystem extends SubsystemBase {
 
   //   configureHolonomicAutoBuilder();
   // )
-  private ModuleConfig m_driveConfig = new ModuleConfig(ModuleConstants.kWheelRadius, DriveConstants.kMaxSpeedMetersPerSecond, ModuleConstants.kWheelFrictionCoefficient, );
+  // private DCMotor m_DCMotorConfig = new DCMotor();
+  // private ModuleConfig m_driveConfig = new ModuleConfig(
+  //   ModuleConstants.kWheelRadius,
+  //   DriveConstants.kMaxSpeedMetersPerSecond,
+  //   ModuleConstants.kWheelFrictionCoefficient,
+  //   m_DCMotorConfig,
+  //   DriveConstants.kDriveCurrentLimit,
+  //   1
+  // );
 
 
-  public void configureHolonomicAutoBuilder()  {
-      AutoBuilder.configureHolonomic(
-        this::getPose, // getPose,
-        this::resetOdometry,
-        this::getChassisSpeeds,
-        this::driveRobotRelative,
-        m_driveConfig,
-        this::getAlliance,
-        this);
-  }
-  
+  // public void configureHolonomicAutoBuilder()  {
+  //     AutoBuilder.configure(
+  //       this::getPose, // getPose,
+  //       this::resetOdometry,
+  //       this::getChassisSpeeds,
+  //       this::driveRobotRelative,
+  //       m_driveConfig,
+  //       this::getAlliance,
+  //       this);
+  // }
+
 
   public ChassisSpeeds getRelativeSpeeds(){
     return DriveConstants.kDriveKinematics.toChassisSpeeds(m_frontLeft.getState(),m_frontRight.getState(),m_rearLeft.getState(),m_rearRight.getState());
@@ -318,7 +332,7 @@ public class DriveSubsystem extends SubsystemBase {
   public double getHeading() {
     // return Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)).getDegrees();
     return m_pigeon.getRotation2d().getDegrees();
-   
+
   }
 
   public double getGyroYawDeg() {
@@ -327,7 +341,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 
     // return (m_gyro.getYaw());
-  } 
+  }
 
   /**
    * Returns the turn rate of the robot.

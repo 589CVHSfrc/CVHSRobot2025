@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -30,7 +31,9 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = 4.8;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
-    
+    public static final double kAutoTimeDtSecondsAdjust = 0.02; // ?????????????????????????
+
+    public static final int kDriveCurrentLimit = 60;
 
     
     // Chassis configuration
@@ -61,13 +64,20 @@ public final class Constants {
     public static final int kFrontRightTurningCanId = 31;
     public static final int kRearRightTurningCanId = 11;
 
+
     public static final boolean kGyroReversed = false;
 
     public static final int kPigeon2CanId = 60;
   }
 
   public static final class VisualConstants{
-    public static final Transform3d kCameraRelativeToRobot =;
+    // public static final Transform3d kCameraRelativeToRobot = ;
+    public static final Transform3d kCameraRelativeToRobot = new Transform3d(
+        Units.inchesToMeters(-4),
+        Units.inchesToMeters(0),
+        Units.inchesToMeters(20),
+        new Rotation3d(0,
+            Units.degreesToRadians(-40), 0));
   }
 
   public static final class ModuleConstants {
@@ -84,7 +94,7 @@ public final class Constants {
     public static final double kWheelRadius = kWheelDiameterMeters / 2.0;
 
     //The coefficient of friction between the drive wheel and the carpet.
-    public static final double kWheelFrictionCoefficient = 1.0; //CHANGE THIS!!!
+    public static final double kWheelFrictionCoefficient = 1.200; //CHANGE THIS!!!
 
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
     // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15

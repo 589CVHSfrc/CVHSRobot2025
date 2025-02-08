@@ -21,6 +21,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.Constants.VisualConstants;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 // import frc.robot.Constants.VisualConstants;
 /** Add your docs here. */
@@ -31,17 +32,15 @@ public class PhotonCam {
     private PhotonPoseEstimator m_poseEstimator;
 
     private PhotonCam() {
-        try {
+        // try {
             m_aprilTagLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
-        } catch (IOException e) {
-            System.out.println("======Unable to load AprilTag Layout: ======");
-            System.out.println(e);
-        }
+        // } catch (IOException e) {
+            // System.out.println("======Unable to load AprilTag Layout: ======");
+            // System.out.println(e);
+        // }
 
 
-        m_poseEstimator = new PhotonPoseEstimator(m_aprilTagLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-                m_photonArduCam,
-                VisualConstants.kCameraRelativeToRobot); //euler angles
+        m_poseEstimator = new PhotonPoseEstimator(m_aprilTagLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,VisualConstants.kCameraRelativeToRobot); //euler angles
     
         m_poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
         PortForwarder.add(5800, "photonvision.local", 5800);
