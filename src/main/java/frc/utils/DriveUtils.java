@@ -71,7 +71,7 @@ public class DriveUtils {
 
 
         // Prevent the path from being flipped if the coordinates are already correct
-        path.preventFlipping = true;
+        //path.preventFlipping = true;
         // return AutoBuilder.pathfindToPose(requestedPose, new PathConstraints(
         //                 DriveConstants.kMaxSpeedMetersPerSecond * speed.getAsDouble(),
         //                 AutoConstants.kMaxAccelerationMetersPerSecondSquared,
