@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -18,16 +20,16 @@ import frc.robot.Constants;
 import frc.robot.Constants.GroundIntakeConstants;
 
 public class GroundIntakeSubsystem extends SubsystemBase {
-  SparkMax m_topRollerMotor, m_bottomRollerMotor;
+  SparkMax m_rollerMotor;
   SparkMaxConfig m_config;
   SparkLimitSwitch m_coralLimitSwitch;
+  SparkClosedLoopController m_closedLoopController;
 
   /** Creates a new GroundIntake. */
   public GroundIntakeSubsystem() {
-    m_topRollerMotor = new SparkMax(GroundIntakeConstants.ktopRollerCANID, MotorType.kBrushless);
-    m_bottomRollerMotor = new SparkMax(GroundIntakeConstants.kbottomRollerCANID, MotorType.kBrushless);
+    m_rollerMotor = new SparkMax(GroundIntakeConstants.ktopRollerCANID, MotorType.kBrushless);
 
-    m_coralLimitSwitch = m_topRollerMotor.getForwardLimitSwitch();
+    m_coralLimitSwitch = m_rollerMotor.getForwardLimitSwitch();
 
     m_config.limitSwitch.forwardLimitSwitchEnabled(true);
 
@@ -44,10 +46,15 @@ public class GroundIntakeSubsystem extends SubsystemBase {
         .i(0, ClosedLoopSlot.kSlot1)
         .d(0, ClosedLoopSlot.kSlot1)
         .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
-        .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
+        .outputRange(-0.1, 0.1, ClosedLoopSlot.kSlot1);
 
-    m_topRollerMotor.configure(m_config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    m_bottomRollerMotor.configure(m_config,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    m_rollerMotor.configure(m_config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    m_closedLoopController = m_rollerMotor.getClosedLoopController();
+
+  }
+
+  public void moveRollers(double RPM){
+    m_closedLoopController.setReference(RPM, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
 
   }
 

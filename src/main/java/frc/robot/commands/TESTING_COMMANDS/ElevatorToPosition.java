@@ -19,6 +19,7 @@ public class ElevatorToPosition extends Command {
     m_elevator = elevator;
     m_position = position;
     m_isFinished = false;
+    addRequirements(m_elevator);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

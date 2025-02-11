@@ -106,6 +106,7 @@ public final class Constants {
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kCoDriverControllerPort = 1;
     public static final double kDriveDeadband = 0.05;
   }
 
@@ -129,7 +130,7 @@ public final class Constants {
   }
 
   public static class ElevatorConstants{
-    public static final int kElevatorMotorCANID = 11; //change
+    public static final int kElevatorMotorCANID = 13; //change
     public static final double kElevatorP = 0.1;
     public static final double kElevatorI = 0.00005;
     public static final double kElevatorD = 0;
@@ -141,8 +142,8 @@ public final class Constants {
   }
 
   public static class ShooterConstants{
-    public static final int kShooterLeftMotorCANID = 21; //change
-    public static final int kShooterRightMotorCANID = 22; //change
+    public static final int kShooterLeftMotorCANID = 23; //change
+    public static final int kShooterRightMotorCANID = 24; //change
     public static final int kBeamBreakDIOPort = 0; // change
     public static final double kShooterP = 0.1;
     public static final double kShooterI = 0.00005;
@@ -150,7 +151,7 @@ public final class Constants {
   }
 
   public static class ClimberConstants{
-    public static final int kcageMotorCANID = 31; //change
+    public static final int kcageMotorCANID = 33; //change
     public static final double kClimbP = 0; 
     public static final double kClimbI = 0;
     public static final double kClimbD = 0;
@@ -158,8 +159,8 @@ public final class Constants {
 
   public static class GroundIntakeConstants{
     public static final int kBeamBreakDIOPort = 0; //change
-    public static final int kbottomRollerCANID = 41; //change
-    public static final int ktopRollerCANID = 42; // change
+    public static final int kbottomRollerCANID = 43; //change
+    public static final int ktopRollerCANID = 44; // change
     public static final double kGroundIntakeP = 0; //change
     public static final double kGroundIntakeI = 0; //change
     public static final double kGroundIntakeD = 0; //change
@@ -167,7 +168,7 @@ public final class Constants {
   }
 
   public static class IntakePivotConstants{
-    public static final int kpivotMotorCANID = 51; //change
+    public static final int kpivotMotorCANID = 53; //change
     public static final double kPivotP = 0; //change
     public static final double kPivotI = 0; //change
     public static final double kPivotD = 0; //change

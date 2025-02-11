@@ -5,8 +5,10 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -24,6 +26,9 @@ SparkMax m_leftMotor, m_rightMotor;
 SparkMaxConfig m_rightConfig, m_leftConfig;
 DigitalInput m_beamBreak;
 SparkMaxConfig m_Config;
+SparkClosedLoopController m_closedLoopControllerLeft;
+SparkClosedLoopController m_closedLoopControllerRight;
+double m_speed;
 
   public ShooterSubsystem() {
     m_leftMotor = new SparkMax(ShooterConstants.kShooterLeftMotorCANID, MotorType.kBrushless);
@@ -32,42 +37,51 @@ SparkMaxConfig m_Config;
 
     m_Config = new SparkMaxConfig();
 
-    m_Config.closedLoop
-        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+    // m_Config.closedLoop
+    //     .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
         // Set PID values for position control. We don't need to pass a closed loop
         // slot, as it will default to slot 0.
-        .p(Constants.ShooterConstants.kShooterP)//change
-        .i(Constants.ShooterConstants.kShooterI)//change
-        .d(Constants.ShooterConstants.kShooterD);
+        // .p(Constants.ShooterConstants.kShooterP)
+        // .i(Constants.ShooterConstants.kShooterI)
+        // .d(Constants.ShooterConstants.kShooterD);
         // Set PID values for velocity control in slot 1
     m_Config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
         .p(0, ClosedLoopSlot.kSlot1) //change
         .i(0, ClosedLoopSlot.kSlot1)
         .d(0, ClosedLoopSlot.kSlot1)
         .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
-        .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
+        .outputRange(-0.1, 0.1, ClosedLoopSlot.kSlot1);
         // .outputRange(Constants.ElevatorConstants.kElevatorRangeBottom, Constants.ElevatorConstants.kElevatorRangeTop);
     
     m_leftMotor.configure(m_Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     m_rightMotor.configure(m_Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    m_closedLoopControllerLeft = m_leftMotor.getClosedLoopController();
+    m_closedLoopControllerRight = m_rightMotor.getClosedLoopController();
   }
 
-  public void moveRightMotor(double speed) {
-    m_rightMotor.set(speed);
+  public void moveLeftMotor(double RPM) {
+    m_closedLoopControllerLeft.setReference(RPM, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
   }
 
-  public void moveLeftMotor(double speed) {
-    m_leftMotor.set(speed);
+  public void moveRightMotor(double RPM) {
+    m_closedLoopControllerRight.setReference(RPM, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
   }
 
-  public void moveBothMotors(double speed) {
-    moveRightMotor(speed);
-    moveLeftMotor(speed);
+  public void moveBothMotors(double RPM) {
+    m_closedLoopControllerLeft.setReference(RPM, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
+    m_closedLoopControllerRight.setReference(RPM, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
   }
 
   public boolean checkCoral() {
     return !m_beamBreak.get();
-    // normally open, returns when circuit is open
+    // beam break normally open, method returns when circuit is open
+  }
+
+  public void setSpeed(double speed){
+    m_speed = speed;
+    m_closedLoopControllerLeft.setReference(m_speed, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
+    m_closedLoopControllerRight.setReference(m_speed, ControlType.kVoltage, ClosedLoopSlot.kSlot1);
   }
 
   @Override

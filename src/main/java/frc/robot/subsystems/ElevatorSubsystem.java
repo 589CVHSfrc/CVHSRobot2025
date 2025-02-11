@@ -70,7 +70,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         // .i(0.0000001, ClosedLoopSlot.kSlot1)
         // .d(0, ClosedLoopSlot.kSlot1)
         // .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
-        // .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
+        // .outputRange(-0.1, 0.1, ClosedLoopSlot.kSlot1);
 
     m_elevatorMotor.configure(m_elevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     SmartDashboard.setDefaultNumber("Target Position", 0);
