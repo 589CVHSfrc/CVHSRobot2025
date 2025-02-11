@@ -5,6 +5,8 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.XboxController;
@@ -26,7 +28,8 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
-  private SendableChooser<Command> m_autoChooser;
+  //Change Type to Command later
+  private final SendableChooser<Command> m_autoChooser;
 
 
   // The driver's controller
@@ -37,21 +40,34 @@ public class RobotContainer {
    */
   public RobotContainer() {
     m_autoChooser = AutoBuilder.buildAutoChooser();
-    // Configure the button bindings
-    configureButtonBindings();
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(-m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(-m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getRawAxis(2), OIConstants.kDriveDeadband),
-                true),
-            m_robotDrive));
-    SmartDashboard.putData("Auto Chooser", m_autoChooser);
+    new RunCommand(
+      () -> m_robotDrive.drive(
+        -MathUtil.applyDeadband(-m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+        -MathUtil.applyDeadband(-m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+        -MathUtil.applyDeadband(m_driverController.getRawAxis(2), OIConstants.kDriveDeadband),
+        true),
+      m_robotDrive));
+    
+    
+    // m_autoChooser.setDefaultOption("Default", "Default Auto");
+    // m_autoChooser.addOption("New Auto", "Other Auto");
+    // m_autoChooser.addOption("New New Auto", "Other Other Auto");
+    // m_autoChooser.addOption("New New New Auto", "Other Other Other Auto");
+
+    m_autoChooser.setDefaultOption("corclest", new PathPlannerAuto("corcle Auto"));
+    m_autoChooser.addOption("testin", new PathPlannerAuto("New Auto"));
+    m_autoChooser.addOption("v2 of die test", new PathPlannerAuto("New New New Auto"));
+    m_autoChooser.addOption("lyning", new PathPlannerAuto("lyne auto"));
+
+    SmartDashboard.putData("Auto Chooser",m_autoChooser);
+    // Configure the button bindings
+    configureButtonBindings();
+
   }
 
   /**
@@ -80,7 +96,7 @@ public class RobotContainer {
 
 
 
-  
+  //Change return type to Command later
   public Command getAutonomousCommand() {
     // // Create config for trajectory
     // TrajectoryConfig config = new TrajectoryConfig(
