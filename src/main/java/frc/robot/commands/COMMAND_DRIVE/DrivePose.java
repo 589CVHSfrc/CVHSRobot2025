@@ -16,7 +16,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.utils.DriveUtils;
 
 /** Add your docs here. */
-public class DrivePose {
+public class DrivePose extends Command {
     private DoubleSupplier m_speed;
     private DriveSubsystem m_drive;
     private PhotonCam m_PhotonCam;
@@ -33,10 +33,16 @@ public class DrivePose {
             }
             return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionLeftReefBLUE, m_speed);
         }
-
-
+        
+        //replace with correct vals later
+        return new Command() {
+            
+        };
     }
 
+    public Command driveToAprilTag() {
+        
+    }
     
 
     

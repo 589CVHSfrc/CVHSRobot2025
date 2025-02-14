@@ -29,6 +29,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 
 import frc.robot.commands.COMMAND_DRIVE.ResetGyro;
+import frc.robot.commands.COMMAND_DRIVE.DrivePose;
 // import frc.robot.commands.TESTING_COMMANDS.ElevatorToPosition;
 // import frc.robot.commands.TESTING_COMMANDS.HomeElevator;
 // import frc.robot.commands.TESTING_COMMANDS.MoveElevator;
@@ -125,7 +126,8 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.resetOdometry(new Pose2d(0, 0, new Rotation2d(Math.PI))))
             .alongWith(new ResetGyro(m_robotDrive)));
-
+    new JoystickButton(m_driverController, Button.kSquare.value)
+        .whileTrue();
             // new JoystickButton(m_switchboard, 1).whileTrue(new MoveElevator(m_elevatorSubsystem, 0.05));
     // new JoystickButton(m_switchboard, 2).whileTrue(new MoveElevator(m_elevatorSubsystem, -0.05));
     // new JoystickButton(m_switchboard, 3).onTrue(new ElevatorToPosition(m_elevatorSubsystem, 5));
