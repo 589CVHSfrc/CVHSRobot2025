@@ -119,6 +119,15 @@ public class DriveSubsystem extends SubsystemBase {
     // Usage reporting for MAXSwerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
   }
+  
+  public boolean getAlliance() {
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent()) {
+
+      return alliance.get() == DriverStation.Alliance.Red;
+    }
+    return false;
+  }
 
   @Override
   public void periodic() {

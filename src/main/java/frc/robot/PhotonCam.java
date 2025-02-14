@@ -12,6 +12,7 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -25,7 +26,7 @@ import frc.robot.Constants.VisualConstants;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 // import frc.robot.Constants.VisualConstants;
 /** Add your docs here. */
-public class PhotonCam {
+public class PhotonCam{
     private static PhotonCam m_arduCam;
     public AprilTagFieldLayout m_aprilTagLayout;
     private PhotonCamera m_photonArduCam = new PhotonCamera("ArduCam");
@@ -94,5 +95,8 @@ public class PhotonCam {
             m_aprilTagLayout.setOrigin(OriginPosition.kBlueAllianceWallRightSide);
 
         }
+    }
+    public int getFuducialID(){
+       return m_photonArduCam.getLatestResult().getBestTarget().getFiducialId();
     }
 }
