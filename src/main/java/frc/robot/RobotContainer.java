@@ -27,11 +27,13 @@ import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.TESTING_COMMANDS.ElevatorToPosition;
-import frc.robot.commands.TESTING_COMMANDS.HomeElevator;
-import frc.robot.commands.TESTING_COMMANDS.MoveElevator;
+
+import frc.robot.commands.COMMAND_DRIVE.ResetGyro;
+// import frc.robot.commands.TESTING_COMMANDS.ElevatorToPosition;
+// import frc.robot.commands.TESTING_COMMANDS.HomeElevator;
+// import frc.robot.commands.TESTING_COMMANDS.MoveElevator;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
+// import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -53,7 +55,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
+  // private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
 
   //private SendableChooser<Command> m_autoChooser;
 
@@ -119,10 +121,14 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
+    new JoystickButton(m_driverController, Button.kTriangle.value)
+        .whileTrue(new RunCommand(
+            () -> m_robotDrive.resetOdometry(new Pose2d(0, 0, new Rotation2d(Math.PI))))
+            .alongWith(new ResetGyro(m_robotDrive)));
 
-            new JoystickButton(m_switchboard, 1).whileTrue(new MoveElevator(m_elevatorSubsystem, 0.05));
-    new JoystickButton(m_switchboard, 2).whileTrue(new MoveElevator(m_elevatorSubsystem, -0.05));
-    new JoystickButton(m_switchboard, 3).onTrue(new ElevatorToPosition(m_elevatorSubsystem, 5));
+            // new JoystickButton(m_switchboard, 1).whileTrue(new MoveElevator(m_elevatorSubsystem, 0.05));
+    // new JoystickButton(m_switchboard, 2).whileTrue(new MoveElevator(m_elevatorSubsystem, -0.05));
+    // new JoystickButton(m_switchboard, 3).onTrue(new ElevatorToPosition(m_elevatorSubsystem, 5));
     //new JoystickButton(m_driverController, 4).onTrue(new HomeElevator(m_elevatorSubsystem));
   }
 

@@ -93,7 +93,7 @@ public class DriveSubsystem extends SubsystemBase {
       config = RobotConfig.fromGUISettings();
     } catch (Exception e){
       //Change Robot Config to actual accurate robot value for CVHS 20025 robboot
-      config = new RobotConfig(74.088, 6.883, null, null);
+      // config = new RobotConfig(74.088, 6.883, null, null);
       e.printStackTrace();
     }
 
