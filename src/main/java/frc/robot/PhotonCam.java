@@ -20,6 +20,9 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
 import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants.VisualConstants;
@@ -114,5 +117,10 @@ public class PhotonCam{
     }
     public int getFuducialID(){
        return m_photonArduCam.getLatestResult().getBestTarget().getFiducialId();
+    }
+
+    public Pose2d getTargetPose2d() {
+        Transform3d loc3d = m_photonArduCam.getLatestResult().getBestTarget().getBestCameraToTarget();
+        return new Pose2d(new Translation2d(loc3d.getMeasureX(), loc3d.getMeasureY()), loc3d.getRotation().toRotation2d());
     }
 }

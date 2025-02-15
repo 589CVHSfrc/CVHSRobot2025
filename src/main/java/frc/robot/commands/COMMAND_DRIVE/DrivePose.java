@@ -16,7 +16,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.utils.DriveUtils;
 
 /** Add your docs here. */
-public class DrivePose extends Command{
+public class DrivePose {
     private DoubleSupplier m_speed;
     private DriveSubsystem m_drive;
     private PhotonCam m_PhotonCam;
@@ -44,74 +44,15 @@ public class DrivePose extends Command{
                     return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionLeftReefRED, m_speed);
                     // break;
             }
-        }
-        else{
-            switch(m_PhotonCam.getFuducialID()) {
-                case 17:
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionLeftReefBLUE, m_speed);
-                    // break;
-                case 18:
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionLeftReefBLUE, m_speed);
-                    // break;
-                case 19:
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionLeftReefBLUE, m_speed);
-                case 20:
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionLeftReefBLUE, m_speed);
-                    // break;
-                case 21:
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionLeftReefBLUE, m_speed);
-                    // break;
-                case 22:
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionLeftReefBLUE, m_speed);
-            }
+            return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionLeftReefBLUE, m_speed);
         }
 
-        // TODO: Change, to use both vision and odometry.
-        return new DriveUtils(m_drive).driveToPose(m_drive.getPose(), m_speed);
+
     }
 
-    public Command driveToReefRight() {
-        if(m_drive.getAlliance()){
-            switch(m_PhotonCam.getFuducialID()) {
-                case 6:
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionRightReefRED, m_speed);
-                    // break;
-                case 7:
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionRightReefRED, m_speed);
-                    // break;
-                case 8:
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionRightReefRED, m_speed);
-                case 9:
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionRightReefRED, m_speed);
-                    // break;
-                case 10:
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionRightReefRED, m_speed);
-                    // break;
-            }
-        }
-        else{
-            switch(m_PhotonCam.getFuducialID()) {
-                case 17:
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionRightReefBLUE, m_speed);
-                    // break;
-                case 18:
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionRightReefBLUE, m_speed);
-                    // break;
-                case 19:
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionRightReefBLUE, m_speed);
-                case 20:
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionRightReefBLUE, m_speed);
-                    // break;
-                case 21:    
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionRightReefBLUE, m_speed);
-                    // break;
-                case 22:
-                    return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionRightReefBLUE, m_speed);
-            }
-        }
+    
 
-    // TODO: Change, to use both vision and odometry.
+    
 
-    return new DriveUtils(m_drive).driveToPose(m_drive.getPose(), m_speed);
-    }
+
 }
