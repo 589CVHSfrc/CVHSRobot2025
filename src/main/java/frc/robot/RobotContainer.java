@@ -127,7 +127,8 @@ public class RobotContainer {
             () -> m_robotDrive.resetOdometry(new Pose2d(0, 0, new Rotation2d(Math.PI))))
             .alongWith(new ResetGyro(m_robotDrive)));
     new JoystickButton(m_driverController, Button.kSquare.value)
-        .whileTrue();
+        .whileTrue(new RunCommand(
+            () -> System.out.println(m_robotDrive.getGyroYawDeg())));
             // new JoystickButton(m_switchboard, 1).whileTrue(new MoveElevator(m_elevatorSubsystem, 0.05));
     // new JoystickButton(m_switchboard, 2).whileTrue(new MoveElevator(m_elevatorSubsystem, -0.05));
     // new JoystickButton(m_switchboard, 3).onTrue(new ElevatorToPosition(m_elevatorSubsystem, 5));
