@@ -19,6 +19,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakePivotConstants;
+import frc.utils.MathUtils;
 
 public class ArmSubsystem extends SubsystemBase {
 
@@ -74,7 +75,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean armPositionReached(double position){
-    return m_encoder.getPosition() == position;
+    return MathUtils.areEqual(m_encoder.getPosition(), position, .003);
   }
 
   public boolean isBottomPressed(){

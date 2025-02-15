@@ -84,6 +84,8 @@ public final class Constants {
     //field piece positions:
     public static final Pose2d kShootingPositionLeftReefRED = new Pose2d(0, 0, new Rotation2d(0)); //change later placeholder vals
     public static final Pose2d kShootingPositionLeftReefBLUE = new Pose2d(0, 0, new Rotation2d(0)); //change later placeholder vals
+    public static final Pose2d kShootingPositionRightReefRED = new Pose2d(0, 0, new Rotation2d(0)); //change later placeholder vals
+    public static final Pose2d kShootingPositionRightReefBLUE = new Pose2d(0, 0, new Rotation2d(0)); //change later placeholder vals
 
   }
 
@@ -172,6 +174,9 @@ public final class Constants {
     public static final double kClimbP = 0; 
     public static final double kClimbI = 0;
     public static final double kClimbD = 0;
+    public static final double kClimbingSpeed = 0; //change
+    public static final double kHomingSpeed = 0; //Change only if different from climbing speed, otherwise just multiply climbing speed by -1.
+    public static final double kPeakedCurrent = 0; //change
   }
 
   public static class GroundIntakeConstants{

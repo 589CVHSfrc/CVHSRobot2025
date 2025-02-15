@@ -50,12 +50,17 @@ public class GroundIntakeSubsystem extends SubsystemBase {
 
     m_rollerMotor.configure(m_config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     m_closedLoopController = m_rollerMotor.getClosedLoopController();
+    m_coralLimitSwitch = m_rollerMotor.getForwardLimitSwitch();
 
   }
 
   public void moveRollers(double RPM){
     m_closedLoopController.setReference(RPM, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
 
+  }
+
+  public boolean isCoralPresent(){
+    return m_coralLimitSwitch.isPressed();
   }
 
   @Override

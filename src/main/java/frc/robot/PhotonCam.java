@@ -83,6 +83,22 @@ public class PhotonCam{
         }
     }
 
+    // Get estimated pose based on odom and vision?
+
+    // public Pose2d getEstimatedPose(Pose2d odomPose) {
+    //     // Gets Estimation from camera
+    //     Optional<EstimatedRobotPose> OPestimation = m_poseEstimator.update(m_photonArduCam.getLatestResult());
+
+    //     if (OPestimation.isPresent()) {
+    //         EstimatedRobotPose estimation = OPestimation.get();
+    //         Pose2d estimatedPose2d = estimation.estimatedPose.toPose2d();
+            
+
+    //     }
+
+    //     return new Pose2d();
+    // }
+
     /*--------------
     * | Check this |
     * --------------
