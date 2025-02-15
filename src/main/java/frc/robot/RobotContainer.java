@@ -7,6 +7,8 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 
@@ -60,6 +62,8 @@ public class RobotContainer {
 
   //private SendableChooser<Command> m_autoChooser;
 
+  //Change Type to Command later
+  private final SendableChooser<Command> m_autoChooser;
   //Change Type to Command later
   private final SendableChooser<Command> m_autoChooser;
 
@@ -145,6 +149,7 @@ public class RobotContainer {
 
 
 
+  //Change return type to Command later
   //Change return type to Command later
   public Command getAutonomousCommand() {
     // // Create config for trajectory

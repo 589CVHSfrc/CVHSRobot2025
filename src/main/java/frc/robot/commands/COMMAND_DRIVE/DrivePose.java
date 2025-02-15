@@ -46,13 +46,10 @@ public class DrivePose {
             }
             return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionLeftReefBLUE, m_speed);
         }
-
-
+        
+        //replace with correct vals later
+        return new Command() {
+            
+        };
     }
-
-    
-
-    
-
-
 }
