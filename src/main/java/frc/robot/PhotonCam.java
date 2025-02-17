@@ -119,7 +119,7 @@ public class PhotonCam{
        return m_photonArduCam.getLatestResult().getBestTarget().getFiducialId();
     }
 
-    public Pose2d getTargetPose2d() {
+    public Pose2d getPoseToTarget2d() {
         Transform3d loc3d = m_photonArduCam.getLatestResult().getBestTarget().getBestCameraToTarget();
         return new Pose2d(new Translation2d(loc3d.getMeasureX(), loc3d.getMeasureY()), loc3d.getRotation().toRotation2d());
     }

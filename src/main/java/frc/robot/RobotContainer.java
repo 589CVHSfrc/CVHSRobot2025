@@ -64,8 +64,9 @@ public class RobotContainer {
 
   //Change Type to Command later
   private final SendableChooser<Command> m_autoChooser;
-  //Change Type to Command later
-  private final SendableChooser<Command> m_autoChooser;
+
+  
+  private DrivePose m_DrivePose = new DrivePose(()->1.0,m_robotDrive);
 
 
   // The driver's controller
@@ -133,6 +134,8 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kSquare.value)
         .whileTrue(new RunCommand(
             () -> System.out.println(m_robotDrive.getGyroYawDeg())));
+    // new JoystickButton(m_driverController, Button.kCircle.value)
+    //     .whileTrue(()->m_DrivePose.driveToReefLeft());
             // new JoystickButton(m_switchboard, 1).whileTrue(new MoveElevator(m_elevatorSubsystem, 0.05));
     // new JoystickButton(m_switchboard, 2).whileTrue(new MoveElevator(m_elevatorSubsystem, -0.05));
     // new JoystickButton(m_switchboard, 3).onTrue(new ElevatorToPosition(m_elevatorSubsystem, 5));
