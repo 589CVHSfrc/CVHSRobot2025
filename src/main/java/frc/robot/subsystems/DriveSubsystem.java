@@ -49,10 +49,10 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kFrontRightTurningCanId,
       DriveConstants.kFrontRightChassisAngularOffset);
 
-  // private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
-  //     DriveConstants.kRearLeftDrivingCanId,
-  //     DriveConstants.kRearLeftTurningCanId,
-  //     DriveConstants.kBackLeftChassisAngularOffset);
+  private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
+      DriveConstants.kRearLeftDrivingCanId,
+      DriveConstants.kRearLeftTurningCanId,
+      DriveConstants.kBackLeftChassisAngularOffset);
 
   private final MAXSwerveModule m_rearRight = new MAXSwerveModule(
       DriveConstants.kRearRightDrivingCanId,
@@ -80,8 +80,7 @@ public class DriveSubsystem extends SubsystemBase {
       new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
           m_frontRight.getPosition(),
-          // m_rearLeft.getPosition(),
-          new SwerveModulePosition(),
+          m_rearLeft.getPosition(),
           m_rearRight.getPosition()
       });
 
@@ -140,8 +139,7 @@ public class DriveSubsystem extends SubsystemBase {
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
-            // m_rearLeft.getPosition(),
-            new SwerveModulePosition(),
+            m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         });
   }
@@ -166,8 +164,7 @@ public class DriveSubsystem extends SubsystemBase {
     return new SwerveModulePosition[] {
         m_frontLeft.getPosition(),
         m_frontRight.getPosition(),
-        // m_rearLeft.getPosition(),
-        new SwerveModulePosition(),
+        m_rearLeft.getPosition(),
         m_rearRight.getPosition()
     };
   }
@@ -176,8 +173,7 @@ public class DriveSubsystem extends SubsystemBase {
     return new SwerveModulePosition[] {
       m_frontLeft.getPosition(),
       m_frontRight.getPosition(),
-      // m_rearLeft.getPosition(),
-      new SwerveModulePosition(),
+      m_rearLeft.getPosition(),
       m_rearRight.getPosition()
     };
   }
@@ -234,8 +230,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   public ChassisSpeeds getRelativeSpeeds(){
-    // return DriveConstants.kDriveKinematics.toChassisSpeeds(m_frontLeft.getState(),m_frontRight.getState(),m_rearLeft.getState(),m_rearRight.getState());
-    return DriveConstants.kDriveKinematics.toChassisSpeeds(m_frontLeft.getState(),m_frontRight.getState(), new SwerveModuleState(),m_rearRight.getState());
+    return DriveConstants.kDriveKinematics.toChassisSpeeds(m_frontLeft.getState(),m_frontRight.getState(),m_rearLeft.getState(),m_rearRight.getState());
   }
 
   public void driveRobotRelative(ChassisSpeeds speeds) {
@@ -258,8 +253,7 @@ public class DriveSubsystem extends SubsystemBase {
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
-            // m_rearLeft.getPosition(),
-            new SwerveModulePosition(),
+            m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         },
         pose);
@@ -269,8 +263,7 @@ public class DriveSubsystem extends SubsystemBase {
     ChassisSpeeds chassisspeed = DriveConstants.kDriveKinematics.toChassisSpeeds(
         m_frontLeft.getState(),
         m_frontRight.getState(),
-        // m_rearLeft.getState(),
-        new SwerveModuleState(),
+        m_rearLeft.getState(),
         m_rearRight.getState());
     return chassisspeed;
   }
@@ -300,7 +293,7 @@ public class DriveSubsystem extends SubsystemBase {
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
-    // m_rearLeft.setDesiredState(swerveModuleStates[2]);
+    m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
 
@@ -310,7 +303,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void setX() {
     m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
     m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-    // m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+    m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
     m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
   }
 
@@ -324,14 +317,14 @@ public class DriveSubsystem extends SubsystemBase {
         desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(desiredStates[0]);
     m_frontRight.setDesiredState(desiredStates[1]);
-    // m_rearLeft.setDesiredState(desiredStates[2]);
+    m_rearLeft.setDesiredState(desiredStates[2]);
     m_rearRight.setDesiredState(desiredStates[3]);
   }
 
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {
     m_frontLeft.resetEncoders();
-    // m_rearLeft.resetEncoders();
+    m_rearLeft.resetEncoders();
     m_frontRight.resetEncoders();
     m_rearRight.resetEncoders();
   }
