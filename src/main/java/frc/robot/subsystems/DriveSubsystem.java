@@ -25,8 +25,11 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 // import edu.wpi.first.wpilibj.ADIS16470_IMU;
 // import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
@@ -64,6 +67,7 @@ public class DriveSubsystem extends SubsystemBase {
   private final Pigeon2 m_pigeon = new Pigeon2(DriveConstants.kPigeon2CanId);
 
   public SwerveDrivePoseEstimator m_estimator;
+  AnalogPotentiometer m_rightUltraSonic, m_leftUltraSonic;
   
 
   private Field2d m_field = new Field2d();
@@ -86,6 +90,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    m_rightUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kRightUltraSonicChannel);
+    m_leftUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kLeftUlraSonicChannel);
+
     m_estimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics,
     new Rotation2d(Units.degreesToRadians(getGyroYawDeg())), getSwerveModulePositions(), getPose());
     RobotConfig config;
@@ -97,6 +104,7 @@ public class DriveSubsystem extends SubsystemBase {
       // config = new RobotConfig(74.088, 6.883, null, null);
       e.printStackTrace();
     }
+
 
     AutoBuilder.configure(
         this::getPose,
@@ -119,6 +127,14 @@ public class DriveSubsystem extends SubsystemBase {
       );
     // Usage reporting for MAXSwerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
+  }
+
+  public double readLeftUltraSonic(){
+    return m_leftUltraSonic.get();
+  }
+
+  public double readRightUltraSonic(){
+    return m_rightUltraSonic.get();
   }
   
   public boolean getAlliance() {

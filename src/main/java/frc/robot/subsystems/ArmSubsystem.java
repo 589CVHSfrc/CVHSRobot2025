@@ -69,6 +69,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   }
 
+  public void move(double speed){
+    m_pivotMotor.set(speed);
+  }
+
 
   public void toPosition(double position){
     m_closedLoopController.setReference(position, ControlType.kPosition, ClosedLoopSlot.kSlot0);

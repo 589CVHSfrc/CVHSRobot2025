@@ -8,15 +8,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ShooterIntakeOrExpel extends Command {
+public class ShooterIntake extends Command {
   ShooterSubsystem m_shooter;
   double m_speed;
-  boolean m_intake;
   /** Creates a new ShooterIntakeOrExpel. */
-  public ShooterIntakeOrExpel(ShooterSubsystem shooter, double speed, boolean intake) {
+  public ShooterIntake(ShooterSubsystem shooter, double speed) {
     m_shooter = shooter;
     m_speed = speed;
-    m_intake = intake;
     addRequirements(m_shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -38,10 +36,6 @@ public class ShooterIntakeOrExpel extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_intake){
       return m_shooter.checkCoral();
-    }else{
-      return !m_shooter.checkCoral();
-    }
   }
 }

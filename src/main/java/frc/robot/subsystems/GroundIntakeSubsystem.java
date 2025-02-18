@@ -13,6 +13,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.LimitSwitchConfig.Type;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,18 +21,19 @@ import frc.robot.Constants;
 import frc.robot.Constants.GroundIntakeConstants;
 
 public class GroundIntakeSubsystem extends SubsystemBase {
-  SparkMax m_rollerMotor;
+  SparkMax m_topRollerMotor, m_bottomRollerMotor;
   SparkMaxConfig m_config;
   SparkLimitSwitch m_coralLimitSwitch;
-  SparkClosedLoopController m_closedLoopController;
+  SparkClosedLoopController m_closedLoopControllerTop, m_closedLoopControllerBottom;
 
   /** Creates a new GroundIntake. */
   public GroundIntakeSubsystem() {
-    m_rollerMotor = new SparkMax(GroundIntakeConstants.ktopRollerCANID, MotorType.kBrushless);
+    m_topRollerMotor = new SparkMax(GroundIntakeConstants.ktopRollerCANID, MotorType.kBrushless);
+    m_bottomRollerMotor = new SparkMax(GroundIntakeConstants.kbottomRollerCANID, MotorType.kBrushless);
 
-    m_coralLimitSwitch = m_rollerMotor.getForwardLimitSwitch();
-
-    m_config.limitSwitch.forwardLimitSwitchEnabled(true);
+    m_config.limitSwitch
+        .forwardLimitSwitchEnabled(true)
+        .forwardLimitSwitchType(Type.kNormallyOpen);
 
     m_config.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -48,14 +50,18 @@ public class GroundIntakeSubsystem extends SubsystemBase {
         .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
         .outputRange(-0.1, 0.1, ClosedLoopSlot.kSlot1);
 
-    m_rollerMotor.configure(m_config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    m_closedLoopController = m_rollerMotor.getClosedLoopController();
-    m_coralLimitSwitch = m_rollerMotor.getForwardLimitSwitch();
+    m_topRollerMotor.configure(m_config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    m_bottomRollerMotor.configure(m_config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    m_closedLoopControllerTop = m_topRollerMotor.getClosedLoopController();
+    m_closedLoopControllerBottom = m_bottomRollerMotor.getClosedLoopController();
+    m_coralLimitSwitch = m_topRollerMotor.getForwardLimitSwitch();
 
   }
 
   public void moveRollers(double RPM){
-    m_closedLoopController.setReference(RPM, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
+    m_closedLoopControllerTop.setReference(RPM, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
+    m_closedLoopControllerBottom.setReference(RPM, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
 
   }
 
