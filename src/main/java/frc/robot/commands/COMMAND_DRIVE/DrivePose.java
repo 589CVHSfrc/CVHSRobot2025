@@ -17,10 +17,10 @@ import frc.utils.DriveUtils;
 
 /** Add your docs here. */
 public class DrivePose {
-    private DoubleSupplier m_speed;
+    private double m_speed;
     private DriveSubsystem m_drive;
     private PhotonCam m_PhotonCam;
-    public DrivePose(DoubleSupplier speed, DriveSubsystem drive) {
+    public DrivePose(double speed, DriveSubsystem drive) {
         m_speed = speed;
         m_drive = drive;
         //m_PhotonCam = photonCam;

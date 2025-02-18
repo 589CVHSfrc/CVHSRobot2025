@@ -4,8 +4,13 @@
 
 package frc.robot.commands.COMMAND_DRIVE;
 
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.utils.DriveUtils;
 import frc.robot.PhotonCam;
@@ -16,17 +21,19 @@ import frc.robot.subsystems.DriveSubsystem;
 public class DriveToAprilTag extends Command {
   private DriveSubsystem m_drive;
   private PhotonCam m_PhotonCam;
-  private DoubleSupplier m_speed;
+  private double m_speed;
   private DriveUtils m_DriveUtils;
-  private int m_targetID;
+  private AprilTagFieldLayout m_aprilTagLayout;
+  private int m_tagID;
   /** Creates a new DriveToAprilTag. */
-  public DriveToAprilTag(DriveSubsystem drive, PhotonCam photonCam, DoubleSupplier speed, int targetID) {
+  public DriveToAprilTag(DriveSubsystem drive, PhotonCam photonCam, double speed, int TagID) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
     m_PhotonCam = photonCam;
     m_drive = drive;
     m_speed = speed;
-    m_targetID = targetID;
+    m_tagID = TagID;
+    m_aprilTagLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
   }
 
   // Called when the command is initially scheduled.
@@ -38,9 +45,17 @@ public class DriveToAprilTag extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_PhotonCam.getFuducialID();
-
-    // m_DriveUtils.driveToPose(m_PhotonCam.getTargetPose2d().get, m_speed);
+    int fuducialID = m_PhotonCam.getFuducialID();
+    System.out.println(fuducialID);
+    // AprilTagFields.kDefaultField.valueOf()
+    // Transform3d transform = m_PhotonCam.getBestTarget();
+    // Pose2d newPose = new Pose2d(transform.getX(), transform.getY(), transform.getRotation().toRotation2d());
+    Optional<Pose3d> pose3d = m_aprilTagLayout.getTagPose(m_tagID);
+    Pose2d targetPose;
+    if(m_tagID == fuducialID) {
+      targetPose = pose3d.get().toPose2d();
+      m_DriveUtils.driveToPose(targetPose, m_speed).execute();;
+    }
   }
 
   // Called once the command ends or is interrupted.

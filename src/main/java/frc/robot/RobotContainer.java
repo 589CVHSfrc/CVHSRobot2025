@@ -21,6 +21,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -29,9 +30,11 @@ import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.PhotonCam;
 
 import frc.robot.commands.COMMAND_DRIVE.ResetGyro;
 import frc.robot.commands.COMMAND_DRIVE.DrivePose;
+import frc.robot.commands.COMMAND_DRIVE.DriveToAprilTag;
 // import frc.robot.commands.TESTING_COMMANDS.ElevatorToPosition;
 // import frc.robot.commands.TESTING_COMMANDS.HomeElevator;
 // import frc.robot.commands.TESTING_COMMANDS.MoveElevator;
@@ -46,6 +49,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 import java.util.List;
+import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -58,6 +62,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final PhotonCam m_PhotonCam = new PhotonCam();
   // private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
 
   //private SendableChooser<Command> m_autoChooser;
@@ -66,12 +71,13 @@ public class RobotContainer {
   private final SendableChooser<Command> m_autoChooser;
 
   
-  private DrivePose m_DrivePose = new DrivePose(()->1.0,m_robotDrive);
+  private DrivePose m_DrivePose = new DrivePose(0.05,m_robotDrive);
 
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   public static final GenericHID m_switchboard = new GenericHID(OIConstants.kCoDriverControllerPort);
+
 
 
   /**
@@ -80,7 +86,7 @@ public class RobotContainer {
   public RobotContainer() {
     m_autoChooser = AutoBuilder.buildAutoChooser();
     // Configure the button bindings
-    configureButtonBindings();
+    //configureButtonBindings();
 
     
 
@@ -97,17 +103,18 @@ public class RobotContainer {
             m_robotDrive));
     
     
-    // m_autoChooser.setDefaultOption("Default", "Default Auto");
+    //m_autoChooser.setDefaultOption("Default", "Default Auto");
     // m_autoChooser.addOption("New Auto", "Other Auto");
     // m_autoChooser.addOption("New New Auto", "Other Other Auto");
     // m_autoChooser.addOption("New New New Auto", "Other Other Other Auto");
 
     m_autoChooser.setDefaultOption("corclest", new PathPlannerAuto("corcle Auto"));
-    m_autoChooser.addOption("testin", new PathPlannerAuto("New Auto"));
-    m_autoChooser.addOption("v2 of die test", new PathPlannerAuto("New New New Auto"));
-    m_autoChooser.addOption("lyning", new PathPlannerAuto("lyne auto"));
+    // m_autoChooser.addOption("testin", new PathPlannerAuto("New Auto"));
+    // m_autoChooser.addOption("v2 of die test", new PathPlannerAuto("New New New Auto"));
+    // m_autoChooser.addOption("lyning", new PathPlannerAuto("lyne auto"));
 
-    SmartDashboard.putData("Auto Chooser",m_autoChooser);
+    // SmartDashboard.putData("Auto Chooser",m_autoChooser);
+    
     // Configure the button bindings
     configureButtonBindings();
 
@@ -128,12 +135,12 @@ public class RobotContainer {
             () -> m_robotDrive.setX(),
             m_robotDrive));
     new JoystickButton(m_driverController, Button.kTriangle.value)
-        .whileTrue(new RunCommand(
-            () -> m_robotDrive.resetOdometry(new Pose2d(0, 0, new Rotation2d(Math.PI))))
-            .alongWith(new ResetGyro(m_robotDrive)));
+        .whileTrue(new ResetGyro(m_robotDrive));
     new JoystickButton(m_driverController, Button.kSquare.value)
         .whileTrue(new RunCommand(
             () -> System.out.println(m_robotDrive.getGyroYawDeg())));
+    new JoystickButton(m_switchboard, 1)
+        .whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam ,Constants.DriveConstants.kSpeedToTarget,1));
     // new JoystickButton(m_driverController, Button.kCircle.value)
     //     .whileTrue(()->m_DrivePose.driveToReefLeft());
             // new JoystickButton(m_switchboard, 1).whileTrue(new MoveElevator(m_elevatorSubsystem, 0.05));

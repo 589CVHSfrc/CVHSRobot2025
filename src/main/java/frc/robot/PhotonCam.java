@@ -35,7 +35,7 @@ public class PhotonCam{
     private PhotonCamera m_photonArduCam = new PhotonCamera("ArduCam");
     private PhotonPoseEstimator m_poseEstimator;
 
-    private PhotonCam() {
+    PhotonCam() {
         // try {
             m_aprilTagLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
         // } catch (IOException e) {
@@ -116,7 +116,17 @@ public class PhotonCam{
         }
     }
     public int getFuducialID(){
-       return m_photonArduCam.getLatestResult().getBestTarget().getFiducialId();
+        System.out.println(m_photonArduCam.getLatestResult());
+        System.out.println(m_photonArduCam.getLatestResult().getBestTarget());
+        if(m_photonArduCam.getLatestResult().getBestTarget() != null) {
+            System.out.println(m_photonArduCam.getLatestResult().getBestTarget().getFiducialId());
+            return m_photonArduCam.getLatestResult().getBestTarget().getFiducialId();
+        }
+        return -1;
+    }
+
+    public PhotonTrackedTarget getBestTarget() {
+        return m_photonArduCam.getLatestResult().getBestTarget();
     }
 
     public Pose2d getPoseToTarget2d() {

@@ -28,7 +28,9 @@ import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 // import edu.wpi.first.wpilibj.ADIS16470_IMU;
@@ -38,6 +40,7 @@ import frc.robot.Constants.ModuleConstants;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.sendable.Sendable;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -70,7 +73,7 @@ public class DriveSubsystem extends SubsystemBase {
   AnalogPotentiometer m_rightUltraSonic, m_leftUltraSonic;
   
 
-  private Field2d m_field = new Field2d();
+  private final Field2d m_field = new Field2d();
 
   private boolean m_first = true;
 
@@ -149,6 +152,10 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
+    var fl = m_frontLeft.getPosition();
+    var fr = m_frontRight.getPosition();
+    var bl = m_rearLeft.getPosition();
+    var br = m_rearRight.getPosition();
     m_odometry.update(
         // Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),
         m_pigeon.getRotation2d(),
@@ -158,6 +165,18 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         });
+
+    Pose2d beforeCamAdded = m_estimator.update(m_pigeon.getRotation2d(), getSwerveModulePositions());
+    m_field.setRobotPose(beforeCamAdded);
+
+    SmartDashboard.putNumber("Pose 2d X:", m_odometry.getPoseMeters().getX());
+    SmartDashboard.putNumber("Pose 2d X Distance:", m_odometry.getPoseMeters().getMeasureX().magnitude());
+    SmartDashboard.putNumber("Pose 2d Y:", m_odometry.getPoseMeters().getY());
+    SmartDashboard.putNumber("Pose 2d Y Distance:", m_odometry.getPoseMeters().getMeasureY().magnitude());
+    SmartDashboard.putNumber("Pose 2d Rot Degrees:", m_odometry.getPoseMeters().getRotation().getDegrees());
+    // m_field.setRobotPose(m_odometry.getPoseMeters().getX(), m_odometry.getPoseMeters().getY(), m_odometry.getPoseMeters().getRotation());
+    SmartDashboard.putData("Field Pos", m_field);
+    // System.out.println(m_odometry.getPoseMeters());
   }
 
   /**
@@ -348,7 +367,11 @@ public class DriveSubsystem extends SubsystemBase {
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
     // m_gyro.reset();
-    m_pigeon.reset();
+    // m_pigeon.reset();
+    m_pigeon.setYaw(180);
+    System.out.println("Resetting Gyro");
+    m_field.setRobotPose(0, 0, new Rotation2d());
+    SmartDashboard.putData("Field Pos", m_field);
   }
 
   /**
@@ -356,11 +379,12 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return the robot's heading in degrees, from -180 to 180
    */
+  /*
   public double getHeading() {
     // return Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)).getDegrees();
     return m_pigeon.getRotation2d().getDegrees();
 
-  }
+  } */
 
   public double getGyroYawDeg() {
     // return (m_gyro.getYaw()) * -1;
@@ -369,8 +393,7 @@ public class DriveSubsystem extends SubsystemBase {
     // return m_pigeon.getAngle() *-1;
 
     //non-deprecated
-    return m_pigeon.getRotation2d().getDegrees();
-
+    return m_pigeon.getRotation2d().getDegrees() *-1.0;
 
     // return (m_gyro.getYaw());
   }

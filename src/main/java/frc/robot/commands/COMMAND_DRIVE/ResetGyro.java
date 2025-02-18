@@ -16,7 +16,6 @@ public class ResetGyro extends InstantCommand {
   public ResetGyro(DriveSubsystem drive) {
     addRequirements(drive);
     m_drive = drive;
-    System.out.println("Gyro Reset");
   }
 
   // Called when the command is initially scheduled.

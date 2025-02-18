@@ -48,7 +48,7 @@ public class DriveUtils {
 //         return AutoBuilder.followPath(path);
 //     }
 
-    public Command driveToPose(Pose2d requestedPose, DoubleSupplier speed) {
+    public Command driveToPose(Pose2d requestedPose, double speed) {
         Pose2d startingPose = m_drive.getPose();
         double[] xy = { (requestedPose.getX() - startingPose.getX()),
                 (requestedPose.getY() - startingPose.getY())  };
@@ -60,7 +60,7 @@ public class DriveUtils {
         PathPlannerPath path = new PathPlannerPath(
                 bezierPoints,
                 new PathConstraints(
-                        DriveConstants.kMaxSpeedMetersPerSecond * speed.getAsDouble(),
+                        DriveConstants.kMaxSpeedMetersPerSecond * speed,
                         AutoConstants.kMaxAccelerationMetersPerSecondSquared,
                         DriveConstants.kMaxAngularSpeed,
                         AutoConstants.kMaxAngularSpeedRadiansPerSecondSquared
