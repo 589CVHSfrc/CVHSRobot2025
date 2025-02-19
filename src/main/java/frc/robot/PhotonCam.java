@@ -12,6 +12,7 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -25,6 +26,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.VisualConstants;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 // import frc.robot.Constants.VisualConstants;
@@ -32,7 +34,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 public class PhotonCam{
     private static PhotonCam m_arduCam;
     public AprilTagFieldLayout m_aprilTagLayout;
-    private PhotonCamera m_photonArduCam = new PhotonCamera("ArduCam");
+    private PhotonCamera m_photonArduCam = new PhotonCamera("xyz");
     private PhotonPoseEstimator m_poseEstimator;
 
     PhotonCam() {
@@ -49,8 +51,6 @@ public class PhotonCam{
         m_poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
         PortForwarder.add(5800, "photonvision.local", 5800);
         PortForwarder.add(5800, "10.5.89.11", 5800);
-
-        
     }
 
     public boolean getAlliance() {
@@ -65,6 +65,10 @@ public class PhotonCam{
     public static PhotonCam get() {
         if (m_arduCam == null) {
             m_arduCam = new PhotonCam();
+            var name = PhotonCamera.kTableName;
+            PhotonCamera.setVersionCheckEnabled(false);
+            System.out.print("====== PHOTON CAMERA NAME: ======");
+            System.out.println(name);
         }
         return m_arduCam;
     }
@@ -115,14 +119,17 @@ public class PhotonCam{
 
         }
     }
-    public int getFuducialID(){
-        System.out.println(m_photonArduCam.getLatestResult());
-        System.out.println(m_photonArduCam.getLatestResult().getBestTarget());
-        if(m_photonArduCam.getLatestResult().getBestTarget() != null) {
-            System.out.println(m_photonArduCam.getLatestResult().getBestTarget().getFiducialId());
-            return m_photonArduCam.getLatestResult().getBestTarget().getFiducialId();
+    public int getFiducialID(){
+        PhotonPipelineResult result = m_photonArduCam.getLatestResult();
+        System.out.println(result);
+        
+        if(result.hasTargets()) {
+            System.out.println(result.getBestTarget());
+            System.out.println(result.getBestTarget().getFiducialId());
+            return result.getBestTarget().getFiducialId();
         }
         return -1;
+        // return 1;
     }
 
     public PhotonTrackedTarget getBestTarget() {

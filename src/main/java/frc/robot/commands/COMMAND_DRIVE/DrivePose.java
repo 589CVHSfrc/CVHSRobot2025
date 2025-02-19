@@ -28,7 +28,7 @@ public class DrivePose {
 
     public Command driveToReefLeft() {
         if(m_drive.getAlliance()){
-            switch(m_PhotonCam.getFuducialID()) {
+            switch(m_PhotonCam.getFiducialID()) {
                 case 6:
                     return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionLeftReefRED, m_speed);
                     // break;
@@ -47,7 +47,7 @@ public class DrivePose {
             return new DriveUtils(m_drive).driveToPose(m_drive.getPose(), m_speed);
         }
         else{
-            switch(m_PhotonCam.getFuducialID()) {
+            switch(m_PhotonCam.getFiducialID()) {
                 case 6:
                     return new DriveUtils(m_drive).driveToPose(DriveConstants.kShootingPositionLeftReefBLUE, m_speed);
                     // break;

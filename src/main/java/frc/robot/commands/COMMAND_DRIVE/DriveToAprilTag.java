@@ -45,7 +45,8 @@ public class DriveToAprilTag extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    int fuducialID = m_PhotonCam.getFuducialID();
+    int fuducialID = m_PhotonCam.getFiducialID();
+    PhotonCam.get();
     System.out.println(fuducialID);
     // AprilTagFields.kDefaultField.valueOf()
     // Transform3d transform = m_PhotonCam.getBestTarget();

@@ -139,7 +139,7 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kSquare.value)
         .whileTrue(new RunCommand(
             () -> System.out.println(m_robotDrive.getGyroYawDeg())));
-    new JoystickButton(m_switchboard, 1)
+    new JoystickButton(m_driverController, Button.kCircle.value)
         .whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam ,Constants.DriveConstants.kSpeedToTarget,1));
     // new JoystickButton(m_driverController, Button.kCircle.value)
     //     .whileTrue(()->m_DrivePose.driveToReefLeft());
