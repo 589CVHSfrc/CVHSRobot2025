@@ -37,8 +37,8 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = 4.8;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
-    public static final int kLeftUlraSonicChannel = 0; //change
-    public static final int kRightUltraSonicChannel = 1; //change
+    public static final int kLeftUlraSonicChannel = 0; // change
+    public static final int kRightUltraSonicChannel = 1; // change
 
     public static final double kAutoTimeDtSecondsAdjust = 0.02; // ?????????????????????????
 
@@ -82,7 +82,6 @@ public final class Constants {
     public static final int kRearLeftTurningCanId = 21;
     public static final int kFrontRightTurningCanId = 31;
     public static final int kRearRightTurningCanId = 11;
-
 
     public static final boolean kGyroReversed = false;
 
@@ -155,62 +154,63 @@ public final class Constants {
     public static final double kFreeSpeedRpm = 5676;
   }
 
-  public static class ElevatorConstants{
-    public static final int kElevatorMotorCANID = 13; //change
+  public static class ElevatorConstants {
+    public static final int kElevatorMotorCANID = 13; // change
     public static final double kElevatorP = 0.1;
     public static final double kElevatorI = 0.00005;
     public static final double kElevatorD = 0;
     public static final double kElevatorRangeBottom = -0.2;
     public static final double kElevatorRangeTop = 0.2;
-    public static final double kElevatorPositionConversionFactor = 1; //change
-    public static final double kElevatorVelocityConversionFactor = 1; //change
+    public static final double kElevatorPositionConversionFactor = 1; // change
+    public static final double kElevatorVelocityConversionFactor = 1; // change
     public static final double kPositionMargin = 5; // change
     public static final double kHomingSpeed = -0.1;
   }
 
-  public static class ShooterConstants{
-    public static final int kShooterLeftMotorCANID = 23; //change
-    public static final int kShooterRightMotorCANID = 24; //change
+  public static class ShooterConstants {
+    public static final int kShooterLeftMotorCANID = 23; // change
+    public static final int kShooterRightMotorCANID = 24; // change
     public static final int kBeamBreakDIOPort = 0; // change
     public static final double kShooterP = 0.1;
     public static final double kShooterI = 0.00005;
     public static final double kShooterD = 0;
 
     public static final double kL1RightSpeed = 1000;
-    public static final double kL1LeftSpeed = 333; //must be 1/3rd the speed of other roller
+    public static final double kL1LeftSpeed = 333; // must be 1/3rd the speed of other roller
   }
 
-  public static class ClimberConstants{
-    public static final int kcageMotorCANID = 33; //change
-    public static final double kClimberMaxSpeed = 0.5; //(range of (0,1) 1000; //change (max 1500)
+  public static class ClimberConstants {
+    public static final int kcageMotorCANID = 33; // change
+    public static final double kClimberMaxSpeed = 0.5; // (range of (0,1) 1000; //change (max 1500)
     public static final double kClimberMinSpeed = -.5; // (range of (-1,0) -1000; //change (min 1500)
-    public static final double kClimbP = 0; 
+    public static final double kClimbP = 0;
     public static final double kClimbI = 0;
     public static final double kClimbD = 0;
-    public static final double kClimbingSpeed = 0; //change
-    public static final double kHomingSpeed = 0; //Change only if different from climbing speed, otherwise just multiply climbing speed by -1.
-    public static final double kPeakedCurrent = 0; //change
+    public static final double kClimbingSpeed = 0; // change
+    public static final double kHomingSpeed = 0; // Change only if different from climbing speed, otherwise just
+                                                 // multiply climbing speed by -1.
+    public static final double kPeakedCurrent = 0; // change
   }
 
-  public static class GroundIntakeConstants{
-    public static final int kBeamBreakDIOPort = 0; //change
-    public static final int kbottomRollerCANID = 43; //change
+  public static class GroundIntakeConstants {
+    public static final int kBeamBreakDIOPort = 0; // change
+    public static final int kbottomRollerCANID = 43; // change
     public static final int ktopRollerCANID = 44; // change
-    public static final double kGroundIntakeP = 0; //change
-    public static final double kGroundIntakeI = 0; //change
-    public static final double kGroundIntakeD = 0; //change
+    public static final double kGroundIntakeP = 0; // change
+    public static final double kGroundIntakeI = 0; // change
+    public static final double kGroundIntakeD = 0; // change
 
-    public static final double kHomedPosition = 0; //change
-    public static final double kIntakePosition = 0; //change
+    public static final double kHomedPosition = 0; // change
+    public static final double kIntakePosition = 0; // change
     public static final double kIntakeSpeed = 100;
 
   }
 
-  public static class IntakePivotConstants{
-    public static final int kpivotMotorCANID = 53; //change
-    public static final double kPivotP = 0; //change
-    public static final double kPivotI = 0; //change
-    public static final double kPivotD = 0; //change
+  public static class IntakePivotConstants {
+    public static final int kpivotMotorCANID = 53; // change
+    public static final double kPivotP = 0; // change
+    public static final double kPivotI = 0; // change
+    public static final double kPivotD = 0; // change
   }
 
 }
