@@ -110,6 +110,9 @@ public class PhotonCam{
     * | Check this |
     * --------------
     */
+
+
+    
     public void setAlliance(boolean alliance){
         if (alliance) {
             m_aprilTagLayout.setOrigin(OriginPosition.kRedAllianceWallRightSide);
