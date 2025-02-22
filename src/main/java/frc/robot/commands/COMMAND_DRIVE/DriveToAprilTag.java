@@ -11,6 +11,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.utils.DriveUtils;
 import frc.robot.PhotonCam;
@@ -56,7 +57,8 @@ public class DriveToAprilTag extends Command {
     Pose2d targetPose;
     if(m_tagID == fuducialID) {
       targetPose = pose3d.get().toPose2d();
-      m_DriveUtils.driveToPose(targetPose, m_speed).execute();;
+      m_DriveUtils.driveToPose(targetPose, m_speed).execute();
+      SmartDashboard.putNumber("Target pose", targetPose.getRotation().getDegrees());
     }
   }
 
