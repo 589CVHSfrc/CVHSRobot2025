@@ -63,7 +63,6 @@ public class DriveSubsystem extends SubsystemBase {
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics,
-      // Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),
       m_pigeon.getRotation2d(),
       new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
@@ -154,7 +153,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Pose 2d X Distance:", m_odometry.getPoseMeters().getMeasureX().magnitude());
     SmartDashboard.putNumber("Pose 2d Y:", m_odometry.getPoseMeters().getY());
     SmartDashboard.putNumber("Pose 2d Y Distance:", m_odometry.getPoseMeters().getMeasureY().magnitude());
-    SmartDashboard.putNumber("Pose 2d Rot Degrees:", m_odometry.getPoseMeters().getRotation().getDegrees());
+    // SmartDashboard.putNumber("Pose 2d Rot Degrees ", m_odometry.getPoseMeters().getRotation().getDegrees());
+    SmartDashboard.putNumber("Rot Degrees ", getGyroYawDeg());
     // m_field.setRobotPose(m_odometry.getPoseMeters().getX(), m_odometry.getPoseMeters().getY(), m_odometry.getPoseMeters().getRotation());
     SmartDashboard.putData("Field Pos", m_field);
     // System.out.println(m_odometry.getPoseMeters());
@@ -301,7 +301,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void zeroHeading() {
     // m_gyro.reset();
     // m_pigeon.reset();
-    m_pigeon.setYaw(180);
+    m_pigeon.setYaw(0);//used to be 180
     System.out.println("Resetting Gyro");
     m_field.setRobotPose(0, 0, new Rotation2d());
     SmartDashboard.putData("Field Pos", m_field);
@@ -314,7 +314,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
 
   public double getGyroYawDeg(){
-    return m_pigeon.getRotation2d().getDegrees() *-1.0;
+    return 360 - m_pigeon.getRotation2d().getDegrees() ;//uSED TO HAVE -1 HERE 2/21
   }
 
   /**
