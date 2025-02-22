@@ -70,6 +70,9 @@ public class RobotContainer {
     // m_autoChooser.addOption("New New Auto", "Other Other Auto");
     // m_autoChooser.addOption("New New New Auto", "Other Other Other Auto");
 
+    
+    // getHolonomic.. from path plan) 
+    //m_robotDrive.setPose2d();//initial pos for selected path
     m_autoChooser.setDefaultOption("corclest", new PathPlannerAuto("corcle Auto"));
     // m_autoChooser.addOption("testin", new PathPlannerAuto("New Auto"));
     // m_autoChooser.addOption("v2 of die test", new PathPlannerAuto("New New New Auto"));
