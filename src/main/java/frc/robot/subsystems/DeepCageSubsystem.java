@@ -46,12 +46,12 @@ public class DeepCageSubsystem extends SubsystemBase {
         .d(Constants.ClimberConstants.kClimbD);
        // Set PID values for velocity control in slot 1
     m_config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .p(0, ClosedLoopSlot.kSlot1) 
+        .p(1.0, ClosedLoopSlot.kSlot1) 
         .i(0, ClosedLoopSlot.kSlot1)
         .d(0, ClosedLoopSlot.kSlot1)
         //.velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
         .outputRange(Constants.ClimberConstants.kClimberMinSpeed, Constants.ClimberConstants.kClimberMaxSpeed, ClosedLoopSlot.kSlot1);
-
+        
         m_cageMotor.configure(m_config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         m_topLimitSwitch = m_cageMotor.getForwardLimitSwitch(); //check actual wiring

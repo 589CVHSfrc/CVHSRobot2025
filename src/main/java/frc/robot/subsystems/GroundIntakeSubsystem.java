@@ -15,9 +15,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.LimitSwitchConfig.Type;
 import com.revrobotics.spark.config.SparkMaxConfig;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.GroundIntakeConstants;
 
 public class GroundIntakeSubsystem extends SubsystemBase {
@@ -33,20 +31,12 @@ public class GroundIntakeSubsystem extends SubsystemBase {
 
     m_config.limitSwitch
         .forwardLimitSwitchEnabled(true)
-        .forwardLimitSwitchType(Type.kNormallyOpen);
+        .forwardLimitSwitchType(Type.kNormallyClosed);
 
-    m_config.closedLoop
-        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        // Set PID values for position control. We don't need to pass a closed loop
-        // slot, as it will default to slot 0.
-        .p(Constants.GroundIntakeConstants.kGroundIntakeP)
-        .i(Constants.GroundIntakeConstants.kGroundIntakeI)
-        .d(Constants.GroundIntakeConstants.kGroundIntakeD);
-        // Set PID values for velocity control in slot 1
     m_config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .p(0, ClosedLoopSlot.kSlot1)
-        .i(0, ClosedLoopSlot.kSlot1)
-        .d(0, ClosedLoopSlot.kSlot1)
+        .p(GroundIntakeConstants.kGroundIntakeP, ClosedLoopSlot.kSlot1)
+        .i(GroundIntakeConstants.kGroundIntakeI, ClosedLoopSlot.kSlot1)
+        .d(GroundIntakeConstants.kGroundIntakeD, ClosedLoopSlot.kSlot1)
         .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
         .outputRange(-0.1, 0.1, ClosedLoopSlot.kSlot1);
 
@@ -56,13 +46,11 @@ public class GroundIntakeSubsystem extends SubsystemBase {
     m_closedLoopControllerTop = m_topRollerMotor.getClosedLoopController();
     m_closedLoopControllerBottom = m_bottomRollerMotor.getClosedLoopController();
     m_coralLimitSwitch = m_topRollerMotor.getForwardLimitSwitch();
-
   }
 
   public void moveRollers(double RPM){
     m_closedLoopControllerTop.setReference(RPM, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
     m_closedLoopControllerBottom.setReference(RPM, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
-
   }
 
   public boolean isCoralPresent(){

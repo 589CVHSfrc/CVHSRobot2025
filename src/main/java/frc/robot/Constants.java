@@ -63,15 +63,6 @@ public final class Constants {
     public static final double kBackRightChassisAngularOffset = Math.PI / 2;
 
     // SPARK MAX CAN IDs
-    // public static final int kFrontLeftDrivingCanId = 10;
-    // public static final int kRearLeftDrivingCanId = 20;
-    // public static final int kFrontRightDrivingCanId = 30;
-    // public static final int kRearRightDrivingCanId = 40;
-
-    // public static final int kFrontLeftTurningCanId = 11;
-    // public static final int kRearLeftTurningCanId = 21;
-    // public static final int kFrontRightTurningCanId = 31;
-    // public static final int kRearRightTurningCanId = 41;
 
     public static final int kFrontLeftDrivingCanId = 40;
     public static final int kRearLeftDrivingCanId = 20;
@@ -140,7 +131,6 @@ public final class Constants {
     public static final double kMaxAccelerationMetersPerSecondSquared = 3;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
-
     public static final double kPXController = 1;
     public static final double kPYController = 1;
     public static final double kPThetaController = 1;
@@ -171,10 +161,9 @@ public final class Constants {
     public static final int kShooterLeftMotorCANID = 23; // change
     public static final int kShooterRightMotorCANID = 24; // change
     public static final int kBeamBreakDIOPort = 0; // change
-    public static final double kShooterP = 0.1;
+    public static final double kShooterP = 1.0;
     public static final double kShooterI = 0.00005;
     public static final double kShooterD = 0;
-
     public static final double kL1RightSpeed = 1000;
     public static final double kL1LeftSpeed = 333; // must be 1/3rd the speed of other roller
   }
@@ -183,7 +172,7 @@ public final class Constants {
     public static final int kcageMotorCANID = 33; // change
     public static final double kClimberMaxSpeed = 0.5; // (range of (0,1) 1000; //change (max 1500)
     public static final double kClimberMinSpeed = -.5; // (range of (-1,0) -1000; //change (min 1500)
-    public static final double kClimbP = 0;
+    public static final double kClimbP = 1.0;
     public static final double kClimbI = 0;
     public static final double kClimbD = 0;
     public static final double kClimbingSpeed = 0; // change
@@ -196,21 +185,18 @@ public final class Constants {
     public static final int kBeamBreakDIOPort = 0; // change
     public static final int kbottomRollerCANID = 43; // change
     public static final int ktopRollerCANID = 44; // change
-    public static final double kGroundIntakeP = 0; // change
+    public static final double kGroundIntakeP = 1.0; // change
     public static final double kGroundIntakeI = 0; // change
     public static final double kGroundIntakeD = 0; // change
-
     public static final double kHomedPosition = 0; // change
     public static final double kIntakePosition = 0; // change
     public static final double kIntakeSpeed = 100;
-
   }
 
   public static class IntakePivotConstants {
     public static final int kpivotMotorCANID = 53; // change
-    public static final double kPivotP = 0; // change
+    public static final double kPivotP = 1.0; // change
     public static final double kPivotI = 0; // change
     public static final double kPivotD = 0; // change
   }
-
 }

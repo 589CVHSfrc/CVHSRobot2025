@@ -9,15 +9,12 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkMaxConfig;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -34,24 +31,13 @@ double m_speed;
     m_leftMotor = new SparkMax(ShooterConstants.kShooterLeftMotorCANID, MotorType.kBrushless);
     m_rightMotor = new SparkMax(ShooterConstants.kShooterRightMotorCANID, MotorType.kBrushless);
     m_beamBreak = new DigitalInput(ShooterConstants.kBeamBreakDIOPort); //normally open?
-
     m_Config = new SparkMaxConfig();
-
-    // m_Config.closedLoop
-    //     .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        // Set PID values for position control. We don't need to pass a closed loop
-        // slot, as it will default to slot 0.
-        // .p(Constants.ShooterConstants.kShooterP)
-        // .i(Constants.ShooterConstants.kShooterI)
-        // .d(Constants.ShooterConstants.kShooterD);
-        // Set PID values for velocity control in slot 1
     m_Config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .p(0, ClosedLoopSlot.kSlot1) //change
-        .i(0, ClosedLoopSlot.kSlot1)
-        .d(0, ClosedLoopSlot.kSlot1)
+        .p(ShooterConstants.kShooterP, ClosedLoopSlot.kSlot1) //change
+        .i(ShooterConstants.kShooterI, ClosedLoopSlot.kSlot1)
+        .d(ShooterConstants.kShooterD, ClosedLoopSlot.kSlot1)
         .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
         .outputRange(-0.1, 0.1, ClosedLoopSlot.kSlot1);
-        // .outputRange(Constants.ElevatorConstants.kElevatorRangeBottom, Constants.ElevatorConstants.kElevatorRangeTop);
     
     m_leftMotor.configure(m_Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     m_rightMotor.configure(m_Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

@@ -32,9 +32,7 @@ public class ArmSubsystem extends SubsystemBase {
   /** Creates a new IntakePivotSubsystem. */
   public ArmSubsystem() {
     m_pivotMotor = new SparkMax(IntakePivotConstants.kpivotMotorCANID, MotorType.kBrushless);
-   
     m_config = new SparkMaxConfig();
-
 
     m_config.limitSwitch
         .forwardLimitSwitchEnabled(true)
@@ -53,7 +51,7 @@ public class ArmSubsystem extends SubsystemBase {
         .d(Constants.IntakePivotConstants.kPivotD);
         // Set PID values for velocity control in slot 1
     m_config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .p(0, ClosedLoopSlot.kSlot1) //change
+        .p(1.0, ClosedLoopSlot.kSlot1) //change
         .i(0, ClosedLoopSlot.kSlot1)
         .d(0, ClosedLoopSlot.kSlot1)
         .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
@@ -65,8 +63,6 @@ public class ArmSubsystem extends SubsystemBase {
     m_topLimitSwitch = m_pivotMotor.getForwardLimitSwitch();
     m_bottomLimitSwitch = m_pivotMotor.getReverseLimitSwitch();
     m_encoder = m_pivotMotor.getEncoder();
-
-
   }
 
   public void move(double speed){
