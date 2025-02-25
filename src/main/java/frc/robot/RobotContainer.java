@@ -3,9 +3,16 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+
+import java.util.Optional;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -21,6 +28,7 @@ import frc.robot.subsystems.DriveSubsystem;
 // import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /*
@@ -33,14 +41,15 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final PhotonCam m_PhotonCam = new PhotonCam();
-  // private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
+  // private final ElevatorSubsystem m_elevatorSubsystem = new
+  // ElevatorSubsystem();
 
-  //private SendableChooser<Command> m_autoChooser;
+  // private SendableChooser<Command> m_autoChooser;
 
-  //Change Type to Command later
+  // Change Type to Command later
   private final SendableChooser<Command> m_autoChooser;
 
-  private DrivePose m_DrivePose = new DrivePose(0.05,m_robotDrive);
+  private DrivePose m_DrivePose = new DrivePose(0.05, m_robotDrive);
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -52,34 +61,34 @@ public class RobotContainer {
   public RobotContainer() {
     m_autoChooser = AutoBuilder.buildAutoChooser();
     // Configure the button bindings
-    //configureButtonBindings();
+    // configureButtonBindings();
     // Configure default commands
     m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),// used to have a -
-                -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),// used to have a -
+                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband), // used to have a -
+                -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband), // used to have a -
                 -MathUtil.applyDeadband(m_driverController.getRawAxis(2), OIConstants.kDriveDeadband),
                 true),
             m_robotDrive));
-    
-    //m_autoChooser.setDefaultOption("Default", "Default Auto");
+
+    // m_autoChooser.setDefaultOption("Default", "Default Auto");
     // m_autoChooser.addOption("New Auto", "Other Auto");
     // m_autoChooser.addOption("New New Auto", "Other Other Auto");
     // m_autoChooser.addOption("New New New Auto", "Other Other Other Auto");
 
-    
-    // getHolonomic.. from path plan) 
-    //m_robotDrive.setPose2d();//initial pos for selected path
-    m_autoChooser.setDefaultOption("corclest", new PathPlannerAuto("corcle Auto"));
-    // m_autoChooser.addOption("testin", new PathPlannerAuto("New Auto"));
-    // m_autoChooser.addOption("v2 of die test", new PathPlannerAuto("New New New Auto"));
-    // m_autoChooser.addOption("lyning", new PathPlannerAuto("lyne auto"));
+    // getHolonomic.. from path plan)
+    // m_robotDrive.setPose2d();//initial pos for selected path
+
+    m_autoChooser.setDefaultOption("line", new PathPlannerAuto("lyne auto"));
+    m_autoChooser.addOption("testin", new PathPlannerAuto("New Auto"));
+    m_autoChooser.addOption("v2 of die test", new PathPlannerAuto("New New New Auto"));
+    m_autoChooser.addOption("lyning", new PathPlannerAuto("lyne auto"));
 
     // SmartDashboard.putData("Auto Chooser",m_autoChooser);
-    
+
     // Configure the button bindings
     configureButtonBindings();
 
@@ -105,13 +114,17 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> System.out.println(m_robotDrive.getGyroYawDeg())));
     new JoystickButton(m_driverController, Button.kCircle.value)
-        .whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam ,Constants.DriveConstants.kSpeedToTarget,1));
+        .whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam, Constants.DriveConstants.kSpeedToTarget, 1));
     // new JoystickButton(m_driverController, Button.kCircle.value)
-    //     .whileTrue(()->m_DrivePose.driveToReefLeft());
-            // new JoystickButton(m_switchboard, 1).whileTrue(new MoveElevator(m_elevatorSubsystem, 0.05));
-    // new JoystickButton(m_switchboard, 2).whileTrue(new MoveElevator(m_elevatorSubsystem, -0.05));
-    // new JoystickButton(m_switchboard, 3).onTrue(new ElevatorToPosition(m_elevatorSubsystem, 5));
-    //new JoystickButton(m_driverController, 4).onTrue(new HomeElevator(m_elevatorSubsystem));
+    // .whileTrue(()->m_DrivePose.driveToReefLeft());
+    // new JoystickButton(m_switchboard, 1).whileTrue(new
+    // MoveElevator(m_elevatorSubsystem, 0.05));
+    // new JoystickButton(m_switchboard, 2).whileTrue(new
+    // MoveElevator(m_elevatorSubsystem, -0.05));
+    // new JoystickButton(m_switchboard, 3).onTrue(new
+    // ElevatorToPosition(m_elevatorSubsystem, 5));
+    // new JoystickButton(m_driverController, 4).onTrue(new
+    // HomeElevator(m_elevatorSubsystem));
   }
 
   /**
@@ -121,6 +134,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // Create config for trajectory
+    Pose2d pose = new PathPlannerAuto(m_autoChooser.getSelected()).getStartingPose();
+    m_robotDrive.resetOdometry(pose);
     return m_autoChooser.getSelected();
   }
 }

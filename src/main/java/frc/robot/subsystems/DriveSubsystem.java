@@ -19,14 +19,24 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.Constants.AutoConstants;
+// import edu.wpi.first.wpilibj.ADIS16470_IMU;
+// import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.sendable.Sendable;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -52,17 +62,22 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kBackRightChassisAngularOffset);
 
   // The gyro sensor
+  // private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
   private final Pigeon2 m_pigeon = new Pigeon2(DriveConstants.kPigeon2CanId);
 
   public SwerveDrivePoseEstimator m_estimator;
   AnalogPotentiometer m_rightUltraSonic, m_leftUltraSonic;
-  
+
   private final Field2d m_field = new Field2d();
+
   private boolean m_first = true;
+
+  // ts were here
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics,
+      // Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),
       m_pigeon.getRotation2d(),
       new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
@@ -77,17 +92,16 @@ public class DriveSubsystem extends SubsystemBase {
     m_leftUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kLeftUlraSonicChannel);
 
     m_estimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics,
-    new Rotation2d(Units.degreesToRadians(getGyroYawDeg())), getSwerveModulePositions(), getPose());
+        new Rotation2d(Units.degreesToRadians(getGyroYawDeg())), getSwerveModulePositions(), getPose());
     RobotConfig config;
     config = null;
-    try{
+    try {
       config = RobotConfig.fromGUISettings();
-    } catch (Exception e){
-      //Change Robot Config to actual accurate robot value for CVHS 20025 robboot
+    } catch (Exception e) {
+      // Change Robot Config to actual accurate robot value for CVHS 20025 robboot
       // config = new RobotConfig(74.088, 6.883, null, null);
       e.printStackTrace();
     }
-
 
     AutoBuilder.configure(
         this::getPose,
@@ -95,31 +109,29 @@ public class DriveSubsystem extends SubsystemBase {
         this::getChassisSpeeds,
         (speeds, feedforwards) -> driveRobotRelative(speeds),
         new PPHolonomicDriveController(
-          new PIDConstants(5.0,0.0,0.0),
-          new PIDConstants(5.0,0.0,0.0)
-        ),
+            new PIDConstants(5.0, 0.0, 0.0),
+            new PIDConstants(5.0, 0.0, 0.0)),
         config,
         () -> {
           var alliance = DriverStation.getAlliance();
-          if(alliance.isPresent()){
+          if (alliance.isPresent()) {
             return alliance.get() == DriverStation.Alliance.Red;
           }
           return false;
         },
-        this
-      );
+        this);
     // Usage reporting for MAXSwerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
   }
 
-  public double readLeftUltraSonic(){
+  public double readLeftUltraSonic() {
     return m_leftUltraSonic.get();
   }
 
-  public double readRightUltraSonic(){
+  public double readRightUltraSonic() {
     return m_rightUltraSonic.get();
   }
-  
+
   public boolean getAlliance() {
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent()) {
@@ -153,9 +165,9 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Pose 2d X Distance:", m_odometry.getPoseMeters().getMeasureX().magnitude());
     SmartDashboard.putNumber("Pose 2d Y:", m_odometry.getPoseMeters().getY());
     SmartDashboard.putNumber("Pose 2d Y Distance:", m_odometry.getPoseMeters().getMeasureY().magnitude());
-    // SmartDashboard.putNumber("Pose 2d Rot Degrees ", m_odometry.getPoseMeters().getRotation().getDegrees());
-    SmartDashboard.putNumber("Rot Degrees ", getGyroYawDeg());
-    // m_field.setRobotPose(m_odometry.getPoseMeters().getX(), m_odometry.getPoseMeters().getY(), m_odometry.getPoseMeters().getRotation());
+    SmartDashboard.putNumber("Pose 2d Rot Degrees:", m_odometry.getPoseMeters().getRotation().getDegrees());
+    // m_field.setRobotPose(m_odometry.getPoseMeters().getX(),
+    // m_odometry.getPoseMeters().getY(), m_odometry.getPoseMeters().getRotation());
     SmartDashboard.putData("Field Pos", m_field);
     // System.out.println(m_odometry.getPoseMeters());
   }
@@ -168,7 +180,7 @@ public class DriveSubsystem extends SubsystemBase {
   public Pose2d getPose() {
     // System.out.println(m_estimator.getEstimatedPosition()+ " Estimated Pose");
 
-    // TODO: CHANGE
+    // CHANGE
     if (m_first) {
       m_first = false;
       return new Pose2d(0, 0, new Rotation2d(0));
@@ -185,12 +197,12 @@ public class DriveSubsystem extends SubsystemBase {
     };
   }
 
-  public SwerveModulePosition[] getPositions(){
+  public SwerveModulePosition[] getPositions() {
     return new SwerveModulePosition[] {
-      m_frontLeft.getPosition(),
-      m_frontRight.getPosition(),
-      m_rearLeft.getPosition(),
-      m_rearRight.getPosition()
+        m_frontLeft.getPosition(),
+        m_frontRight.getPosition(),
+        m_rearLeft.getPosition(),
+        m_rearRight.getPosition()
     };
   }
 
@@ -203,20 +215,70 @@ public class DriveSubsystem extends SubsystemBase {
     double autoPoseX = m_estimator.getEstimatedPosition().getX() * -1;
     return new Pose2d(autoPoseX, autoPoseY,
         m_estimator.getEstimatedPosition().getRotation());
+
   }
 
-  public ChassisSpeeds getRelativeSpeeds(){
-    return DriveConstants.kDriveKinematics.toChassisSpeeds(m_frontLeft.getState(),m_frontRight.getState(),m_rearLeft.getState(),m_rearRight.getState());
+  // private HolonomicPathFollowerConfig m_driveConfig = new
+  // HolonomicPathFollowerConfig(
+  // new PIDConstants(ModuleConstants.kDrivingP, ModuleConstants.kDrivingI,
+  // ModuleConstants.kDrivingD),
+  // new PIDConstants(ModuleConstants.kTurningP, ModuleConstants.kTurningI,
+  // ModuleConstants.kDrivingD),
+  // AutoConstants.kMaxSpeedMetersPerSecond,
+  // DriveConstants.kDrivePlatformRadius,
+  // new ReplanningConfig(),
+  // 0.02);
+  // private SwerveDrivePoseEstimator m_estimator = new
+  // SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics,
+  // new Rotation2d(Units.degreesToRadians(getGyroYawDeg())),
+  // getSwerveModulePositions(), getPose());
+  // private Field2d m_field = new Field2d();
+  // public DriveSubsystem() {
+
+  // configureHolonomicAutoBuilder();
+  // )
+  // private DCMotor m_DCMotorConfig = new DCMotor();
+  // private ModuleConfig m_driveConfig = new ModuleConfig(
+  // ModuleConstants.kWheelRadius,
+  // DriveConstants.kMaxSpeedMetersPerSecond,
+  // ModuleConstants.kWheelFrictionCoefficient,
+  // m_DCMotorConfig,
+  // DriveConstants.kDriveCurrentLimit,
+  // 1
+  // );
+
+  // public void configureHolonomicAutoBuilder() {
+  // AutoBuilder.configure(
+  // this::getPose, // getPose,
+  // this::resetOdometry,
+  // this::getChassisSpeeds,
+  // this::driveRobotRelative,
+  // m_driveConfig,
+  // this::getAlliance,
+  // this);
+  // }
+
+  public ChassisSpeeds getRelativeSpeeds() {
+    return DriveConstants.kDriveKinematics.toChassisSpeeds(m_frontLeft.getState(), m_frontRight.getState(),
+        m_rearLeft.getState(), m_rearRight.getState());
   }
 
   public void driveRobotRelative(ChassisSpeeds speeds) {
     ChassisSpeeds targetspeeds = ChassisSpeeds.discretize(speeds, DriveConstants.kAutoTimeDtSecondsAdjust);
+
     SwerveModuleState[] targetStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(targetspeeds);
     setModuleStates(targetStates);
   }
 
+  /**
+   * Resets the odometry to the specified pose.
+   *
+   * @param pose The pose to which to set the odometry.
+   */
   public void resetOdometry(Pose2d pose) {
     m_odometry.resetPosition(
+        // Rotation2d.fromDegrees(-m_pitAngle(IMUAxis.kZ)),
+        // Rotation2d.fromDegrees(-m_pigeon.getAngle()),
         m_pigeon.getRotation2d(),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
@@ -225,6 +287,7 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         },
         pose);
+    m_field.setRobotPose(pose);
   }
 
   public ChassisSpeeds getChassisSpeeds() {
@@ -301,7 +364,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void zeroHeading() {
     // m_gyro.reset();
     // m_pigeon.reset();
-    m_pigeon.setYaw(0);//used to be 180
+    m_pigeon.setYaw(180);
     System.out.println("Resetting Gyro");
     m_field.setRobotPose(0, 0, new Rotation2d());
     SmartDashboard.putData("Field Pos", m_field);
@@ -312,9 +375,24 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return the robot's heading in degrees, from -180 to 180
    */
+  /*
+   * public double getHeading() {
+   * // return Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)).getDegrees();
+   * return m_pigeon.getRotation2d().getDegrees();
+   * 
+   * }
+   */
 
-  public double getGyroYawDeg(){
-    return 360 - m_pigeon.getRotation2d().getDegrees() ;//uSED TO HAVE -1 HERE 2/21
+  public double getGyroYawDeg() {
+    // return (m_gyro.getYaw()) * -1;
+
+    // deprecated
+    // return m_pigeon.getAngle() *-1;
+
+    // non-deprecated
+    return m_pigeon.getRotation2d().getDegrees() * -1.0;
+
+    // return (m_gyro.getYaw());
   }
 
   /**
@@ -323,45 +401,8 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The turn rate of the robot, in degrees per second
    */
   public double getTurnRate() {
-    // return m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+    // return m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 :
+    // 1.0);
     return m_pigeon.getAngularVelocityZWorld().getValueAsDouble() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 }
-/////////////////////////////////////////////////////////////////////////////////
-// private HolonomicPathFollowerConfig m_driveConfig = new HolonomicPathFollowerConfig(
-  //         new PIDConstants(ModuleConstants.kDrivingP, ModuleConstants.kDrivingI,
-  //         ModuleConstants.kDrivingD),
-  //     new PIDConstants(ModuleConstants.kTurningP, ModuleConstants.kTurningI,
-  //         ModuleConstants.kDrivingD),
-  //     AutoConstants.kMaxSpeedMetersPerSecond,
-  //     DriveConstants.kDrivePlatformRadius,
-  //     new ReplanningConfig(),
-  //     0.02);
-  // private SwerveDrivePoseEstimator m_estimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics,
-  //     new Rotation2d(Units.degreesToRadians(getGyroYawDeg())), getSwerveModulePositions(), getPose());
-  // private Field2d m_field = new Field2d();
-  // public DriveSubsystem() {
-
-  //   configureHolonomicAutoBuilder();
-  // )
-  // private DCMotor m_DCMotorConfig = new DCMotor();
-  // private ModuleConfig m_driveConfig = new ModuleConfig(
-  //   ModuleConstants.kWheelRadius,
-  //   DriveConstants.kMaxSpeedMetersPerSecond,
-  //   ModuleConstants.kWheelFrictionCoefficient,
-  //   m_DCMotorConfig,
-  //   DriveConstants.kDriveCurrentLimit,
-  //   1
-  // );
-
-
-  // public void configureHolonomicAutoBuilder()  {
-  //     AutoBuilder.configure(
-  //       this::getPose, // getPose,
-  //       this::resetOdometry,
-  //       this::getChassisSpeeds,
-  //       this::driveRobotRelative,
-  //       m_driveConfig,
-        // this::getAlliance,
-  //       this);
-  // }
