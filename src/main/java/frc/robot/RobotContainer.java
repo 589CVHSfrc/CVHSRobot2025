@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.Optional;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -41,6 +43,7 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final PhotonCam m_PhotonCam = new PhotonCam();
+  private String m_currentPath;
   // private final ElevatorSubsystem m_elevatorSubsystem = new
   // ElevatorSubsystem();
 
@@ -79,8 +82,20 @@ public class RobotContainer {
     // m_autoChooser.addOption("New New Auto", "Other Other Auto");
     // m_autoChooser.addOption("New New New Auto", "Other Other Other Auto");
 
+
+
     // getHolonomic.. from path plan)
     // m_robotDrive.setPose2d();//initial pos for selected path
+    try {
+      PathPlannerPath path = PathPlannerAuto.getPathGroupFromAutoFile(m_currentPath).get(0);
+      m_robotDrive.setPose(path.getStartingHolonomicPose().get());
+    } catch(Exception e) {
+      e.printStackTrace();
+
+    }
+    
+
+
 
     m_autoChooser.setDefaultOption("line", new PathPlannerAuto("lyne auto"));
     m_autoChooser.addOption("testin", new PathPlannerAuto("New Auto"));
@@ -135,6 +150,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // Create config for trajectory
     Pose2d pose = new PathPlannerAuto(m_autoChooser.getSelected()).getStartingPose();
+    m_currentPath = m_autoChooser.getSelected().getName();
+    
     m_robotDrive.resetOdometry(pose);
     return m_autoChooser.getSelected();
   }

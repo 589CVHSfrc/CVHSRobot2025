@@ -3,8 +3,10 @@
 // the WPILib BSD license file in the root directory of this project.
 // from pathplannerlib.auto import NamedCommands
 package frc.robot.subsystems;
+
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -72,6 +74,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   private boolean m_first = true;
 
+  private Pose2d m_pose;
+
   // ts were here
 
   // Odometry class for tracking robot pose
@@ -102,6 +106,8 @@ public class DriveSubsystem extends SubsystemBase {
       // config = new RobotConfig(74.088, 6.883, null, null);
       e.printStackTrace();
     }
+
+    m_pose = new Pose2d(0, 0, new Rotation2d(0));
 
     AutoBuilder.configure(
         this::getPose,
@@ -183,9 +189,13 @@ public class DriveSubsystem extends SubsystemBase {
     // CHANGE
     if (m_first) {
       m_first = false;
-      return new Pose2d(0, 0, new Rotation2d(0));
+      return m_pose;
     }
     return m_estimator.getEstimatedPosition();
+  }
+
+  public void setPose(Pose2d pose) {
+    m_pose = pose;
   }
 
   public SwerveModulePosition[] getSwerveModulePositions() {
