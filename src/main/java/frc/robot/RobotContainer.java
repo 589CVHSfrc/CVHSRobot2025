@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.COMMAND_DRIVE.ResetGyro;
 import frc.robot.commands.COMMAND_DRIVE.DrivePose;
@@ -97,12 +98,12 @@ public class RobotContainer {
 
 
 
-    m_autoChooser.setDefaultOption("line", new PathPlannerAuto("lyne auto"));
+    m_autoChooser.setDefaultOption("line", new PathPlannerAuto("TuesdayAuto"));
     m_autoChooser.addOption("testin", new PathPlannerAuto("New Auto"));
     m_autoChooser.addOption("v2 of die test", new PathPlannerAuto("New New New Auto"));
     m_autoChooser.addOption("lyning", new PathPlannerAuto("lyne auto"));
 
-    // SmartDashboard.putData("Auto Chooser",m_autoChooser);
+    SmartDashboard.putData("Auto Chooser",m_autoChooser);
 
     // Configure the button bindings
     configureButtonBindings();
