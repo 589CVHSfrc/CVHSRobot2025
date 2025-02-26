@@ -64,15 +64,27 @@ public final class Constants {
 
     // SPARK MAX CAN IDs
 
-    public static final int kFrontLeftDrivingCanId = 40;
-    public static final int kRearLeftDrivingCanId = 20;
-    public static final int kFrontRightDrivingCanId = 30;
-    public static final int kRearRightDrivingCanId = 10;
+    // Supernova CanIDs
+    // public static final int kFrontLeftDrivingCanId = 40;
+    // public static final int kRearLeftDrivingCanId = 20;
+    // public static final int kFrontRightDrivingCanId = 30;
+    // public static final int kRearRightDrivingCanId = 10;
 
-    public static final int kFrontLeftTurningCanId = 41;
-    public static final int kRearLeftTurningCanId = 21;
-    public static final int kFrontRightTurningCanId = 31;
-    public static final int kRearRightTurningCanId = 11;
+    // public static final int kFrontLeftTurningCanId = 41;
+    // public static final int kRearLeftTurningCanId = 21;
+    // public static final int kFrontRightTurningCanId = 31;
+    // public static final int kRearRightTurningCanId = 11;
+
+    // 2025 Robot CanIDs
+    public static final int kFrontLeftDrivingCanId = 10;
+    public static final int kRearLeftDrivingCanId = 30;
+    public static final int kFrontRightDrivingCanId = 20;
+    public static final int kRearRightDrivingCanId = 40;
+
+    public static final int kFrontLeftTurningCanId = 11;
+    public static final int kRearLeftTurningCanId = 31;
+    public static final int kFrontRightTurningCanId = 21;
+    public static final int kRearRightTurningCanId = 41;
 
     public static final boolean kGyroReversed = false;
 
