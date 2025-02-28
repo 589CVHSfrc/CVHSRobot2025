@@ -41,8 +41,8 @@ public class PhotonCam{
         // try {
             m_aprilTagLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
         // } catch (IOException e) {
-            // System.out.println("======Unable to load AprilTag Layout: ======");
-            // System.out.println(e);
+            // //System.out.println("======Unable to load AprilTag Layout: ======");
+            // //System.out.println(e);
         // }
 
 
@@ -67,8 +67,8 @@ public class PhotonCam{
             m_arduCam = new PhotonCam();
             var name = PhotonCamera.kTableName;
             PhotonCamera.setVersionCheckEnabled(false);
-            System.out.print("====== PHOTON CAMERA NAME: ======");
-            System.out.println(name);
+            //System.out.print("====== PHOTON CAMERA NAME: ======");
+            //System.out.println(name);
         }
         return m_arduCam;
     }
@@ -124,11 +124,11 @@ public class PhotonCam{
     }
     public int getFiducialID(){
         PhotonPipelineResult result = m_photonArduCam.getLatestResult();
-        System.out.println(result);
+        //System.out.println(result);
         
         if(result.hasTargets()) {
-            System.out.println(result.getBestTarget());
-            System.out.println(result.getBestTarget().getFiducialId());
+            //System.out.println(result.getBestTarget());
+            //System.out.println(result.getBestTarget().getFiducialId());
             return result.getBestTarget().getFiducialId();
         }
         return -1;

@@ -48,12 +48,12 @@ public class DriveToAprilTag extends Command {
   public void execute() {
     int fuducialID = m_PhotonCam.getFiducialID();
     PhotonCam.get();
-    System.out.println(fuducialID);
+    //System.out.println(fuducialID);
     // AprilTagFields.kDefaultField.valueOf()
     // Transform3d transform = m_PhotonCam.getBestTarget();
     // Pose2d newPose = new Pose2d(transform.getX(), transform.getY(), transform.getRotation().toRotation2d());
     Optional<Pose3d> pose3d = m_aprilTagLayout.getTagPose(m_tagID);
-    System.out.println(pose3d + " AprilTag ID");
+    //System.out.println(pose3d + " AprilTag ID");
     Pose2d targetPose;
     if(m_tagID == fuducialID) {
       targetPose = pose3d.get().toPose2d();

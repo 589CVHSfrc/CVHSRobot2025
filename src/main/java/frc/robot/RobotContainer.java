@@ -22,12 +22,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.COMMAND_DRIVE.ResetGyro;
+import frc.robot.commands.COMMAND_ELEVATOR.ElevatorToPosition;
+import frc.robot.commands.COMMAND_ELEVATOR.HomeElevator;
+import frc.robot.commands.COMMAND_ELEVATOR.MoveElevator;
 import frc.robot.commands.COMMAND_DRIVE.DrivePose;
 import frc.robot.commands.COMMAND_DRIVE.DriveToAprilTag;
 // import frc.robot.commands.TESTING_COMMANDS.ElevatorToPosition;
 // import frc.robot.commands.TESTING_COMMANDS.HomeElevator;
 // import frc.robot.commands.TESTING_COMMANDS.MoveElevator;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 // import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -45,6 +49,7 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final PhotonCam m_PhotonCam = new PhotonCam();
   private String m_currentPath;
+ // private final ElevatorSubsystem m_ElevatorSubsystem;
   // private final ElevatorSubsystem m_elevatorSubsystem = new
   // ElevatorSubsystem();
 
@@ -87,13 +92,13 @@ public class RobotContainer {
 
     // getHolonomic.. from path plan)
     // m_robotDrive.setPose2d();//initial pos for selected path
-    try {
-      PathPlannerPath path = PathPlannerAuto.getPathGroupFromAutoFile(m_currentPath).get(0);
-      m_robotDrive.setPose(path.getStartingHolonomicPose().get());
-    } catch(Exception e) {
-      e.printStackTrace();
+    // try {
+    //   PathPlannerPath path = PathPlannerAuto.getPathGroupFromAutoFile(m_currentPath).get(0);
+    //   m_robotDrive.setPose(path.getStartingHolonomicPose().get());
+    // } catch(Exception e) {
+    //   e.printStackTrace();
 
-    }
+    // }
     
 
 
@@ -131,8 +136,9 @@ public class RobotContainer {
             () -> System.out.println(m_robotDrive.getGyroYawDeg())));
     new JoystickButton(m_driverController, Button.kCircle.value)
         .whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam, Constants.DriveConstants.kSpeedToTarget, 1));
+   
     // new JoystickButton(m_driverController, Button.kCircle.value)
-    // .whileTrue(()->m_DrivePose.driveToReefLeft());
+    // // .whileTrue(()->m_DrivePose.driveToReefLeft());
     // new JoystickButton(m_switchboard, 1).whileTrue(new
     // MoveElevator(m_elevatorSubsystem, 0.05));
     // new JoystickButton(m_switchboard, 2).whileTrue(new
@@ -151,7 +157,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // Create config for trajectory
     Pose2d pose = new PathPlannerAuto(m_autoChooser.getSelected()).getStartingPose();
-    m_currentPath = m_autoChooser.getSelected().getName();
+    //m_currentPath = m_autoChooser.getSelected().getName();
     
     m_robotDrive.resetOdometry(pose);
     return m_autoChooser.getSelected();

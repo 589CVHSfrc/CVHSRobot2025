@@ -33,8 +33,8 @@ public class HomeElevator extends Command {
   public void end(boolean interrupted) {
     m_elevator.zeroEncoder();
     double position = m_elevator.getElevatorPosition();
-    System.out.println("--------------------zero-----------------------------");
-    System.out.println(position);
+    //System.out.println("--------------------zero-----------------------------");
+    //System.out.println(position);
     m_elevator.move(0);
   }
 

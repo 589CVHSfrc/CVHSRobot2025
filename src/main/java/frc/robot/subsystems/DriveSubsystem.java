@@ -175,7 +175,7 @@ public class DriveSubsystem extends SubsystemBase {
     // m_field.setRobotPose(m_odometry.getPoseMeters().getX(),
     // m_odometry.getPoseMeters().getY(), m_odometry.getPoseMeters().getRotation());
     SmartDashboard.putData("Field Pos", m_field);
-    // System.out.println(m_odometry.getPoseMeters());
+    // //System.out.println(m_odometry.getPoseMeters());
   }
 
   /**
@@ -184,12 +184,12 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    // System.out.println(m_estimator.getEstimatedPosition()+ " Estimated Pose");
+    // //System.out.println(m_estimator.getEstimatedPosition()+ " Estimated Pose");
 
     // CHANGE
     if (m_first) {
       m_first = false;
-      return m_pose;
+      return new Pose2d(0, 0, new Rotation2d(0));
     }
     return m_estimator.getEstimatedPosition();
   }
@@ -375,7 +375,7 @@ public class DriveSubsystem extends SubsystemBase {
     // m_gyro.reset();
     // m_pigeon.reset();
     m_pigeon.setYaw(180);
-    System.out.println("Resetting Gyro");
+    //System.out.println("Resetting Gyro");
     m_field.setRobotPose(0, 0, new Rotation2d());
     SmartDashboard.putData("Field Pos", m_field);
   }
