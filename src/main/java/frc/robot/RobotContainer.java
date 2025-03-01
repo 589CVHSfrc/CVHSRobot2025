@@ -7,6 +7,7 @@ package frc.robot;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -144,7 +145,7 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> System.out.println(m_robotDrive.getGyroYawDeg())));
     new JoystickButton(m_driverController, Button.kCircle.value)
-        .whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam, Constants.DriveConstants.kSpeedToTarget, 1));
+        .whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam, Constants.DriveConstants.kSpeedToTarget, 1, ()->m_robotDrive.getPose()));
    
     // new JoystickButton(m_driverController, Button.kCircle.value)
     // // .whileTrue(()->m_DrivePose.driveToReefLeft());

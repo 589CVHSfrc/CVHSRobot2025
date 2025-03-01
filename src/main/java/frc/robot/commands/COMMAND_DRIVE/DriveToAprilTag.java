@@ -6,15 +6,30 @@ package frc.robot.commands.COMMAND_DRIVE;
 
 import java.util.Optional;
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
+
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.revrobotics.spark.config.MAXMotionConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.utils.DriveUtils;
 import frc.robot.PhotonCam;
+import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 
@@ -26,15 +41,39 @@ public class DriveToAprilTag extends Command {
   private DriveUtils m_DriveUtils;
   private AprilTagFieldLayout m_aprilTagLayout;
   private int m_tagID;
-  /** Creates a new DriveToAprilTag. */
-  public DriveToAprilTag(DriveSubsystem drive, PhotonCam photonCam, double speed, int TagID) {
+  private Pose2d m_robotPose2d;
+  private Pose3d m_robotPose;
+  private TrapezoidProfile.Constraints m_XConstraints;
+  private TrapezoidProfile.Constraints m_YConstraints;
+  private TrapezoidProfile.Constraints m_RConstraints;
+  private static Transform3d tagToGoal;
+  private ProfiledPIDController xController;
+  private ProfiledPIDController yController;
+  private ProfiledPIDController rController;
+  private Supplier<Pose2d> m_pose;
+  private Pose3d cameraPose;
+    /** Creates a new DriveToAprilTag. */
+  public DriveToAprilTag(DriveSubsystem drive, PhotonCam photonCam, double speed, int TagID, Supplier<Pose2d> pose) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
+    m_XConstraints = new Constraints(speed, AutoConstants.kMaxAccelerationMetersPerSecondSquared);
+    m_YConstraints = new Constraints(speed, AutoConstants.kMaxAccelerationMetersPerSecondSquared);
+    m_RConstraints = new Constraints(speed, AutoConstants.kMaxAngularSpeedRadiansPerSecond);
+    xController = new ProfiledPIDController(3, 0, 0, m_XConstraints);
+    yController = new ProfiledPIDController(3, 0, 0, m_YConstraints);
+    rController = new ProfiledPIDController(2, 0, 0, m_RConstraints);
+    tagToGoal = new Transform3d(new Translation3d(1.0,0,0),new Rotation3d(0.0,0.0,Math.PI));
+    m_pose = pose;
     m_PhotonCam = photonCam;
     m_drive = drive;
     m_speed = speed;
     m_tagID = TagID;
     m_aprilTagLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
+
+    xController.setTolerance(0.2);
+    yController.setTolerance(0.2);
+    rController.setTolerance(Units.degreesToRadians(3));
+    rController.enableContinuousInput(-Math.PI, Math.PI);
   }
 
   // Called when the command is initially scheduled.
@@ -46,19 +85,13 @@ public class DriveToAprilTag extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    int fuducialID = m_PhotonCam.getFiducialID();
-    PhotonCam.get();
-    //System.out.println(fuducialID);
-    // AprilTagFields.kDefaultField.valueOf()
-    // Transform3d transform = m_PhotonCam.getBestTarget();
-    // Pose2d newPose = new Pose2d(transform.getX(), transform.getY(), transform.getRotation().toRotation2d());
-    Optional<Pose3d> pose3d = m_aprilTagLayout.getTagPose(m_tagID);
-    //System.out.println(pose3d + " AprilTag ID");
-    Pose2d targetPose;
-    if(m_tagID == fuducialID) {
-      targetPose = pose3d.get().toPose2d();
-      m_DriveUtils.driveToPose(targetPose, m_speed).execute();
-      SmartDashboard.putNumber("Target pose", targetPose.getRotation().getDegrees());
+    m_robotPose2d = m_pose.get();
+    m_robotPose = new Pose3d(
+      m_robotPose2d.getX(),m_robotPose2d.getY(),0.0,
+      new Rotation3d(0.0,0.0, m_robotPose2d.getRotation().getRadians())
+    );
+    if(m_PhotonCam.getFiducialID() != -1){
+
     }
   }
 
