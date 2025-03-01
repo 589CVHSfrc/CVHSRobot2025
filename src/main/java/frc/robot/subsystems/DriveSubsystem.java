@@ -25,6 +25,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -70,6 +71,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   public SwerveDrivePoseEstimator m_estimator;
   AnalogPotentiometer m_rightUltraSonic, m_leftUltraSonic;
+  DigitalOutput m_rightUltraSonicEnable, m_leftUltraSonicEnable;
+  double m_rightUSvalue, m_leftUSvalue;
 
   private final Field2d m_field = new Field2d();
 
@@ -93,8 +96,13 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    m_rightUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kRightUltraSonicChannel, DriveConstants.kMaxSensorRange);
+    //m_rightUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kRightUltraSonicChannel, DriveConstants.kMaxSensorRange);
+    m_rightUltraSonic = new AnalogPotentiometer(DriveConstants.kRightUltraSonicChannel);
     m_leftUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kLeftUlraSonicChannel,DriveConstants.kMaxSensorRange);
+    m_leftUltraSonicEnable = new DigitalOutput(DriveConstants.kLeftUlraSonicChannel);
+    m_leftUltraSonicEnable.set(true);
+    m_rightUltraSonicEnable = new DigitalOutput(DriveConstants.kRightUltraSonicChannel);
+
 
     m_estimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics,
         new Rotation2d(Units.degreesToRadians(getGyroYawDeg())), getSwerveModulePositions(), getPose());
@@ -132,11 +140,13 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double readLeftUltraSonic() {
-    return m_leftUltraSonic.get();
+    m_leftUSvalue = m_leftUltraSonic.get();
+    return m_leftUSvalue;
   }
 
   public double readRightUltraSonic() {
-    return m_rightUltraSonic.get();
+    m_rightUSvalue = m_rightUltraSonic.get();
+    return m_rightUSvalue;
   }
 
   public boolean getAlliance() {
@@ -150,8 +160,11 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.getNumber("Right Ultrasonic Value", readRightUltraSonic());
-    SmartDashboard.getNumber("Left Ultrasonic Value", readLeftUltraSonic());
+    
+  
+
+    SmartDashboard.putNumber("Right Ultrasonic Value", readRightUltraSonic());
+    SmartDashboard.putNumber("Left Ultrasonic Value", readLeftUltraSonic());
 
     // Update the odometry in the periodic block
     var fl = m_frontLeft.getPosition();

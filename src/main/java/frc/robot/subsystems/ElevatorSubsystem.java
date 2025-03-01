@@ -38,8 +38,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_elevatorMotorConfig.limitSwitch
         .forwardLimitSwitchEnabled(true)
         .reverseLimitSwitchEnabled(true)
-        .forwardLimitSwitchType(Type.kNormallyClosed)
-        .reverseLimitSwitchType(Type.kNormallyClosed);
+        .forwardLimitSwitchType(Type.kNormallyOpen)
+        .reverseLimitSwitchType(Type.kNormallyOpen);
 
     m_elevatorMotorConfig.encoder
         .positionConversionFactor(Constants.ElevatorConstants.kElevatorPositionConversionFactor)
@@ -53,6 +53,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         .i(Constants.ElevatorConstants.kElevatorI)//change
         .d(Constants.ElevatorConstants.kElevatorD)
         .outputRange(Constants.ElevatorConstants.kElevatorRangeBottom, Constants.ElevatorConstants.kElevatorRangeTop);
+
+      m_elevatorMotorConfig.inverted(true);
 
     m_elevatorMotor.configure(m_elevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     SmartDashboard.setDefaultNumber("Target Position", 0);
@@ -92,8 +94,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void periodic() {
      double targetPosition = SmartDashboard.getNumber("Target Position", 0);
      SmartDashboard.putNumber("Encoder position", m_encoder.getPosition());
-     SmartDashboard.getBoolean("Top Elevator Limit Switch", topIsPressed());
-     SmartDashboard.getBoolean("Bottom Elevator Limit Switch", bottomIsPressed());
+     SmartDashboard.putBoolean("Top Elevator Limit Switch", topIsPressed());
+     SmartDashboard.putBoolean("Bottom Elevator Limit Switch", bottomIsPressed());
     // This method will be called once per scheduler run
   }
 

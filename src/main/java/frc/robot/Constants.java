@@ -38,8 +38,8 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = 4.8;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
-    public static final int kLeftUlraSonicChannel = 0; // change
-    public static final int kRightUltraSonicChannel = 1; // change
+    public static final int kLeftUlraSonicChannel = 1; // change
+    public static final int kRightUltraSonicChannel = 2; // change
 
     public static final double kAutoTimeDtSecondsAdjust = 0.02; // ?????????????????????????
 
@@ -174,7 +174,7 @@ public final class Constants {
     public static final int kShooterLeftMotorCANID = 23; // change
     public static final int kShooterRightMotorCANID = 24; // change
     public static final int kBeamBreakDIOPort = 0; // change
-    public static final double kShooterP = 1.0;
+    public static final double kShooterP = 0.1;
     public static final double kShooterI = 0.00005;
     public static final double kShooterD = 0;
     public static final double kL1RightSpeed = 1000;

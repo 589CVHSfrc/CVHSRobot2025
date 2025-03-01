@@ -26,6 +26,7 @@ import frc.robot.commands.COMMAND_ELEVATOR.ElevatorToPosition;
 import frc.robot.commands.COMMAND_ELEVATOR.HomeElevator;
 import frc.robot.commands.COMMAND_ELEVATOR.MoveElevator;
 import frc.robot.commands.COMMANDS_SHOOTER.Shoot;
+import frc.robot.commands.COMMANDS_SHOOTER.ShooterIntake;
 import frc.robot.commands.COMMAND_DEEPCAGE.MoveClimber;
 import frc.robot.commands.COMMAND_DRIVE.DrivePose;
 import frc.robot.commands.COMMAND_DRIVE.DriveToAprilTag;
@@ -148,29 +149,35 @@ public class RobotContainer {
    
     // new JoystickButton(m_driverController, Button.kCircle.value)
     // // .whileTrue(()->m_DrivePose.driveToReefLeft());
-    new JoystickButton(m_switchboard, 1).whileTrue(new MoveElevator(m_elevatorSubsystem, 0.05));
-    new JoystickButton(m_switchboard, 2).whileTrue(new MoveElevator(m_elevatorSubsystem, -0.05));
+    new JoystickButton(m_switchboard, 1).whileTrue(new MoveElevator(m_elevatorSubsystem, 0.1));
+    new JoystickButton(m_switchboard, 2).whileTrue(new MoveElevator(m_elevatorSubsystem, -0.075));
     // new JoystickButton(m_switchboard, 3).onTrue(new ElevatorToPosition(m_elevatorSubsystem, 5));
     // new JoystickButton(m_driverController, 4).onTrue(new HomeElevator(m_elevatorSubsystem));
 
-    new JoystickButton(m_switchboard, 3).whileTrue(new Shoot(m_shooter, 0.05));
-    new JoystickButton(m_switchboard, 4).whileTrue(new Shoot(m_shooter,-.05));
+    new JoystickButton(m_switchboard, 3).whileTrue(new Shoot(m_shooter, 0.3));
+    //fix end statement, not end command when beam break is hit
+    new JoystickButton(m_switchboard, 4).whileTrue(new ShooterIntake(m_shooter,-.2));
 
     new JoystickButton(m_switchboard, 5).whileTrue(new MoveClimber(m_CageSubsystem, 0.05));
     new JoystickButton(m_switchboard, 6).whileTrue(new MoveClimber(m_CageSubsystem, -0.05));
   }
 
   /**
+   * 
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // Create config for trajectory
-    Pose2d pose = new PathPlannerAuto(m_autoChooser.getSelected()).getStartingPose();
-    //m_currentPath = m_autoChooser.getSelected().getName();
-    
-    m_robotDrive.resetOdometry(pose);
-    return m_autoChooser.getSelected();
+    // // Create config for trajectory
+    // Pose2d pose = new PathPlannerAuto(m_autoChooser.getSelected()).getStartingPose();
+    // //m_currentPath = m_autoChooser.getSelected().getName();
+    // if(pose == null)
+    // {
+    //   return null;
+    // }
+    // m_robotDrive.resetOdometry(pose);
+    // return m_autoChooser.getSelected();
+    return null;
   }
 }
