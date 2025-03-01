@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.PhotonCam;
 import frc.robot.Constants.AutoConstants;
 // import edu.wpi.first.wpilibj.ADIS16470_IMU;
 // import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
@@ -165,6 +166,7 @@ public class DriveSubsystem extends SubsystemBase {
         });
 
     Pose2d beforeCamAdded = m_estimator.update(m_pigeon.getRotation2d(), getSwerveModulePositions());
+    PhotonCam.get().estimatePose(m_estimator);
     m_field.setRobotPose(beforeCamAdded);
 
     SmartDashboard.putNumber("Pose 2d X:", m_odometry.getPoseMeters().getX());
@@ -191,6 +193,7 @@ public class DriveSubsystem extends SubsystemBase {
       m_first = false;
       return new Pose2d(0, 0, new Rotation2d(0));
     }
+
     return m_estimator.getEstimatedPosition();
   }
 
