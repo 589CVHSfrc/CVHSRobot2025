@@ -15,6 +15,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ClimberConstants;
 
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkClosedLoopController;
@@ -29,7 +30,7 @@ public class DeepCageSubsystem extends SubsystemBase {
   /** Creates a new DeepCageSubsystem. */
   public DeepCageSubsystem() {
     m_config = new SparkMaxConfig();
-    m_cageMotor = new SparkMax(0, MotorType.kBrushless); //find the actual DeviceID
+    m_cageMotor = new SparkMax(ClimberConstants.kcageMotorCANID, MotorType.kBrushless); //find the actual DeviceID
 
     m_config.limitSwitch
       .forwardLimitSwitchType(Type.kNormallyOpen)

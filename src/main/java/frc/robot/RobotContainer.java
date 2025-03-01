@@ -25,13 +25,19 @@ import frc.robot.commands.COMMAND_DRIVE.ResetGyro;
 import frc.robot.commands.COMMAND_ELEVATOR.ElevatorToPosition;
 import frc.robot.commands.COMMAND_ELEVATOR.HomeElevator;
 import frc.robot.commands.COMMAND_ELEVATOR.MoveElevator;
+import frc.robot.commands.COMMANDS_SHOOTER.Shoot;
+import frc.robot.commands.COMMAND_DEEPCAGE.MoveClimber;
 import frc.robot.commands.COMMAND_DRIVE.DrivePose;
 import frc.robot.commands.COMMAND_DRIVE.DriveToAprilTag;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.DeepCageSubsystem;
 // import frc.robot.commands.TESTING_COMMANDS.ElevatorToPosition;
 // import frc.robot.commands.TESTING_COMMANDS.HomeElevator;
 // import frc.robot.commands.TESTING_COMMANDS.MoveElevator;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.GroundIntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 // import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -49,9 +55,12 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final PhotonCam m_PhotonCam = new PhotonCam();
   private String m_currentPath;
- // private final ElevatorSubsystem m_ElevatorSubsystem;
-  // private final ElevatorSubsystem m_elevatorSubsystem = new
-  // ElevatorSubsystem();
+
+  private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
+  private final ShooterSubsystem m_shooter = new ShooterSubsystem();
+  // private final GroundIntakeSubsystem m_groundIntake = new GroundIntakeSubsystem();
+  private final DeepCageSubsystem m_CageSubsystem = new DeepCageSubsystem();
+  // private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem();
 
   // private SendableChooser<Command> m_autoChooser;
 
@@ -139,14 +148,16 @@ public class RobotContainer {
    
     // new JoystickButton(m_driverController, Button.kCircle.value)
     // // .whileTrue(()->m_DrivePose.driveToReefLeft());
-    // new JoystickButton(m_switchboard, 1).whileTrue(new
-    // MoveElevator(m_elevatorSubsystem, 0.05));
-    // new JoystickButton(m_switchboard, 2).whileTrue(new
-    // MoveElevator(m_elevatorSubsystem, -0.05));
-    // new JoystickButton(m_switchboard, 3).onTrue(new
-    // ElevatorToPosition(m_elevatorSubsystem, 5));
-    // new JoystickButton(m_driverController, 4).onTrue(new
-    // HomeElevator(m_elevatorSubsystem));
+    new JoystickButton(m_switchboard, 1).whileTrue(new MoveElevator(m_elevatorSubsystem, 0.05));
+    new JoystickButton(m_switchboard, 2).whileTrue(new MoveElevator(m_elevatorSubsystem, -0.05));
+    // new JoystickButton(m_switchboard, 3).onTrue(new ElevatorToPosition(m_elevatorSubsystem, 5));
+    // new JoystickButton(m_driverController, 4).onTrue(new HomeElevator(m_elevatorSubsystem));
+
+    new JoystickButton(m_switchboard, 3).whileTrue(new Shoot(m_shooter, 0.05));
+    new JoystickButton(m_switchboard, 4).whileTrue(new Shoot(m_shooter,-.05));
+
+    new JoystickButton(m_switchboard, 5).whileTrue(new MoveClimber(m_CageSubsystem, 0.05));
+    new JoystickButton(m_switchboard, 6).whileTrue(new MoveClimber(m_CageSubsystem, -0.05));
   }
 
   /**

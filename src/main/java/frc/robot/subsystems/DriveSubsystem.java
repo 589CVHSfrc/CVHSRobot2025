@@ -93,8 +93,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    m_rightUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kRightUltraSonicChannel);
-    m_leftUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kLeftUlraSonicChannel);
+    m_rightUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kRightUltraSonicChannel, DriveConstants.kMaxSensorRange);
+    m_leftUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kLeftUlraSonicChannel,DriveConstants.kMaxSensorRange);
 
     m_estimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics,
         new Rotation2d(Units.degreesToRadians(getGyroYawDeg())), getSwerveModulePositions(), getPose());
@@ -150,6 +150,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.getNumber("Right Ultrasonic Value", readRightUltraSonic());
+    SmartDashboard.getNumber("Left Ultrasonic Value", readLeftUltraSonic());
+
     // Update the odometry in the periodic block
     var fl = m_frontLeft.getPosition();
     var fr = m_frontRight.getPosition();

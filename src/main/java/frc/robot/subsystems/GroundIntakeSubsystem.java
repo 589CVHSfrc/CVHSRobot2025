@@ -15,6 +15,8 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.LimitSwitchConfig.Type;
 import com.revrobotics.spark.config.SparkMaxConfig;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.GroundIntakeConstants;
 
@@ -26,6 +28,7 @@ public class GroundIntakeSubsystem extends SubsystemBase {
 
   /** Creates a new GroundIntake. */
   public GroundIntakeSubsystem() {
+    m_config = new SparkMaxConfig();
     m_topRollerMotor = new SparkMax(GroundIntakeConstants.ktopRollerCANID, MotorType.kBrushless);
     m_bottomRollerMotor = new SparkMax(GroundIntakeConstants.kbottomRollerCANID, MotorType.kBrushless);
 
@@ -59,6 +62,7 @@ public class GroundIntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("Ground Intake Is Coral Present", isCoralPresent());
     // This method will be called once per scheduler run
   }
 }
