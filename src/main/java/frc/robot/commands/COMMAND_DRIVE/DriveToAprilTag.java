@@ -30,6 +30,7 @@ import frc.utils.DriveUtils;
 import frc.robot.PhotonCam;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.VisualConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 
@@ -52,8 +53,13 @@ public class DriveToAprilTag extends Command {
   private ProfiledPIDController rController;
   private Supplier<Pose2d> m_pose;
   private Pose3d cameraPose;
+  private Pose3d targetPose;
+  private Pose2d goalPose;
+  private double xSpeed;
+  private double ySpeed;
+  private double rSpeed;
     /** Creates a new DriveToAprilTag. */
-  public DriveToAprilTag(DriveSubsystem drive, PhotonCam photonCam, double speed, int TagID, Supplier<Pose2d> pose) {
+  public DriveToAprilTag(DriveSubsystem drive, PhotonCam photonCam, double speed, Supplier<Pose2d> pose) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
     m_XConstraints = new Constraints(speed, AutoConstants.kMaxAccelerationMetersPerSecondSquared);
@@ -62,12 +68,11 @@ public class DriveToAprilTag extends Command {
     xController = new ProfiledPIDController(3, 0, 0, m_XConstraints);
     yController = new ProfiledPIDController(3, 0, 0, m_YConstraints);
     rController = new ProfiledPIDController(2, 0, 0, m_RConstraints);
-    tagToGoal = new Transform3d(new Translation3d(1.0,0,0),new Rotation3d(0.0,0.0,Math.PI));
+    tagToGoal = new Transform3d(new Translation3d(0.5,0,0),new Rotation3d(0.0,0.0,Math.PI));
     m_pose = pose;
     m_PhotonCam = photonCam;
     m_drive = drive;
     m_speed = speed;
-    m_tagID = TagID;
     m_aprilTagLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
     xController.setTolerance(0.2);
@@ -91,13 +96,35 @@ public class DriveToAprilTag extends Command {
       new Rotation3d(0.0,0.0, m_robotPose2d.getRotation().getRadians())
     );
     if(m_PhotonCam.getFiducialID() != -1){
+      cameraPose = m_robotPose.transformBy(VisualConstants.kCameraRelativeToRobot);
+      targetPose = cameraPose.transformBy(m_PhotonCam.getBestTarget().getBestCameraToTarget());
+      goalPose = targetPose.transformBy(tagToGoal).toPose2d();
+      xController.setGoal(goalPose.getX());
+      yController.setGoal(goalPose.getY());
+      rController.setGoal(goalPose.getRotation().getRadians());
 
+      xSpeed = xController.calculate(m_robotPose.getX());
+      if(xController.atGoal()){
+        xSpeed = 0;
+      }
+      ySpeed = xController.calculate(m_robotPose.getY());
+      if(xController.atGoal()){
+        ySpeed = 0;
+      }
+      rSpeed = xController.calculate(m_robotPose2d.getRotation().getRadians());
+      if(xController.atGoal()){
+        rSpeed = 0;
+      }
+
+      m_drive.drive(xSpeed, ySpeed, m_speed, false);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_drive.drive(0, 0, 0, true);
+  }
 
   // Returns true when the command should end.
   @Override

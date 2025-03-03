@@ -46,9 +46,9 @@ double m_speed;
         .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
         .outputRange(-0.2, 0.2, ClosedLoopSlot.kSlot1);
     
-     m_rightMotor.configure(m_Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+     m_leftMotor.configure(m_Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
      m_Config.inverted(true);
-      m_leftMotor.configure(m_Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+     m_rightMotor.configure(m_Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
    
 
     m_closedLoopControllerLeft = m_leftMotor.getClosedLoopController();

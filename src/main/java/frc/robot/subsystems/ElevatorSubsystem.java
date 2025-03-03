@@ -28,12 +28,16 @@ public class ElevatorSubsystem extends SubsystemBase {
   SparkMaxConfig m_elevatorMotorConfig;
   RelativeEncoder m_encoder;
   SparkClosedLoopController m_closedLoopController;
-  double m_position;
+  double m_position, m_targetPosition;
   public ElevatorSubsystem() {
+    
+    m_targetPosition = 5;
+    //SmartDashboard.putNumber("Elevator Target Position", m_targetPosition);
     m_elevatorMotorConfig = new SparkMaxConfig();
     m_elevatorMotor = new SparkMax(Constants.ElevatorConstants.kElevatorMotorCANID, MotorType.kBrushless);
     m_topLimitSwitch = m_elevatorMotor.getForwardLimitSwitch(); //change
     m_bottomLimitSwitch = m_elevatorMotor.getReverseLimitSwitch(); //change
+   
    
     m_elevatorMotorConfig.limitSwitch
         .forwardLimitSwitchEnabled(true)
@@ -57,7 +61,8 @@ public class ElevatorSubsystem extends SubsystemBase {
       m_elevatorMotorConfig.inverted(true);
 
     m_elevatorMotor.configure(m_elevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    SmartDashboard.setDefaultNumber("Target Position", 0);
+    //
+    SmartDashboard.setDefaultNumber("Elevator Target Position", 0);
     m_encoder = m_elevatorMotor.getEncoder();
     m_closedLoopController = m_elevatorMotor.getClosedLoopController();
   }
@@ -83,6 +88,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_closedLoopController.setReference(m_position, ControlType.kPosition, ClosedLoopSlot.kSlot0);
   }
   
+  public void goToTarget(double pos){
+    m_closedLoopController.setReference(pos, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+  }
+  
   public boolean checkPosition(){
     if(MathUtils.areEqual(m_encoder.getPosition(), m_position, .003)){
       return true;
@@ -92,14 +101,15 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-     double targetPosition = SmartDashboard.getNumber("Target Position", 0);
-     SmartDashboard.putNumber("Encoder position", m_encoder.getPosition());
+    // m_targetPosition = SmartDashboard.getNumber("Elevator Target Position", 0);
+     SmartDashboard.putNumber(" Elevator Encoder", m_encoder.getPosition());
      SmartDashboard.putBoolean("Top Elevator Limit Switch", topIsPressed());
      SmartDashboard.putBoolean("Bottom Elevator Limit Switch", bottomIsPressed());
     // This method will be called once per scheduler run
   }
 
   public void move(double speed){
+
     m_elevatorMotor.set(speed);
   }
 }

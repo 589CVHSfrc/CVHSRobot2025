@@ -6,7 +6,9 @@ package frc.robot.commands.COMMAND_DEEPCAGE;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.Constants.ClimberConstants;
 import frc.robot.subsystems.DeepCageSubsystem;
+import frc.utils.MathUtils;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Climb extends Command {
@@ -21,7 +23,7 @@ public class Climb extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_cage.movePID(Constants.ClimberConstants.kClimbingSpeed);
+    m_cage.move(Constants.ClimberConstants.kClimbingSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,6 +39,6 @@ public class Climb extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_cage.isBottomPressed();
+    return MathUtils.areEqual(m_cage.getEncoderPosition(), ClimberConstants.kClimbedEncoderPosition, 3);
   }
 }

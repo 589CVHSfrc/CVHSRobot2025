@@ -21,11 +21,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.COMMAND_DRIVE.ResetGyro;
 import frc.robot.commands.COMMAND_ELEVATOR.ElevatorToPosition;
 import frc.robot.commands.COMMAND_ELEVATOR.HomeElevator;
 import frc.robot.commands.COMMAND_ELEVATOR.MoveElevator;
+import frc.robot.commands.COMMAND_SEQUENCES.CoralStationIntake;
 import frc.robot.commands.COMMANDS_SHOOTER.Shoot;
 import frc.robot.commands.COMMANDS_SHOOTER.ShooterIntake;
 import frc.robot.commands.COMMAND_DEEPCAGE.MoveClimber;
@@ -95,10 +98,7 @@ public class RobotContainer {
             m_robotDrive));
 
     // m_autoChooser.setDefaultOption("Default", "Default Auto");
-    // m_autoChooser.addOption("New Auto", "Other Auto");
-    // m_autoChooser.addOption("New New Auto", "Other Other Auto");
-    // m_autoChooser.addOption("New New New Auto", "Other Other Other Auto");
-
+    
 
 
     // getHolonomic.. from path plan)
@@ -115,8 +115,7 @@ public class RobotContainer {
 
 
     m_autoChooser.setDefaultOption("line", new PathPlannerAuto("TuesdayAuto"));
-    m_autoChooser.addOption("testin", new PathPlannerAuto("New Auto"));
-    m_autoChooser.addOption("v2 of die test", new PathPlannerAuto("New New New Auto"));
+    m_autoChooser.addOption("Barge Coral Feeder", new PathPlannerAuto("Barge Coral Feeder"));
     m_autoChooser.addOption("lyning", new PathPlannerAuto("lyne auto"));
 
     SmartDashboard.putData("Auto Chooser",m_autoChooser);
@@ -145,23 +144,32 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kSquare.value)
         .whileTrue(new RunCommand(
             () -> System.out.println(m_robotDrive.getGyroYawDeg())));
-    new JoystickButton(m_driverController, Button.kCircle.value)
-        .whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam, Constants.DriveConstants.kSpeedToTarget, 1, ()->m_robotDrive.getPose()));
+    // new JoystickButton(m_driverController, Button.kCircle.value)
+    //     .whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam, Constants.DriveConstants.kSpeedToTarget, 1, ()->m_robotDrive.getPose()));
    
     // new JoystickButton(m_driverController, Button.kCircle.value)
     // // .whileTrue(()->m_DrivePose.driveToReefLeft());
-    new JoystickButton(m_switchboard, 1).whileTrue(new MoveElevator(m_elevatorSubsystem, 0.1));
-    new JoystickButton(m_switchboard, 2).whileTrue(new MoveElevator(m_elevatorSubsystem, -0.075));
-    // new JoystickButton(m_switchboard, 3).onTrue(new ElevatorToPosition(m_elevatorSubsystem, 5));
-    // new JoystickButton(m_driverController, 4).onTrue(new HomeElevator(m_elevatorSubsystem));
+    new JoystickButton(m_switchboard, 8).whileTrue(new MoveElevator(m_elevatorSubsystem, 0.15));
+    new JoystickButton(m_switchboard, 9).whileTrue(new MoveElevator(m_elevatorSubsystem, -0.075));
+    //new JoystickButton(m_switchboard, 2).onTrue(new ElevatorToPosition(m_elevatorSubsystem));//, 5));
+    new JoystickButton(m_switchboard, 1).onTrue(new HomeElevator(m_elevatorSubsystem));
+    //new JoystickButton(m_switchboard, 5).whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam, 0.1, ()->m_robotDrive.getPose()));
+    //new JoystickButton(m_switchboard, 5).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kCoralStationHight));
+    new JoystickButton(m_switchboard, 2).whileTrue(new CoralStationIntake(m_elevatorSubsystem, m_shooter));
+   // new JoystickButton(m_switchboard, 6).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL2EncoderHight));
+    new JoystickButton(m_switchboard, 11).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL3EncoderHight));
+    new JoystickButton(m_switchboard,2).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kCoralStationBarHight));
 
-    new JoystickButton(m_switchboard, 3).whileTrue(new Shoot(m_shooter, 0.3));
+
+    new JoystickButton(m_switchboard, 3).whileTrue(new Shoot(m_shooter, ShooterConstants.kShootingSpeed)); //duty cycle
     //fix end statement, not end command when beam break is hit
-    new JoystickButton(m_switchboard, 4).whileTrue(new ShooterIntake(m_shooter,-.2));
+    new JoystickButton(m_switchboard, 4).whileTrue(new ShooterIntake(m_shooter, ShooterConstants.kIntakeSpeed));//duty cycle
 
-    new JoystickButton(m_switchboard, 5).whileTrue(new MoveClimber(m_CageSubsystem, 0.05));
-    new JoystickButton(m_switchboard, 6).whileTrue(new MoveClimber(m_CageSubsystem, -0.05));
+    new JoystickButton(m_switchboard, 5).whileTrue(new MoveClimber(m_CageSubsystem, 0.25));
+    new JoystickButton(m_switchboard, 6).whileTrue(new MoveClimber(m_CageSubsystem, -0.25));
+
   }
+
 
   /**
    * 

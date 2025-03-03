@@ -69,6 +69,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   // The gyro sensor
   // private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
+
+  double m_counter = 0;
   private final Pigeon2 m_pigeon = new Pigeon2(DriveConstants.kPigeon2CanId);
 
   public SwerveDrivePoseEstimator m_estimator;
@@ -160,43 +162,6 @@ public class DriveSubsystem extends SubsystemBase {
     return false;
   }
 
-  @Override
-  public void periodic() {
-    
-  
-
-    SmartDashboard.putNumber("Right Ultrasonic Value", readRightUltraSonic());
-    SmartDashboard.putNumber("Left Ultrasonic Value", readLeftUltraSonic());
-
-    // Update the odometry in the periodic block
-    var fl = m_frontLeft.getPosition();
-    var fr = m_frontRight.getPosition();
-    var bl = m_rearLeft.getPosition();
-    var br = m_rearRight.getPosition();
-    m_odometry.update(
-        // Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),
-        m_pigeon.getRotation2d(),
-        new SwerveModulePosition[] {
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_rearLeft.getPosition(),
-            m_rearRight.getPosition()
-        });
-
-    Pose2d beforeCamAdded = m_estimator.update(m_pigeon.getRotation2d(), getSwerveModulePositions());
-    PhotonCam.get().estimatePose(m_estimator);
-    m_field.setRobotPose(beforeCamAdded);
-
-    SmartDashboard.putNumber("Pose 2d X:", m_odometry.getPoseMeters().getX());
-    SmartDashboard.putNumber("Pose 2d X Distance:", m_odometry.getPoseMeters().getMeasureX().magnitude());
-    SmartDashboard.putNumber("Pose 2d Y:", m_odometry.getPoseMeters().getY());
-    SmartDashboard.putNumber("Pose 2d Y Distance:", m_odometry.getPoseMeters().getMeasureY().magnitude());
-    SmartDashboard.putNumber("Pose 2d Rot Degrees:", m_odometry.getPoseMeters().getRotation().getDegrees());
-    // m_field.setRobotPose(m_odometry.getPoseMeters().getX(),
-    // m_odometry.getPoseMeters().getY(), m_odometry.getPoseMeters().getRotation());
-    SmartDashboard.putData("Field Pos", m_field);
-    // //System.out.println(m_odometry.getPoseMeters());
-  }
 
   /**
    * Returns the currently-estimated pose of the robot.
@@ -435,5 +400,45 @@ public class DriveSubsystem extends SubsystemBase {
     // return m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 :
     // 1.0);
     return m_pigeon.getAngularVelocityZWorld().getValueAsDouble() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+  }
+
+  @Override
+  public void periodic() {
+    
+    if(m_counter%10 == 0){
+      readLeftUltraSonic();
+    }
+
+    SmartDashboard.putNumber("Right Ultrasonic Value", readRightUltraSonic());
+    SmartDashboard.putNumber("Left Ultrasonic Value", readLeftUltraSonic());
+
+    // Update the odometry in the periodic block
+    var fl = m_frontLeft.getPosition();
+    var fr = m_frontRight.getPosition();
+    var bl = m_rearLeft.getPosition();
+    var br = m_rearRight.getPosition();
+    m_odometry.update(
+        // Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),
+        m_pigeon.getRotation2d(),
+        new SwerveModulePosition[] {
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_rearLeft.getPosition(),
+            m_rearRight.getPosition()
+        });
+
+    Pose2d beforeCamAdded = m_estimator.update(m_pigeon.getRotation2d(), getSwerveModulePositions());
+    PhotonCam.get().estimatePose(m_estimator);
+    m_field.setRobotPose(beforeCamAdded);
+
+    SmartDashboard.putNumber("Pose 2d X:", m_odometry.getPoseMeters().getX());
+    SmartDashboard.putNumber("Pose 2d X Distance:", m_odometry.getPoseMeters().getMeasureX().magnitude());
+    SmartDashboard.putNumber("Pose 2d Y:", m_odometry.getPoseMeters().getY());
+    SmartDashboard.putNumber("Pose 2d Y Distance:", m_odometry.getPoseMeters().getMeasureY().magnitude());
+    SmartDashboard.putNumber("Pose 2d Rot Degrees:", m_odometry.getPoseMeters().getRotation().getDegrees());
+    // m_field.setRobotPose(m_odometry.getPoseMeters().getX(),
+    // m_odometry.getPoseMeters().getY(), m_odometry.getPoseMeters().getRotation());
+    SmartDashboard.putData("Field Pos", m_field);
+    // //System.out.println(m_odometry.getPoseMeters());
   }
 }

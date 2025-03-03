@@ -17,12 +17,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ClimberConstants;
 
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLimitSwitch;
 
 public class DeepCageSubsystem extends SubsystemBase {
   SparkMax m_cageMotor;
+  RelativeEncoder m_encoder;
   SparkMaxConfig m_config;
   SparkLimitSwitch m_topLimitSwitch, m_bottomLimitSwitch;
   SparkClosedLoopController m_closedLoopController;
@@ -37,6 +39,8 @@ public class DeepCageSubsystem extends SubsystemBase {
       .reverseLimitSwitchType(Type.kNormallyOpen)
       .forwardLimitSwitchEnabled(true)
       .reverseLimitSwitchEnabled(true);
+
+    m_config.encoder.positionConversionFactor((1.0/10.0));
     
     m_config.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -52,20 +56,30 @@ public class DeepCageSubsystem extends SubsystemBase {
         .d(0, ClosedLoopSlot.kSlot1)
         //.velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
         .outputRange(Constants.ClimberConstants.kClimberMinSpeed, Constants.ClimberConstants.kClimberMaxSpeed, ClosedLoopSlot.kSlot1);
+    m_config.inverted(true);
         
         m_cageMotor.configure(m_config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         m_topLimitSwitch = m_cageMotor.getForwardLimitSwitch(); //check actual wiring
         m_bottomLimitSwitch = m_cageMotor.getReverseLimitSwitch(); //check actual wiring
         m_closedLoopController = m_cageMotor.getClosedLoopController();
+        m_encoder = m_cageMotor.getEncoder();
   }
 
   public boolean isBottomPressed(){
     return m_bottomLimitSwitch.isPressed();
   }
 
+  public double getEncoderPosition(){
+    return m_encoder.getPosition();
+  }
+
   public boolean isTopPressed(){
     return m_topLimitSwitch.isPressed();
+  }
+
+  public void zeroEncoder(){
+    m_encoder.setPosition(0);
   }
 
   // public void home(double speed){
@@ -97,6 +111,9 @@ public class DeepCageSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Climber Encoder Value", m_encoder.getPosition());
     SmartDashboard.putNumber("CageMotorCurrent", m_cageMotor.getOutputCurrent());
+    SmartDashboard.putBoolean("top climber limitswitch", isTopPressed());
+    SmartDashboard.putBoolean("bottom climber limitswitch", isBottomPressed());
   }
 }
