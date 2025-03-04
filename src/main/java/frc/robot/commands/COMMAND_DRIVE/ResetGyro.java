@@ -14,16 +14,18 @@ import frc.robot.subsystems.DriveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ResetGyro extends InstantCommand {
   private DriveSubsystem m_drive;
+  private Pose2d m_pose;
 
-  public ResetGyro(DriveSubsystem drive) {
+  public ResetGyro(DriveSubsystem drive, Pose2d pose) {
     addRequirements(drive);
     m_drive = drive;
+    m_pose = pose;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     m_drive.zeroHeading();
-    m_drive.resetOdometry(new Pose2d(0, 0, new Rotation2d()));
+    m_drive.resetOdometry(m_pose);
   }
 }

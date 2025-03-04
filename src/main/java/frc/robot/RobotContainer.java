@@ -10,9 +10,12 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.cscore.MjpegServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -30,6 +33,7 @@ import frc.robot.commands.COMMAND_ELEVATOR.HomeElevator;
 import frc.robot.commands.COMMAND_ELEVATOR.MoveElevator;
 import frc.robot.commands.COMMAND_SEQUENCES.CoralStationIntake;
 import frc.robot.commands.COMMANDS_SHOOTER.Shoot;
+import frc.robot.commands.COMMANDS_SHOOTER.ShooterExpelL1;
 import frc.robot.commands.COMMANDS_SHOOTER.ShooterIntake;
 import frc.robot.commands.COMMAND_DEEPCAGE.MoveClimber;
 import frc.robot.commands.COMMAND_DRIVE.DrivePose;
@@ -57,6 +61,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems
+
+  private final UsbCamera m_usbCamera0 = new UsbCamera("USB Camera 0", 0);
+  private final MjpegServer m_MjpegServer1 = new MjpegServer("Camera Server", 1181);
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final PhotonCam m_PhotonCam = new PhotonCam();
   private String m_currentPath;
@@ -82,6 +89,8 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    m_MjpegServer1.setSource(m_usbCamera0);
+    m_usbCamera0.setExposureAuto();
     m_autoChooser = AutoBuilder.buildAutoChooser();
     // Configure the button bindings
     // configureButtonBindings();
@@ -97,6 +106,11 @@ public class RobotContainer {
                 true),
             m_robotDrive));
 
+    NamedCommands.registerCommand("Reset Gyro", new ResetGyro(m_robotDrive, new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()));
+    NamedCommands.registerCommand("PathPlanner Reset Gyro", AutoBuilder.resetOdom(new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()));
+    
+    
+    // new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()
     // m_autoChooser.setDefaultOption("Default", "Default Auto");
     
 
@@ -114,8 +128,8 @@ public class RobotContainer {
 
 
 
-    m_autoChooser.setDefaultOption("line", new PathPlannerAuto("TuesdayAuto"));
-    m_autoChooser.addOption("Barge Coral Feeder", new PathPlannerAuto("Barge Coral Feeder"));
+    //m_autoChooser.setDefaultOption("line", new PathPlannerAuto("TuesdayAuto"));
+    m_autoChooser.setDefaultOption("Move forward", new PathPlannerAuto("Move Forward"));
     m_autoChooser.addOption("lyning", new PathPlannerAuto("lyne auto"));
 
     SmartDashboard.putData("Auto Chooser",m_autoChooser);
@@ -140,7 +154,7 @@ public class RobotContainer {
             () -> m_robotDrive.setX(),
             m_robotDrive));
     new JoystickButton(m_driverController, Button.kTriangle.value)
-        .whileTrue(new ResetGyro(m_robotDrive));
+        .whileTrue(new ResetGyro(m_robotDrive, new Pose2d()));
     new JoystickButton(m_driverController, Button.kSquare.value)
         .whileTrue(new RunCommand(
             () -> System.out.println(m_robotDrive.getGyroYawDeg())));
@@ -159,14 +173,17 @@ public class RobotContainer {
    // new JoystickButton(m_switchboard, 6).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL2EncoderHight));
     new JoystickButton(m_switchboard, 11).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL3EncoderHight));
     new JoystickButton(m_switchboard,2).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kCoralStationBarHight));
+    new JoystickButton(m_switchboard, 5).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL1EncoderHight));
 
 
     new JoystickButton(m_switchboard, 3).whileTrue(new Shoot(m_shooter, ShooterConstants.kShootingSpeed)); //duty cycle
     //fix end statement, not end command when beam break is hit
     new JoystickButton(m_switchboard, 4).whileTrue(new ShooterIntake(m_shooter, ShooterConstants.kIntakeSpeed));//duty cycle
+    new JoystickButton(m_switchboard, 6).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kLeft)); //left
+    new JoystickButton(m_switchboard, 0).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kRight));
 
-    new JoystickButton(m_switchboard, 5).whileTrue(new MoveClimber(m_CageSubsystem, 0.25));
-    new JoystickButton(m_switchboard, 6).whileTrue(new MoveClimber(m_CageSubsystem, -0.25));
+    // new JoystickButton(m_switchboard, 5).whileTrue(new MoveClimber(m_CageSubsystem, 0.25));
+    // new JoystickButton(m_switchboard, 6).whileTrue(new MoveClimber(m_CageSubsystem, -0.25));
 
   }
 
@@ -179,14 +196,13 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // // Create config for trajectory
-    // Pose2d pose = new PathPlannerAuto(m_autoChooser.getSelected()).getStartingPose();
-    // //m_currentPath = m_autoChooser.getSelected().getName();
-    // if(pose == null)
-    // {
-    //   return null;
-    // }
-    // m_robotDrive.resetOdometry(pose);
-    // return m_autoChooser.getSelected();
-    return null;
+    Pose2d pose = new PathPlannerAuto(m_autoChooser.getSelected().getName()).getStartingPose();
+    //m_currentPath = m_autoChooser.getSelected().getName();
+    if(pose == null)
+    {
+      return null;
+    }
+    m_robotDrive.resetOdometry(pose);
+    return m_autoChooser.getSelected();
   }
 }

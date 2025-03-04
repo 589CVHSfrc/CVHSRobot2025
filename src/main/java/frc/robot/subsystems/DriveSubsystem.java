@@ -121,7 +121,6 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     m_pose = new Pose2d(0, 0, new Rotation2d(0));
-
     AutoBuilder.configure(
         this::getPose,
         this::resetOdometry,

@@ -18,6 +18,6 @@ public class ShootL1Home extends SequentialCommandGroup {
   public ShootL1Home(ElevatorSubsystem elevator, ShooterSubsystem shooter) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ShooterExpelL1(shooter), new HomeElevator(elevator));
+    // addCommands(new ShooterExpelL1(shooter), new HomeElevator(elevator));
   }
 }

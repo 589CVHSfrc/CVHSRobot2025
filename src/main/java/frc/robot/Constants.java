@@ -66,26 +66,26 @@ public final class Constants {
     // SPARK MAX CAN IDs
 
     // Supernova CanIDs
-    // public static final int kFrontLeftDrivingCanId = 40;
-    // public static final int kRearLeftDrivingCanId = 20;
-    // public static final int kFrontRightDrivingCanId = 30;
-    // public static final int kRearRightDrivingCanId = 10;
+    public static final int kFrontLeftDrivingCanId = 40;
+    public static final int kRearLeftDrivingCanId = 20;
+    public static final int kFrontRightDrivingCanId = 30;
+    public static final int kRearRightDrivingCanId = 10;
 
-    // public static final int kFrontLeftTurningCanId = 41;
-    // public static final int kRearLeftTurningCanId = 21;
-    // public static final int kFrontRightTurningCanId = 31;
-    // public static final int kRearRightTurningCanId = 11;
+    public static final int kFrontLeftTurningCanId = 41;
+    public static final int kRearLeftTurningCanId = 21;
+    public static final int kFrontRightTurningCanId = 31;
+    public static final int kRearRightTurningCanId = 11;
 
-    // 2025 Robot CanIDs
-    public static final int kFrontLeftDrivingCanId = 10;
-    public static final int kRearLeftDrivingCanId = 30;
-    public static final int kFrontRightDrivingCanId = 20;
-    public static final int kRearRightDrivingCanId = 40;
+    // // 2025 Robot CanIDs
+    // public static final int kFrontLeftDrivingCanId = 10;
+    // public static final int kRearLeftDrivingCanId = 30;
+    // public static final int kFrontRightDrivingCanId = 20;
+    // public static final int kRearRightDrivingCanId = 40;
 
-    public static final int kFrontLeftTurningCanId = 11;
-    public static final int kRearLeftTurningCanId = 31;
-    public static final int kFrontRightTurningCanId = 21;
-    public static final int kRearRightTurningCanId = 41;
+    // public static final int kFrontLeftTurningCanId = 11;
+    // public static final int kRearLeftTurningCanId = 31;
+    // public static final int kFrontRightTurningCanId = 21;
+    // public static final int kRearRightTurningCanId = 41;
 
     public static final boolean kGyroReversed = false;
 
@@ -173,6 +173,7 @@ public final class Constants {
     public static final double kCoralStationHight = 19;
     public static final double kL3EncoderHight = 26.8;
     public static final double kCoralStationBarHight = 24.5;
+    public static final double kL1EncoderHight = 9.14;
   }
 
   public static class ShooterConstants {
@@ -184,8 +185,12 @@ public final class Constants {
     public static final double kShooterD = 0;
     public static final double kIntakeSpeed = -0.2; //duty cycle
     public static final double kShootingSpeed = 0.35; //duty cycle
-    public static final double kL1RightSpeed = 1000;
-    public static final double kL1LeftSpeed = 333; // must be 1/3rd the speed of other roller
+    public static final double kL1RightSpeedLeft = 0.36;
+    public static final double kL1LeftSpeedLeft = 0.12; // must be 1/3rd the speed of other roller
+    public static final double kL1RightSpeedRight = 0.12;
+    public static final double kL1LeftSpeedRight = 0.36;
+    public static final boolean kRight = true;
+    public static final boolean kLeft = false;
   }
 
   public static class ClimberConstants {
@@ -204,9 +209,9 @@ public final class Constants {
   }
 
   public static class GroundIntakeConstants {
-    public static final int kBeamBreakDIOPort = 0; // change
-    public static final int kbottomRollerCANID = 43; // change
-    public static final int ktopRollerCANID = 44; // change
+    public static final int kBeamBreakDIOPort = 0; 
+    public static final int kbottomRollerCANID = 43; 
+    public static final int ktopRollerCANID = 44; 
     public static final double kGroundIntakeP = 1.0; // change
     public static final double kGroundIntakeI = 0; // change
     public static final double kGroundIntakeD = 0; // change
