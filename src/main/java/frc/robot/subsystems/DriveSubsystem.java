@@ -268,7 +268,6 @@ public class DriveSubsystem extends SubsystemBase {
   /**
    * Resets the odometry to the specified pose.
    *
-   * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
     m_odometry.resetPosition(

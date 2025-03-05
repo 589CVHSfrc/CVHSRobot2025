@@ -35,7 +35,8 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 public class PhotonCam{
     private static PhotonCam m_arduCam;
     public AprilTagFieldLayout m_aprilTagLayout;
-    private PhotonCamera m_photonArduCam = new PhotonCamera("xyz");
+    // private PhotonCamera m_photonArduCam = new PhotonCamera("xyz");
+    private PhotonCamera m_photonArduCam = new PhotonCamera("Arducam_OV9281_USB_Camera (1)");    
     private PhotonPoseEstimator m_poseEstimator;
 
     PhotonCam() {

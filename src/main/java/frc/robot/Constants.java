@@ -101,13 +101,22 @@ public final class Constants {
 
   public static final class VisualConstants{
     // public static final Transform3d kCameraRelativeToRobot = ;
-    public static final Transform3d kCameraRelativeToRobot = new Transform3d(
-        Units.inchesToMeters(-4),
-        Units.inchesToMeters(0),
-        Units.inchesToMeters(20),
-        new Rotation3d(0,
-            Units.degreesToRadians(-40), 0));
-  }
+  //   public static final Transform3d kCameraRelativeToRobot = new Transform3d(
+  //       Units.inchesToMeters(-4),
+  //       Units.inchesToMeters(0),
+  //       Units.inchesToMeters(20),
+  //       new Rotation3d(0,
+  //           Units.degreesToRadians(-40), 0));
+  // }
+
+  public static final Transform3d kCameraRelativeToRobot = new Transform3d(
+    Units.inchesToMeters(8.5),
+    Units.inchesToMeters(-9.0),
+    Units.inchesToMeters(21.75),
+    new Rotation3d(0,
+        Units.degreesToRadians(0), 0));
+}
+
 
   public static final class ModuleConstants {
     // The MAXSwerve module can be configured with one of three pinion gears: 12T,
