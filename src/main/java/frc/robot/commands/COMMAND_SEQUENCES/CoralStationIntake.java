@@ -21,8 +21,9 @@ public class CoralStationIntake extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ElevatorToPosition(elevator, ElevatorConstants.kCoralStationHight), 
-      new ShooterIntake(shooter, ShooterConstants.kIntakeSpeed), 
+      new ElevatorToPosition(elevator, ElevatorConstants.kCoralStationHight),
+      new ShooterIntake(shooter, ShooterConstants.kIntakeSpeed),
       new ElevatorToPosition(elevator, ElevatorConstants.kCoralStationBarHight));
+      addRequirements(elevator, shooter);
   }
 }

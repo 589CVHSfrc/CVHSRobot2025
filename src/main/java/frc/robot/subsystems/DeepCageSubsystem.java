@@ -41,6 +41,8 @@ public class DeepCageSubsystem extends SubsystemBase {
       .reverseLimitSwitchEnabled(true);
 
     m_config.encoder.positionConversionFactor((1.0/10.0));
+
+    m_config.inverted(true);
     
     m_config.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -56,7 +58,6 @@ public class DeepCageSubsystem extends SubsystemBase {
         .d(0, ClosedLoopSlot.kSlot1)
         //.velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
         .outputRange(Constants.ClimberConstants.kClimberMinSpeed, Constants.ClimberConstants.kClimberMaxSpeed, ClosedLoopSlot.kSlot1);
-    m_config.inverted(true);
         
         m_cageMotor.configure(m_config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 

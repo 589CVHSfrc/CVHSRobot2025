@@ -35,6 +35,7 @@ import frc.robot.commands.COMMAND_SEQUENCES.CoralStationIntake;
 import frc.robot.commands.COMMANDS_SHOOTER.Shoot;
 import frc.robot.commands.COMMANDS_SHOOTER.ShooterExpelL1;
 import frc.robot.commands.COMMANDS_SHOOTER.ShooterIntake;
+import frc.robot.commands.COMMAND_DEEPCAGE.HomeClimber;
 import frc.robot.commands.COMMAND_DEEPCAGE.MoveClimber;
 import frc.robot.commands.COMMAND_DRIVE.DrivePose;
 import frc.robot.commands.COMMAND_DRIVE.DriveToAprilTag;
@@ -63,7 +64,9 @@ public class RobotContainer {
   // The robot's subsystems
 
   private final UsbCamera m_usbCamera0 = new UsbCamera("USB Camera 0", 0);
-  private final MjpegServer m_MjpegServer1 = new MjpegServer("Camera Server", 1181);
+  private final UsbCamera m_UsbCamera1 = new UsbCamera("USB Climber Camera", 1);
+  private final MjpegServer m_MjpegServer0 = new MjpegServer("Camera Server", 1181);
+  private final MjpegServer m_MjpegServer1 = new MjpegServer("Camera Server", 1800);
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final PhotonCam m_PhotonCam = new PhotonCam();
   private String m_currentPath;
@@ -89,8 +92,14 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    m_MjpegServer1.setSource(m_usbCamera0);
+    m_MjpegServer0.setSource(m_usbCamera0);
+    m_MjpegServer1.setSource(m_UsbCamera1);
     m_usbCamera0.setExposureAuto();
+    m_usbCamera0.setFPS(30);
+    m_usbCamera0.setResolution(320, 240);
+    m_UsbCamera1.setExposureAuto();
+    m_UsbCamera1.setFPS(30);
+    m_UsbCamera1.setResolution(320, 240);
     m_autoChooser = AutoBuilder.buildAutoChooser();
     // Configure the button bindings
     // configureButtonBindings();
@@ -149,15 +158,15 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kR1.value)
-        .whileTrue(new RunCommand(
-            () -> m_robotDrive.setX(),
-            m_robotDrive));
+    // new JoystickButton(m_driverController, Button.kR1.value)
+    //     .whileTrue(new RunCommand(
+    //         () -> m_robotDrive.setX(),
+    //         m_robotDrive));
     new JoystickButton(m_driverController, Button.kTriangle.value)
         .whileTrue(new ResetGyro(m_robotDrive, new Pose2d()));
-    new JoystickButton(m_driverController, Button.kSquare.value)
-        .whileTrue(new RunCommand(
-            () -> System.out.println(m_robotDrive.getGyroYawDeg())));
+    // new JoystickButton(m_driverController, Button.kSquare.value)
+    //     .whileTrue(new RunCommand(
+    //         () -> System.out.println(m_robotDrive.getGyroYawDeg())));
     // new JoystickButton(m_driverController, Button.kCircle.value)
     //     .whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam, Constants.DriveConstants.kSpeedToTarget, 1, ()->m_robotDrive.getPose()));
    
@@ -169,10 +178,10 @@ public class RobotContainer {
     new JoystickButton(m_switchboard, 1).onTrue(new HomeElevator(m_elevatorSubsystem));
     //new JoystickButton(m_switchboard, 5).whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam, 0.1, ()->m_robotDrive.getPose()));
     //new JoystickButton(m_switchboard, 5).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kCoralStationHight));
-    new JoystickButton(m_switchboard, 2).whileTrue(new CoralStationIntake(m_elevatorSubsystem, m_shooter));
-   // new JoystickButton(m_switchboard, 6).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL2EncoderHight));
+    new JoystickButton(m_switchboard, 10).onTrue(new CoralStationIntake(m_elevatorSubsystem, m_shooter));
+    //new JoystickButton(m_switchboard, 2).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL2EncoderHight));
     new JoystickButton(m_switchboard, 11).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL3EncoderHight));
-    new JoystickButton(m_switchboard,2).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kCoralStationBarHight));
+   new JoystickButton(m_switchboard,2).onTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kCoralStationBarHight));
     new JoystickButton(m_switchboard, 5).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL1EncoderHight));
 
 
@@ -180,10 +189,11 @@ public class RobotContainer {
     //fix end statement, not end command when beam break is hit
     new JoystickButton(m_switchboard, 4).whileTrue(new ShooterIntake(m_shooter, ShooterConstants.kIntakeSpeed));//duty cycle
     new JoystickButton(m_switchboard, 6).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kLeft)); //left
-    new JoystickButton(m_switchboard, 0).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kRight));
+    new JoystickButton(m_switchboard, 12).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kRight));
 
-    // new JoystickButton(m_switchboard, 5).whileTrue(new MoveClimber(m_CageSubsystem, 0.25));
-    // new JoystickButton(m_switchboard, 6).whileTrue(new MoveClimber(m_CageSubsystem, -0.25));
+    new JoystickButton(m_driverController, 5).whileTrue(new MoveClimber(m_CageSubsystem, 0.25));
+    new JoystickButton(m_driverController, 7).whileTrue(new HomeClimber(m_CageSubsystem, 0.25));
+    new JoystickButton(m_driverController, 6).whileTrue(new MoveClimber(m_CageSubsystem, -0.25));
 
   }
 

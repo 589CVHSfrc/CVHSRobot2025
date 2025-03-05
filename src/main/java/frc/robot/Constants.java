@@ -167,7 +167,7 @@ public final class Constants {
     public static final double kElevatorPositionConversionFactor = 1; // change
     public static final double kElevatorVelocityConversionFactor = 1; // change
     public static final double kPositionMargin = 5; // change
-    public static final double kHomingSpeed = -0.1;
+    public static final double kHomingSpeed = -0.4;
 
     public static final double kL2EncoderHight = 14.5;
     public static final double kCoralStationHight = 19;
@@ -201,11 +201,11 @@ public final class Constants {
     public static final double kClimbI = 0;
     public static final double kClimbD = 0;
     public static final double kClimbingSpeed = 0; // change
-    public static final double kHomingSpeed = 0; // Change only if different from climbing speed, otherwise just
+    public static final double kHomingSpeed = 0.25; // Change only if different from climbing speed, otherwise just
                                                  // multiply climbing speed by -1.
     public static final double kPeakedCurrent = 0; // change
 
-    public static final double kClimbedEncoderPosition = 5;
+    public static final double kClimbedEncoderPosition = 6.3;
   }
 
   public static class GroundIntakeConstants {

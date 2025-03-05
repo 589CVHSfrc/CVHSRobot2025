@@ -12,22 +12,25 @@ import frc.robot.subsystems.DeepCageSubsystem;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class HomeClimber extends Command {
   DeepCageSubsystem m_cage;
+  double m_speed;
   /** Creates a new HomeClimber. */
-  public HomeClimber(DeepCageSubsystem cage) {
+  public HomeClimber(DeepCageSubsystem cage, double speed) {
     m_cage = cage;
     addRequirements(m_cage);
+    m_speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
   }
-
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_cage.movePID(Constants.ClimberConstants.kHomingSpeed);
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_cage.move(m_speed);
+  }
 
   // Called once the command ends or is interrupted.
   @Override

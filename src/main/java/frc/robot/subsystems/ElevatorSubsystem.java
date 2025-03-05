@@ -93,7 +93,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
   
   public boolean checkPosition(){
-    if(MathUtils.areEqual(m_encoder.getPosition(), m_position, .003)){
+    if(MathUtils.areEqual(m_encoder.getPosition(), m_position, 2)){
       return true;
     }
     return false;
