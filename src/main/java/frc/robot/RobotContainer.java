@@ -162,38 +162,42 @@ public class RobotContainer {
     //     .whileTrue(new RunCommand(
     //         () -> m_robotDrive.setX(),
     //         m_robotDrive));
+
+    //---------------------------------DRIVER CONTROLLER------------------------------------------------------
     new JoystickButton(m_driverController, Button.kTriangle.value)
         .whileTrue(new ResetGyro(m_robotDrive, new Pose2d()));
+
+    new JoystickButton(m_driverController, 8).whileTrue(new Shoot(m_shooter, ShooterConstants.kShootingSpeed));
+    new JoystickButton(m_driverController, 3).whileTrue(new MoveClimber(m_CageSubsystem, 0.25));//down
+    //new JoystickButton(m_driverController, 7).whileTrue(new HomeClimber(m_CageSubsystem, 0.25));
+    new JoystickButton(m_driverController, 1).whileTrue(new MoveClimber(m_CageSubsystem, -0.25));//up
+
+    new JoystickButton(m_driverController,5).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kLeft));
+    new JoystickButton(m_driverController, 6).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kRight));
+
     // new JoystickButton(m_driverController, Button.kSquare.value)
     //     .whileTrue(new RunCommand(
     //         () -> System.out.println(m_robotDrive.getGyroYawDeg())));
     // new JoystickButton(m_driverController, Button.kCircle.value)
     //     .whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam, Constants.DriveConstants.kSpeedToTarget, 1, ()->m_robotDrive.getPose()));
+
+    //---------------------------------------SWITCHBOARD------------------------------------------------------
    
     // new JoystickButton(m_driverController, Button.kCircle.value)
     // // .whileTrue(()->m_DrivePose.driveToReefLeft());
-    new JoystickButton(m_switchboard, 8).whileTrue(new MoveElevator(m_elevatorSubsystem, 0.15));
-    new JoystickButton(m_switchboard, 9).whileTrue(new MoveElevator(m_elevatorSubsystem, -0.075));
-    //new JoystickButton(m_switchboard, 2).onTrue(new ElevatorToPosition(m_elevatorSubsystem));//, 5));
-    new JoystickButton(m_switchboard, 1).onTrue(new HomeElevator(m_elevatorSubsystem));
-    //new JoystickButton(m_switchboard, 5).whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam, 0.1, ()->m_robotDrive.getPose()));
-    //new JoystickButton(m_switchboard, 5).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kCoralStationHight));
-    new JoystickButton(m_switchboard, 10).onTrue(new CoralStationIntake(m_elevatorSubsystem, m_shooter));
-    //new JoystickButton(m_switchboard, 2).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL2EncoderHight));
-    new JoystickButton(m_switchboard, 11).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL3EncoderHight));
-   new JoystickButton(m_switchboard,2).onTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kCoralStationBarHight));
-    new JoystickButton(m_switchboard, 5).whileTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL1EncoderHight));
 
-
-    new JoystickButton(m_switchboard, 3).whileTrue(new Shoot(m_shooter, ShooterConstants.kShootingSpeed)); //duty cycle
-    //fix end statement, not end command when beam break is hit
-    new JoystickButton(m_switchboard, 4).whileTrue(new ShooterIntake(m_shooter, ShooterConstants.kIntakeSpeed));//duty cycle
-    new JoystickButton(m_switchboard, 6).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kLeft)); //left
-    new JoystickButton(m_switchboard, 12).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kRight));
-
-    new JoystickButton(m_driverController, 5).whileTrue(new MoveClimber(m_CageSubsystem, 0.25));
-    new JoystickButton(m_driverController, 7).whileTrue(new HomeClimber(m_CageSubsystem, 0.25));
-    new JoystickButton(m_driverController, 6).whileTrue(new MoveClimber(m_CageSubsystem, -0.25));
+    new JoystickButton(m_switchboard, 1).onTrue(new CoralStationIntake(m_elevatorSubsystem, m_shooter));
+    new JoystickButton(m_switchboard, 2).whileTrue(new MoveElevator(m_elevatorSubsystem, 0.15));
+    new JoystickButton(m_switchboard, 3).whileTrue(new Shoot(m_shooter,ShooterConstants.kShootingSpeed));
+    new JoystickButton(m_switchboard, 4).whileTrue(new MoveElevator(m_elevatorSubsystem, -0.075));
+    new JoystickButton(m_switchboard, 5).onTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL2EncoderHight));
+    new JoystickButton(m_switchboard, 6).onTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL1EncoderHight));
+    new JoystickButton(m_switchboard, 8).onTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL3EncoderHight));
+    new JoystickButton(m_switchboard, 9).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kLeft) );
+    new JoystickButton(m_switchboard, 10).whileTrue(new ShooterIntake(m_shooter, ShooterConstants.kIntakeSpeed));
+    new JoystickButton(m_switchboard, 11).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kRight));
+    new JoystickButton(m_switchboard, 12).onTrue(new HomeElevator(m_elevatorSubsystem));
+    
 
   }
 

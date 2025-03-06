@@ -167,7 +167,7 @@ public final class Constants {
   }
 
   public static class ElevatorConstants {
-    public static final int kElevatorMotorCANID = 13; // change
+    public static final int kElevatorMotorCANID = 13; 
     public static final double kElevatorP = 0.04;
     public static final double kElevatorI = 0.00002;
     public static final double kElevatorD = 0;//0.0009;
@@ -179,7 +179,7 @@ public final class Constants {
     public static final double kHomingSpeed = -0.4;
 
     public static final double kL2EncoderHight = 14.5;
-    public static final double kCoralStationHight = 19;
+    public static final double kCoralStationHight = 18.8;//19
     public static final double kL3EncoderHight = 26.8;
     public static final double kCoralStationBarHight = 24.5;
     public static final double kL1EncoderHight = 9.14;
