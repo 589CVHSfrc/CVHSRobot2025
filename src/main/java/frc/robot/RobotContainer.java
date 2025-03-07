@@ -66,7 +66,7 @@ public class RobotContainer {
   private final UsbCamera m_usbCamera0 = new UsbCamera("USB Camera 0", 0);
   private final UsbCamera m_UsbCamera1 = new UsbCamera("USB Climber Camera", 1);
   private final MjpegServer m_MjpegServer0 = new MjpegServer("Camera Server", 1181);
-  private final MjpegServer m_MjpegServer1 = new MjpegServer("Camera Server", 1800);
+  private final MjpegServer m_MjpegServer1 = new MjpegServer("Camera Server", 1182);
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final PhotonCam m_PhotonCam = new PhotonCam();
   private String m_currentPath;
