@@ -72,6 +72,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   double m_counter = 0;
   private final Pigeon2 m_pigeon = new Pigeon2(DriveConstants.kPigeon2CanId);
+  
 
   public SwerveDrivePoseEstimator m_estimator;
   AnalogPotentiometer m_rightUltraSonic, m_leftUltraSonic;
@@ -82,7 +83,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   private boolean m_first = true;
 
-  private Pose2d m_pose;
 
   // ts were here
 
@@ -90,7 +90,7 @@ public class DriveSubsystem extends SubsystemBase {
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics,
       // Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),
-      m_pigeon.getRotation2d(),
+      (m_pigeon.getRotation2d()),
       new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
           m_frontRight.getPosition(),
@@ -120,7 +120,6 @@ public class DriveSubsystem extends SubsystemBase {
       e.printStackTrace();
     }
 
-    m_pose = new Pose2d(0, 0, new Rotation2d(0));
     AutoBuilder.configure(
         this::getPose,
         this::resetOdometry,
@@ -129,8 +128,8 @@ public class DriveSubsystem extends SubsystemBase {
         new PPHolonomicDriveController(
             // new PIDConstants(5.0, 0.0, 0.0),
             // new PIDConstants(5.0, 0.0, 0.0)),
-            new PIDConstants(0.04, 0.0, 0.0),
-            new PIDConstants(1.0, 0.0, 0.0)),
+            new PIDConstants(0.04, 0.0, 0.0), //2024 values - Mr. G
+            new PIDConstants(1.0, 0.0, 0.0)), // 2024 values - Mr. G      
         config,
         () -> {
           var alliance = DriverStation.getAlliance();
@@ -171,20 +170,15 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public Pose2d getPose() {
     // //System.out.println(m_estimator.getEstimatedPosition()+ " Estimated Pose");
-
     // CHANGE
     if (m_first) {
       m_first = false;
-      return new Pose2d(0, 0, new Rotation2d(0));
+      return m_odometry.getPoseMeters();
+      //return new Pose2d(0, 0, new Rotation2d(0));
     }
 
     return m_estimator.getEstimatedPosition();
   }
-
-  public void setPose(Pose2d pose) {
-    m_pose = pose;
-  }
-
   public SwerveModulePosition[] getSwerveModulePositions() {
     return new SwerveModulePosition[] {
         m_frontLeft.getPosition(),
@@ -262,6 +256,15 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void driveRobotRelative(ChassisSpeeds speeds) {
     ChassisSpeeds targetspeeds = ChassisSpeeds.discretize(speeds, DriveConstants.kAutoTimeDtSecondsAdjust);
+
+    SwerveModuleState[] targetStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(targetspeeds);
+    setModuleStates(targetStates);
+  }
+
+  public void driveRobotRelativeAuto(ChassisSpeeds speeds) {
+    ChassisSpeeds targetspeeds = ChassisSpeeds.discretize(speeds, DriveConstants.kAutoTimeDtSecondsAdjust);
+    targetspeeds.vxMetersPerSecond *= -1;
+    //targetspeeds.vyMetersPerSecond
 
     SwerveModuleState[] targetStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(targetspeeds);
     setModuleStates(targetStates);
@@ -357,13 +360,13 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /** Zeroes the heading of the robot. */
-  public void zeroHeading() {
-    // m_gyro.reset();
-    // m_pigeon.reset();
-    m_pigeon.setYaw(180);
-    //System.out.println("Resetting Gyro");
+  public void setHeading180() {
     m_field.setRobotPose(0, 0, new Rotation2d());
-    //SmartDashboard.putData("Field Pos", m_field);
+    SmartDashboard.putData("Field Pos", m_field);
+  }
+
+  public void setHeading(double yaw){
+    m_pigeon.setYaw(yaw);
   }
 
   /**
@@ -435,7 +438,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Pose 2d X Distance:", m_odometry.getPoseMeters().getMeasureX().magnitude());
     SmartDashboard.putNumber("Pose 2d Y:", m_odometry.getPoseMeters().getY());
     SmartDashboard.putNumber("Pose 2d Y Distance:", m_odometry.getPoseMeters().getMeasureY().magnitude());
-    SmartDashboard.putNumber("Pose 2d Rot Degrees:", m_odometry.getPoseMeters().getRotation().getDegrees());
+    SmartDashboard.putNumber("Pose 2d Rot Degrees: (odometry)", m_odometry.getPoseMeters().getRotation().getDegrees());
+    SmartDashboard.putNumber("Gyro Value", m_pigeon.getYaw().getValueAsDouble());
     // m_field.setRobotPose(m_odometry.getPoseMeters().getX(),
     // m_odometry.getPoseMeters().getY(), m_odometry.getPoseMeters().getRotation());
     SmartDashboard.putData("Field Pos", m_field);

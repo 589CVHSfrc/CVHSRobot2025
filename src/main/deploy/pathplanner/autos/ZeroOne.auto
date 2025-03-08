@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "smol lyne"
+            "pathName": "zeroZero to zeroOne"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "New Folder",
   "choreoAuto": false
 }
