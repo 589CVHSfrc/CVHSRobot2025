@@ -120,7 +120,7 @@ public class DriveSubsystem extends SubsystemBase {
       e.printStackTrace();
     }
 
-    m_pose = new Pose2d(0, 0, new Rotation2d(0));
+
     AutoBuilder.configure(
         this::getPose,
         this::resetOdometry,
@@ -178,11 +178,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     return m_estimator.getEstimatedPosition();
   }
-
-  public void setPose(Pose2d pose) {
-    m_pose = pose;
-  }
-
   public SwerveModulePosition[] getSwerveModulePositions() {
     return new SwerveModulePosition[] {
         m_frontLeft.getPosition(),
