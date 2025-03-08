@@ -87,7 +87,8 @@ double m_speed;
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("Is Coral Present", checkCoral());
+    SmartDashboard.putBoolean("Is Coral Present", !checkCoral());
+    SmartDashboard.putNumber("Motor Speed", m_leftMotor.get());
     // This method will be called once per scheduler run
   }
 }

@@ -28,6 +28,7 @@ import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.COMMAND_DRIVE.ResetGyro;
+import frc.robot.commands.COMMAND_DRIVE.ZeroHeading;
 import frc.robot.commands.COMMAND_ELEVATOR.ElevatorToPosition;
 import frc.robot.commands.COMMAND_ELEVATOR.HomeElevator;
 import frc.robot.commands.COMMAND_ELEVATOR.MoveElevator;
@@ -39,6 +40,7 @@ import frc.robot.commands.COMMAND_DEEPCAGE.HomeClimber;
 import frc.robot.commands.COMMAND_DEEPCAGE.MoveClimber;
 import frc.robot.commands.COMMAND_DRIVE.DrivePose;
 import frc.robot.commands.COMMAND_DRIVE.DriveToAprilTag;
+import frc.robot.commands.COMMAND_DRIVE.FlipHeading180;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DeepCageSubsystem;
 // import frc.robot.commands.TESTING_COMMANDS.ElevatorToPosition;
@@ -64,7 +66,7 @@ public class RobotContainer {
   // The robot's subsystems
 
   private final UsbCamera m_usbCamera0 = new UsbCamera("USB Camera 0", 0);
-  private final UsbCamera m_UsbCamera1 = new UsbCamera("USB Climber Camera", 1);
+  //private final UsbCamera m_UsbCamera1 = new UsbCamera("USB Climber Camera", 1);
   private final MjpegServer m_MjpegServer0 = new MjpegServer("Camera Server", 1181);
   private final MjpegServer m_MjpegServer1 = new MjpegServer("Camera Server", 1182);
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
@@ -93,13 +95,13 @@ public class RobotContainer {
    */
   public RobotContainer() {
     m_MjpegServer0.setSource(m_usbCamera0);
-    m_MjpegServer1.setSource(m_UsbCamera1);
+    //m_MjpegServer1.setSource(m_UsbCamera1);
     m_usbCamera0.setExposureAuto();
     m_usbCamera0.setFPS(30);
     m_usbCamera0.setResolution(320, 240);
-    m_UsbCamera1.setExposureAuto();
-    m_UsbCamera1.setFPS(30);
-    m_UsbCamera1.setResolution(320, 240);
+    // m_UsbCamera1.setExposureAuto();
+    // m_UsbCamera1.setFPS(30);
+    // m_UsbCamera1.setResolution(320, 240);
     m_autoChooser = AutoBuilder.buildAutoChooser();
     // Configure the button bindings
     // configureButtonBindings();
@@ -117,6 +119,8 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("Reset Gyro", new ResetGyro(m_robotDrive, new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()));
     NamedCommands.registerCommand("PathPlanner Reset Gyro", AutoBuilder.resetOdom(new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()));
+    NamedCommands.registerCommand("SetHeading180", new FlipHeading180(m_robotDrive));
+    NamedCommands.registerCommand("ZeroHeading", new ZeroHeading(m_robotDrive));
     
     
     // new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()
@@ -139,7 +143,8 @@ public class RobotContainer {
 
     //m_autoChooser.setDefaultOption("line", new PathPlannerAuto("TuesdayAuto"));
     m_autoChooser.setDefaultOption("Move forward", new PathPlannerAuto("Move Forward"));
-    m_autoChooser.addOption("lyning", new PathPlannerAuto("lyne auto"));
+    //m_autoChooser.addOption("Forward from Zero", new PathPlannerAuto("ZeroOne"));
+    m_autoChooser.addOption("Middle Forward", new PathPlannerAuto("Middle Forward"));
 
     SmartDashboard.putData("Auto Chooser",m_autoChooser);
 

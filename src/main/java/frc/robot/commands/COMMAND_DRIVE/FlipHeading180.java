@@ -4,28 +4,24 @@
 
 package frc.robot.commands.COMMAND_DRIVE;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ResetGyro extends InstantCommand {
-  private DriveSubsystem m_drive;
-  private Pose2d m_pose;
-
-  public ResetGyro(DriveSubsystem drive, Pose2d pose) {
-    addRequirements(drive);
+public class FlipHeading180 extends InstantCommand {
+  DriveSubsystem m_drive;
+  public FlipHeading180(DriveSubsystem drive) {
     m_drive = drive;
-    m_pose = pose;
+    addRequirements(drive);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_drive.setHeading180();
-    m_drive.resetOdometry(m_pose);
+    m_drive.setHeading(180);
   }
 }

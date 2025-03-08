@@ -72,6 +72,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   double m_counter = 0;
   private final Pigeon2 m_pigeon = new Pigeon2(DriveConstants.kPigeon2CanId);
+  
 
   public SwerveDrivePoseEstimator m_estimator;
   AnalogPotentiometer m_rightUltraSonic, m_leftUltraSonic;
@@ -82,7 +83,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   private boolean m_first = true;
 
-  private Pose2d m_pose;
 
   // ts were here
 
@@ -90,7 +90,7 @@ public class DriveSubsystem extends SubsystemBase {
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics,
       // Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),
-      m_pigeon.getRotation2d(),
+      (m_pigeon.getRotation2d().times(-1.0)),
       new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
           m_frontRight.getPosition(),
@@ -169,11 +169,11 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public Pose2d getPose() {
     // //System.out.println(m_estimator.getEstimatedPosition()+ " Estimated Pose");
-
     // CHANGE
     if (m_first) {
       m_first = false;
-      return new Pose2d(0, 0, new Rotation2d(0));
+      return m_odometry.getPoseMeters();
+      //return new Pose2d(0, 0, new Rotation2d(0));
     }
 
     return m_estimator.getEstimatedPosition();
@@ -265,6 +265,15 @@ public class DriveSubsystem extends SubsystemBase {
     setModuleStates(targetStates);
   }
 
+  public void driveRobotRelativeAuto(ChassisSpeeds speeds) {
+    ChassisSpeeds targetspeeds = ChassisSpeeds.discretize(speeds, DriveConstants.kAutoTimeDtSecondsAdjust);
+    targetspeeds.vxMetersPerSecond *= -1;
+    //targetspeeds.vyMetersPerSecond
+
+    SwerveModuleState[] targetStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(targetspeeds);
+    setModuleStates(targetStates);
+  }
+
   /**
    * Resets the odometry to the specified pose.
    *
@@ -273,7 +282,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_odometry.resetPosition(
         // Rotation2d.fromDegrees(-m_pitAngle(IMUAxis.kZ)),
         // Rotation2d.fromDegrees(-m_pigeon.getAngle()),
-        m_pigeon.getRotation2d(),
+        m_pigeon.getRotation2d().times(-1.0),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -312,7 +321,7 @@ public class DriveSubsystem extends SubsystemBase {
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
                 // Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)))
-                m_pigeon.getRotation2d())
+                m_pigeon.getRotation2d().times(-1.0))
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
@@ -355,13 +364,14 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /** Zeroes the heading of the robot. */
-  public void zeroHeading() {
-    // m_gyro.reset();
-    // m_pigeon.reset();
-    m_pigeon.setYaw(180);
-    //System.out.println("Resetting Gyro");
+  public void setHeading180() {
     m_field.setRobotPose(0, 0, new Rotation2d());
+    m_pigeon.setYaw(180);
     SmartDashboard.putData("Field Pos", m_field);
+  }
+
+  public void setHeading(double yaw){
+    m_pigeon.setYaw(yaw);
   }
 
   /**
@@ -417,7 +427,7 @@ public class DriveSubsystem extends SubsystemBase {
     var br = m_rearRight.getPosition();
     m_odometry.update(
         // Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),
-        m_pigeon.getRotation2d(),
+        m_pigeon.getRotation2d().times(-1),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -425,7 +435,7 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         });
 
-    Pose2d beforeCamAdded = m_estimator.update(m_pigeon.getRotation2d(), getSwerveModulePositions());
+    Pose2d beforeCamAdded = m_estimator.update(m_pigeon.getRotation2d().times(-1), getSwerveModulePositions());
     PhotonCam.get().estimatePose(m_estimator);
     m_field.setRobotPose(beforeCamAdded);
 
@@ -433,7 +443,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Pose 2d X Distance:", m_odometry.getPoseMeters().getMeasureX().magnitude());
     SmartDashboard.putNumber("Pose 2d Y:", m_odometry.getPoseMeters().getY());
     SmartDashboard.putNumber("Pose 2d Y Distance:", m_odometry.getPoseMeters().getMeasureY().magnitude());
-    SmartDashboard.putNumber("Pose 2d Rot Degrees:", m_odometry.getPoseMeters().getRotation().getDegrees());
+    SmartDashboard.putNumber("Pose 2d Rot Degrees: (odometry)", m_odometry.getPoseMeters().getRotation().getDegrees());
+    SmartDashboard.putNumber("Gyro Value", m_pigeon.getYaw().getValueAsDouble());
     // m_field.setRobotPose(m_odometry.getPoseMeters().getX(),
     // m_odometry.getPoseMeters().getY(), m_odometry.getPoseMeters().getRotation());
     SmartDashboard.putData("Field Pos", m_field);
