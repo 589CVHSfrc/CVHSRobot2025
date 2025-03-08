@@ -138,7 +138,7 @@ public class RobotContainer {
 
 
     //m_autoChooser.setDefaultOption("line", new PathPlannerAuto("TuesdayAuto"));
-    m_autoChooser.setDefaultOption("Move forward", new PathPlannerAuto("Move Forward"));
+    m_autoChooser.setDefaultOption("Move forward (Hard Code)", new PathPlannerAuto("Move Forward Hard Code"));
     m_autoChooser.addOption("lyning", new PathPlannerAuto("lyne auto"));
 
     SmartDashboard.putData("Auto Chooser",m_autoChooser);

@@ -127,8 +127,10 @@ public class DriveSubsystem extends SubsystemBase {
         this::getChassisSpeeds,
         (speeds, feedforwards) -> driveRobotRelative(speeds),
         new PPHolonomicDriveController(
-            new PIDConstants(5.0, 0.0, 0.0),
-            new PIDConstants(5.0, 0.0, 0.0)),
+            // new PIDConstants(5.0, 0.0, 0.0),
+            // new PIDConstants(5.0, 0.0, 0.0)),
+            new PIDConstants(0.04, 0.0, 0.0),
+            new PIDConstants(1.0, 0.0, 0.0)),
         config,
         () -> {
           var alliance = DriverStation.getAlliance();
@@ -361,7 +363,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_pigeon.setYaw(180);
     //System.out.println("Resetting Gyro");
     m_field.setRobotPose(0, 0, new Rotation2d());
-    SmartDashboard.putData("Field Pos", m_field);
+    //SmartDashboard.putData("Field Pos", m_field);
   }
 
   /**
