@@ -179,7 +179,7 @@ public final class Constants {
     public static final double kHomingSpeed = -0.4;
 
     public static final double kL2EncoderHight = 14.5;
-    public static final double kCoralStationHight = 19.45;
+    public static final double kCoralStationHight = 19.1; //19.45
     public static final double kL3EncoderHight = 26.8;
     public static final double kCoralStationBarHight = 24.5;
     public static final double kL1EncoderHight = 9.14;

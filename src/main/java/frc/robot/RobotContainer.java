@@ -68,7 +68,7 @@ public class RobotContainer {
   private final UsbCamera m_usbCamera0 = new UsbCamera("USB Camera 0", 0);
   //private final UsbCamera m_UsbCamera1 = new UsbCamera("USB Climber Camera", 1);
   private final MjpegServer m_MjpegServer0 = new MjpegServer("Camera Server", 1181);
-  private final MjpegServer m_MjpegServer1 = new MjpegServer("Camera Server", 1182);
+  //private final MjpegServer m_MjpegServer1 = new MjpegServer("Camera Server", 1182);
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final PhotonCam m_PhotonCam = new PhotonCam();
   private String m_currentPath;
@@ -111,9 +111,9 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband), // used to have a -
-                -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband), // used to have a -
-                -MathUtil.applyDeadband(m_driverController.getRawAxis(2), OIConstants.kDriveDeadband),
+                MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband), // used to have a -
+                MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband), // used to have a -
+                MathUtil.applyDeadband(m_driverController.getRawAxis(2), OIConstants.kDriveDeadband),
                 true),
             m_robotDrive));
 
@@ -145,6 +145,7 @@ public class RobotContainer {
     m_autoChooser.setDefaultOption("Move forward", new PathPlannerAuto("Move Forward"));
     //m_autoChooser.addOption("Forward from Zero", new PathPlannerAuto("ZeroOne"));
     m_autoChooser.addOption("Middle Forward", new PathPlannerAuto("Middle Forward"));
+    m_autoChooser.addOption("Center Forward", new PathPlannerAuto("Center of Field Forward"));
 
     SmartDashboard.putData("Auto Chooser",m_autoChooser);
 

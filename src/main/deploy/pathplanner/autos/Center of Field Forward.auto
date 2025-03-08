@@ -5,27 +5,21 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "coral sniffer"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
+            "name": "SetHeading180"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "lyne path"
+            "pathName": "Center of Field Forward"
           }
         }
       ]
     }
   },
-  "resetOdom": false,
-  "folder": null,
+  "resetOdom": true,
+  "folder": "New Folder",
   "choreoAuto": false
 }

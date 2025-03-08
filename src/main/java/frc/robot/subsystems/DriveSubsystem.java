@@ -90,7 +90,7 @@ public class DriveSubsystem extends SubsystemBase {
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics,
       // Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),
-      (m_pigeon.getRotation2d().times(-1.0)),
+      (m_pigeon.getRotation2d()),
       new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
           m_frontRight.getPosition(),
@@ -120,15 +120,16 @@ public class DriveSubsystem extends SubsystemBase {
       e.printStackTrace();
     }
 
-
     AutoBuilder.configure(
         this::getPose,
         this::resetOdometry,
         this::getChassisSpeeds,
         (speeds, feedforwards) -> driveRobotRelative(speeds),
         new PPHolonomicDriveController(
-            new PIDConstants(5.0, 0.0, 0.0),
-            new PIDConstants(5.0, 0.0, 0.0)),
+            // new PIDConstants(5.0, 0.0, 0.0),
+            // new PIDConstants(5.0, 0.0, 0.0)),
+            new PIDConstants(0.04, 0.0, 0.0), //2024 values - Mr. G
+            new PIDConstants(1.0, 0.0, 0.0)), // 2024 values - Mr. G      
         config,
         () -> {
           var alliance = DriverStation.getAlliance();
@@ -277,7 +278,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_odometry.resetPosition(
         // Rotation2d.fromDegrees(-m_pitAngle(IMUAxis.kZ)),
         // Rotation2d.fromDegrees(-m_pigeon.getAngle()),
-        m_pigeon.getRotation2d().times(-1.0),
+        m_pigeon.getRotation2d(),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -316,7 +317,7 @@ public class DriveSubsystem extends SubsystemBase {
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
                 // Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)))
-                m_pigeon.getRotation2d().times(-1.0))
+                m_pigeon.getRotation2d())
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
@@ -422,7 +423,7 @@ public class DriveSubsystem extends SubsystemBase {
     var br = m_rearRight.getPosition();
     m_odometry.update(
         // Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),
-        m_pigeon.getRotation2d().times(-1),
+        m_pigeon.getRotation2d(),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -430,7 +431,7 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         });
 
-    Pose2d beforeCamAdded = m_estimator.update(m_pigeon.getRotation2d().times(-1), getSwerveModulePositions());
+    Pose2d beforeCamAdded = m_estimator.update(m_pigeon.getRotation2d(), getSwerveModulePositions());
     PhotonCam.get().estimatePose(m_estimator);
     m_field.setRobotPose(beforeCamAdded);
 
