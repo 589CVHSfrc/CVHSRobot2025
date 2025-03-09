@@ -203,10 +203,12 @@ public final class Constants {
   }
 
   public static class ClimberConstants {
+    public static final double kMaxSpeedDown = -1500;
+    public static final double kMaxSpeedUp = 1500;
     public static final int kcageMotorCANID = 33; // change
     public static final double kClimberMaxSpeed = 0.5; // (range of (0,1) 1000; //change (max 1500)
     public static final double kClimberMinSpeed = -.5; // (range of (-1,0) -1000; //change (min 1500)
-    public static final double kClimbP = 1.0;
+    public static final double kClimbP = 0.0005;
     public static final double kClimbI = 0;
     public static final double kClimbD = 0;
     public static final double kClimbingSpeed = 0; // change

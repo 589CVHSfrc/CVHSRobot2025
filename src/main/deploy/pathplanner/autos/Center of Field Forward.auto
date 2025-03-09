@@ -5,12 +5,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "SetHeading180"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Center of Field Forward"

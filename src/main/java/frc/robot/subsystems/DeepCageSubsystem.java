@@ -40,7 +40,9 @@ public class DeepCageSubsystem extends SubsystemBase {
       .forwardLimitSwitchEnabled(true)
       .reverseLimitSwitchEnabled(true);
 
-    m_config.encoder.positionConversionFactor((1.0/10.0));
+    //m_config.encoder.positionConversionFactor((1.0/10.0)); //150
+   // m_config.encoder.velocityConversionFactor(1.0/10.0); 
+
 
     m_config.inverted(true);
     
@@ -53,7 +55,7 @@ public class DeepCageSubsystem extends SubsystemBase {
         .d(Constants.ClimberConstants.kClimbD);
        // Set PID values for velocity control in slot 1
     m_config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .p(1.0, ClosedLoopSlot.kSlot1) 
+        .p(ClimberConstants.kClimbP, ClosedLoopSlot.kSlot1) 
         .i(0, ClosedLoopSlot.kSlot1)
         .d(0, ClosedLoopSlot.kSlot1)
         //.velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
@@ -116,5 +118,6 @@ public class DeepCageSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("CageMotorCurrent", m_cageMotor.getOutputCurrent());
     SmartDashboard.putBoolean("top climber limitswitch", isTopPressed());
     SmartDashboard.putBoolean("bottom climber limitswitch", isBottomPressed());
+    SmartDashboard.putNumber("Speed", m_encoder.getVelocity());
   }
 }
