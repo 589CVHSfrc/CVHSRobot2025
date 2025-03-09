@@ -68,7 +68,6 @@ public class RobotContainer {
   // The robot's subsystems
 
   private final UsbCamera m_usbCamera0 = new UsbCamera("USB Camera 0", 0);
-  //private final UsbCamera m_UsbCamera1 = new UsbCamera("USB Climber Camera", 1);
   private final MjpegServer m_MjpegServer0 = new MjpegServer("Camera Server", 1181);
   //private final MjpegServer m_MjpegServer1 = new MjpegServer("Camera Server", 1182);
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
@@ -98,9 +97,9 @@ public class RobotContainer {
   public RobotContainer() {
     m_MjpegServer0.setSource(m_usbCamera0);
     //m_MjpegServer1.setSource(m_UsbCamera1);
-    m_usbCamera0.setExposureAuto();
-    m_usbCamera0.setFPS(30);
-    m_usbCamera0.setResolution(320, 240);
+    // m_usbCamera0.setExposureAuto();
+    // m_usbCamera0.setFPS(30);
+    // m_usbCamera0.setResolution(320, 240);
     // m_UsbCamera1.setExposureAuto();
     // m_UsbCamera1.setFPS(30);
     // m_UsbCamera1.setResolution(320, 240);
@@ -181,16 +180,17 @@ public class RobotContainer {
         .whileTrue(new ResetGyro(m_robotDrive, new Pose2d()));
 
     new JoystickButton(m_driverController, 8).whileTrue(new Shoot(m_shooter, ShooterConstants.kShootingSpeed));
-    new JoystickButton(m_driverController, 3).whileTrue(new MoveClimber(m_CageSubsystem, 0.25));//up
+    //new JoystickButton(m_driverController, 3).whileTrue(new MoveClimber(m_CageSubsystem, 0.25));//up
 
-    new JoystickButton(m_driverController, 10).whileTrue(new PIDTestingClimb(m_CageSubsystem, ClimberConstants.kMaxSpeedDown));
-    new JoystickButton(m_driverController, 9).whileTrue(new PIDTestingClimb(m_CageSubsystem, ClimberConstants.kMaxSpeedUp));
+    new JoystickButton(m_driverController, 1).whileTrue(new PIDTestingClimb(m_CageSubsystem, ClimberConstants.kMaxSpeedDown));
+    new JoystickButton(m_driverController, 3).whileTrue(new PIDTestingClimb(m_CageSubsystem, ClimberConstants.kMaxSpeedUp));
 
     //new JoystickButton(m_driverController, 7).whileTrue(new HomeClimber(m_CageSubsystem, 0.25));
-    new JoystickButton(m_driverController, 1).whileTrue(new MoveClimber(m_CageSubsystem, -0.25));//down
+    //new JoystickButton(m_driverController, 1).whileTrue(new MoveClimber(m_CageSubsystem, -0.25));//down
 
     new JoystickButton(m_driverController,5).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kLeft));
     new JoystickButton(m_driverController, 6).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kRight));
+    new JoystickButton(m_driverController, 7).onTrue(new HomeElevator(m_elevatorSubsystem));
 
     // new JoystickButton(m_driverController, Button.kSquare.value)
     //     .whileTrue(new RunCommand(

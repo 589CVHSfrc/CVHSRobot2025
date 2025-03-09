@@ -82,6 +82,8 @@ public class DriveSubsystem extends SubsystemBase {
   private final Field2d m_field = new Field2d();
 
   private boolean m_first = true;
+  boolean m_slowMode = false;
+  double m_speedMultiplier = 1.0;
 
 
   // ts were here
@@ -151,6 +153,16 @@ public class DriveSubsystem extends SubsystemBase {
   public double readRightUltraSonic() {
     m_rightUSvalue = m_rightUltraSonic.get();
     return m_rightUSvalue;
+  }
+
+  public void toggleGEARSHIFT(){
+    if(m_slowMode){
+        m_slowMode = false;
+        m_speedMultiplier = 1.0;
+    }else{
+      m_slowMode = true;
+      m_speedMultiplier = 0.5;
+    }
   }
 
   public boolean getAlliance() {
@@ -256,19 +268,13 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void driveRobotRelative(ChassisSpeeds speeds) {
     ChassisSpeeds targetspeeds = ChassisSpeeds.discretize(speeds, DriveConstants.kAutoTimeDtSecondsAdjust);
+    //targetspeeds.times(m_speedMultiplier); //TODO: SCALE FACTOR?
 
     SwerveModuleState[] targetStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(targetspeeds);
     setModuleStates(targetStates);
   }
 
-  public void driveRobotRelativeAuto(ChassisSpeeds speeds) {
-    ChassisSpeeds targetspeeds = ChassisSpeeds.discretize(speeds, DriveConstants.kAutoTimeDtSecondsAdjust);
-    targetspeeds.vxMetersPerSecond *= -1;
-    //targetspeeds.vyMetersPerSecond
-
-    SwerveModuleState[] targetStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(targetspeeds);
-    setModuleStates(targetStates);
-  }
+  
 
   /**
    * Resets the odometry to the specified pose.
