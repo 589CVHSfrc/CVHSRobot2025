@@ -42,7 +42,7 @@ public class DriveToAprilTag extends Command {
   private DriveUtils m_DriveUtils;
   private AprilTagFieldLayout m_aprilTagLayout;
   private int m_tagID;
-  private Pose2d m_robotPose2d;
+  private Pose2d m_robotPose2d, m_targetPose2d;
   private Pose3d m_robotPose;
   private TrapezoidProfile.Constraints m_XConstraints;
   private TrapezoidProfile.Constraints m_YConstraints;
@@ -97,11 +97,15 @@ public class DriveToAprilTag extends Command {
     );
     if(m_PhotonCam.getFiducialID() != -1){
       cameraPose = m_robotPose.transformBy(VisualConstants.kCameraRelativeToRobot);
+      m_targetPose2d = m_PhotonCam.getPoseToTarget2d();
+
       targetPose = cameraPose.transformBy(m_PhotonCam.getBestTarget().getBestCameraToTarget());
       goalPose = targetPose.transformBy(tagToGoal).toPose2d();
-      xController.setGoal(goalPose.getX());
-      yController.setGoal(goalPose.getY());
-      rController.setGoal(goalPose.getRotation().getRadians());
+      //xController.setGoal(goalPose.getX());
+      xController.setGoal(-m_targetPose2d.getX());
+      yController.setGoal(m_targetPose2d.getY());
+     // yController.setGoal(goalPose.getY());
+      // rController.setGoal(goalPose.getRotation().getRadians());
 
       xSpeed = xController.calculate(m_robotPose.getX());
       if(xController.atGoal()){
