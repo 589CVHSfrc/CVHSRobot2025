@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonUtils;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
@@ -112,6 +113,9 @@ public class PhotonCam{
     * --------------
     */
 
+    public double distanceToTargetRange(){
+        return PhotonUtils.calculateDistanceToTargetMeters(VisualConstants.kCameraRelativeToRobot.getZ(), m_aprilTagLayout.getTagPose(getFiducialID()).get().getZ(),0, m_aprilTagLayout.getTagPose(getFiducialID()).get().getRotation().getAngle());
+    }
 
     
     public void setAlliance(boolean alliance){

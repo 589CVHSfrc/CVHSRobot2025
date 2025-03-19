@@ -42,6 +42,7 @@ import frc.robot.commands.COMMAND_DEEPCAGE.MoveClimber;
 import frc.robot.commands.COMMAND_DEEPCAGE.PIDTestingClimb;
 import frc.robot.commands.COMMAND_DRIVE.DrivePose;
 import frc.robot.commands.COMMAND_DRIVE.DriveToAprilTag;
+import frc.robot.commands.COMMAND_DRIVE.DriveToPosition;
 import frc.robot.commands.COMMAND_DRIVE.FlipHeading180;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DeepCageSubsystem;
@@ -196,7 +197,7 @@ public class RobotContainer {
     //     .whileTrue(new RunCommand(
     //         () -> System.out.println(m_robotDrive.getGyroYawDeg())));
     new JoystickButton(m_driverController, 2)
-        .whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam, Constants.DriveConstants.kSpeedToTarget, ()->m_robotDrive.getPose()));
+        .whileTrue(new DriveToPosition(m_robotDrive,()->m_robotDrive.getPose() ));//DriveToAprilTag(m_robotDrive, m_PhotonCam, Constants.DriveConstants.kSpeedToTarget, ()->m_robotDrive.getPose()));
 
     //---------------------------------------SWITCHBOARD------------------------------------------------------
    

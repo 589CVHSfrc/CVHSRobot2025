@@ -58,6 +58,7 @@ public class DriveToAprilTag extends Command {
   private double xSpeed;
   private double ySpeed;
   private double rSpeed;
+  public boolean m_lostTarget;
     /** Creates a new DriveToAprilTag. */
   public DriveToAprilTag(DriveSubsystem drive, PhotonCam photonCam, double speed, Supplier<Pose2d> pose) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -73,6 +74,7 @@ public class DriveToAprilTag extends Command {
     m_PhotonCam = photonCam;
     m_drive = drive;
     m_speed = speed;
+    m_lostTarget = false;
     m_aprilTagLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
     xController.setTolerance(0.2);
@@ -96,15 +98,17 @@ public class DriveToAprilTag extends Command {
       new Rotation3d(0.0,0.0, m_robotPose2d.getRotation().getRadians())
     );
     if(m_PhotonCam.getFiducialID() != -1){
+      m_lostTarget = false;
       cameraPose = m_robotPose.transformBy(VisualConstants.kCameraRelativeToRobot);
       m_targetPose2d = m_PhotonCam.getPoseToTarget2d();
 
       targetPose = cameraPose.transformBy(m_PhotonCam.getBestTarget().getBestCameraToTarget());
       goalPose = targetPose.transformBy(tagToGoal).toPose2d();
       //xController.setGoal(goalPose.getX());
-      xController.setGoal(-m_targetPose2d.getX());
+      xController.setGoal(m_targetPose2d.getX());
       yController.setGoal(m_targetPose2d.getY());
      // yController.setGoal(goalPose.getY());
+     rController.setGoal(m_targetPose2d.getRotation().getRadians());
       // rController.setGoal(goalPose.getRotation().getRadians());
 
       xSpeed = xController.calculate(m_robotPose.getX());
@@ -119,9 +123,12 @@ public class DriveToAprilTag extends Command {
       if(xController.atGoal()){
         rSpeed = 0;
       }
-
-      m_drive.drive(xSpeed, ySpeed, m_speed, false);
+      m_drive.drive(0.2, 0.2, 0, false);
+      //m_drive.drive(-xSpeed, -ySpeed, rSpeed, false);
+    }else{
+      m_lostTarget = true;
     }
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -133,6 +140,8 @@ public class DriveToAprilTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+
+
+    return m_lostTarget;
   }
 }
