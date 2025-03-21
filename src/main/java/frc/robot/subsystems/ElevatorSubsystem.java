@@ -51,11 +51,13 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     m_elevatorMotorConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        .iZone(Constants.ElevatorConstants.kElevatorIZone)
         // Set PID values for position control. We don't need to pass a closed loop
         // slot, as it will default to slot 0.
-        .p(Constants.ElevatorConstants.kElevatorP)//change
-        .i(Constants.ElevatorConstants.kElevatorI)//change
-        .d(Constants.ElevatorConstants.kElevatorD)
+        .pidf(Constants.ElevatorConstants.kElevatorP, Constants.ElevatorConstants.kElevatorI, Constants.ElevatorConstants.kElevatorD, Constants.ElevatorConstants.kElevatorFF)
+        // .p(Constants.ElevatorConstants.kElevatorP)//change
+        // .i(Constants.ElevatorConstants.kElevatorI)//change
+        // .d(Constants.ElevatorConstants.kElevatorD)
         .outputRange(Constants.ElevatorConstants.kElevatorRangeBottom, Constants.ElevatorConstants.kElevatorRangeTop);
 
       m_elevatorMotorConfig.inverted(true);

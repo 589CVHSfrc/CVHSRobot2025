@@ -80,7 +80,7 @@ public class DriveSubsystem extends SubsystemBase {
   double m_rightUSvalue, m_leftUSvalue;
 
   private final Field2d m_field = new Field2d();
-
+  boolean m_UltraSonicSwitch = false;
   private boolean m_first = true;
   boolean m_slowMode = false;
   double m_speedMultiplier = 1.0;
@@ -103,12 +103,12 @@ public class DriveSubsystem extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     //m_rightUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kRightUltraSonicChannel, DriveConstants.kMaxSensorRange);
-    m_rightUltraSonic = new AnalogPotentiometer(DriveConstants.kRightUltraSonicChannel);
+    m_rightUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kRightUltraSonicChannel,DriveConstants.kMaxSensorRange);
+    m_rightUltraSonicEnable = new DigitalOutput(DriveConstants.kRightUltraSonicChannel);
+    m_rightUltraSonicEnable.set(true);
     m_leftUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kLeftUlraSonicChannel,DriveConstants.kMaxSensorRange);
     m_leftUltraSonicEnable = new DigitalOutput(DriveConstants.kLeftUlraSonicChannel);
     m_leftUltraSonicEnable.set(true);
-    m_rightUltraSonicEnable = new DigitalOutput(DriveConstants.kRightUltraSonicChannel);
-
 
     m_estimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics,
         new Rotation2d(Units.degreesToRadians(getGyroYawDeg())), getSwerveModulePositions(), getPose());
@@ -413,11 +413,25 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
-    if(m_counter%10 == 0){
-      readLeftUltraSonic();
+    m_counter++;
+    var mod = m_counter%100;
+    if(mod == 10){
+      m_leftUltraSonicEnable.set(false);
+      m_rightUltraSonicEnable.set(false);
     }
-
+    else if(mod == 0){
+      if(m_UltraSonicSwitch){
+        m_leftUltraSonicEnable.set(true);
+        readLeftUltraSonic();
+        m_rightUltraSonicEnable.set(false);
+      }
+      else{
+        m_rightUltraSonicEnable.set(true);
+        readRightUltraSonic();
+        m_leftUltraSonicEnable.set(false);
+      }
+      m_UltraSonicSwitch = !m_UltraSonicSwitch;
+    }
     SmartDashboard.putNumber("Right Ultrasonic Value", readRightUltraSonic());
     SmartDashboard.putNumber("Left Ultrasonic Value", readLeftUltraSonic());
 

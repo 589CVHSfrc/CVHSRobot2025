@@ -38,7 +38,6 @@ double m_speed;
 
     m_Config.encoder
       .velocityConversionFactor((1.0/9.0));
-    
     m_Config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
         .p(ShooterConstants.kShooterP, ClosedLoopSlot.kSlot1) //change
         .i(ShooterConstants.kShooterI, ClosedLoopSlot.kSlot1)
