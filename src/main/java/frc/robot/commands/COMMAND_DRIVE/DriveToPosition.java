@@ -67,6 +67,9 @@ public class DriveToPosition extends Command {
     m_tagToGoal = new Transform3d(new Translation3d(0.5,0,0),new Rotation3d(0.0,0.0,Math.PI));
     m_goalPose = new Pose2d();
     m_pose = pose;
+
+    m_xController.setTolerance(0.2);
+    m_yController.setTolerance(0.2);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -74,11 +77,12 @@ public class DriveToPosition extends Command {
   @Override
   public void initialize() {
     m_INITIALrobotPose2d = m_pose.get();
-    m_goalPose = new Pose2d(m_INITIALrobotPose2d.getX() + 0.5, m_INITIALrobotPose2d.getY(), m_INITIALrobotPose2d.getRotation());
-    //m_goalPose = m_INITIALrobotPose2d.transformBy(new Transform2d(0.5,0, new Rotation2d(Math.toRadians(0))));//new Pose2d(0.5, 0, new Rotation2d(Math.toRadians(0)));
+    Transform2d transform = new Transform2d(1, 0, new Rotation2d(0));
+    // m_goalPose = m_INITIALrobotPose2d.plus(transform);
+    m_goalPose = m_INITIALrobotPose2d.transformBy(new Transform2d(1,0, new Rotation2d(Math.toRadians(0))));//new Pose2d(0.5, 0, new Rotation2d(Math.toRadians(0)));
 
     m_xController.setGoal(m_goalPose.getX());
-    m_yController.setGoal(m_goalPose.getY());
+    m_yController.setGoal(0);
     m_rController.setGoal(m_goalPose.getRotation().getDegrees());
 
   }
@@ -93,19 +97,20 @@ public class DriveToPosition extends Command {
 
     // m_robotPose2d = new Pose2d(0,0, new Rotation2d(0.0));
     m_robotPose = new Pose3d(
-      m_INITIALrobotPose2d.getX(), m_INITIALrobotPose2d.getY(),0.0,
-      new Rotation3d(0.0,0.0, m_INITIALrobotPose2d.getRotation().getRadians()));
+      m_pose.get().getX(), m_pose.get().getY(),0.0,
+      new Rotation3d(0.0,0.0, m_pose.get().getRotation().getRadians()));
 
     m_xSpeed = m_xController.calculate(m_robotPose.getX());
-      if(m_xController.atGoal()){
+
+    if(m_xController.atGoal()){
         m_xSpeed = 0;
       }
     m_ySpeed = m_xController.calculate(m_robotPose.getY());
-      if(m_xController.atGoal()){
+      if(m_yController.atGoal()){
         m_ySpeed = 0;
       }
     m_rSpeed = m_xController.calculate(m_robotPose.getRotation().getAngle());
-      if(m_xController.atGoal()){
+      if(m_rController.atGoal()){
         m_rSpeed = 0;
       }
     m_drive.drive(m_xSpeed, m_ySpeed, m_rSpeed, true);

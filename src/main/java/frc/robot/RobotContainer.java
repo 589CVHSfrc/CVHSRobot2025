@@ -197,7 +197,7 @@ public class RobotContainer {
     //     .whileTrue(new RunCommand(
     //         () -> System.out.println(m_robotDrive.getGyroYawDeg())));
     new JoystickButton(m_driverController, 2)
-        .whileTrue(new DriveToPosition(m_robotDrive,()->m_robotDrive.getPose() ));//DriveToAprilTag(m_robotDrive, m_PhotonCam, Constants.DriveConstants.kSpeedToTarget, ()->m_robotDrive.getPose()));
+        .whileTrue(new DriveToAprilTag(m_robotDrive,m_PhotonCam,0.2,()->m_robotDrive.getPose()));//DriveToAprilTag(m_robotDrive, m_PhotonCam, Constants.DriveConstants.kSpeedToTarget, ()->m_robotDrive.getPose()));
 
     //---------------------------------------SWITCHBOARD------------------------------------------------------
    
