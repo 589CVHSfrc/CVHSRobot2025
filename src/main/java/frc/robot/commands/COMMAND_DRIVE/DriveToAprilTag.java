@@ -18,6 +18,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -98,15 +99,24 @@ public class DriveToAprilTag extends Command {
       // m_cameraPose = m_robotPose3d;
       // m_targetPose2d = m_PhotonCam.getPoseToTarget2d();
       //m_targetPose = m_robotPose3d.transformBy(m_PhotonCam.getBestTarget().getBestCameraToTarget());
-      m_targetPose = m_cameraPose.transformBy(m_PhotonCam.getBestTarget().getBestCameraToTarget());//TODO: Fix access violation for getBestTarget()
-      m_cameraGoalPose = m_targetPose.transformBy(m_tagToGoal);
-      m_goalPose = m_cameraGoalPose.transformBy(VisualConstants.kCameraRelativeToRobot).toPose2d();
-      //xController.setGoal(goalPose.getX());
-      m_xController.setGoal(m_goalPose.getX());
-      m_yController.setGoal(m_goalPose.getY());
-     // yController.setGoal(goalPose.getY());
-     m_rController.setGoal(m_goalPose.getRotation().getRadians());
-  }
+      if (m_PhotonCam.getFiducialID() != -1) {
+        m_lostTarget = false;
+        m_targetPose = m_cameraPose.transformBy(m_PhotonCam.getBestTarget().getBestCameraToTarget());// TODO: Fix access
+                                                                                                     // violation for
+                                                                                                     // getBestTarget()
+        m_cameraGoalPose = m_targetPose.transformBy(m_tagToGoal);
+        m_goalPose = m_cameraGoalPose.transformBy(VisualConstants.kCameraRelativeToRobot).toPose2d();
+        // double rot = (m_goalPose.getRotation().getRadians())*-1;
+        // m_goalPose = new Pose2d(m_goalPose.getX(),m_goalPose.getY(), new Rotation2d(rot));
+        // xController.setGoal(goalPose.getX());
+        m_xController.setGoal(m_goalPose.getX());
+        m_yController.setGoal(m_goalPose.getY());
+        // yController.setGoal(goalPose.getY());
+        m_rController.setGoal(m_goalPose.getRotation().getRadians());
+      }else{
+        m_lostTarget = true;
+      }
+    }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -116,8 +126,8 @@ public class DriveToAprilTag extends Command {
   //     m_robotPose2d.getX(),m_robotPose2d.getY(),0.0,
   //     new Rotation3d(0.0,0.0, m_robotPose2d.getRotation().getRadians())
   //   );
-    // if(m_PhotonCam.getFiducialID() != -1){
-    //   m_lostTarget = false;
+    if(m_PhotonCam.getFiducialID() == -1){
+      m_lostTarget = true;}
     //   m_cameraPose = m_robotPose3d.transformBy(VisualConstants.kCameraRelativeToRobot.inverse());
     //   // Pose3d TempCameraPose = m_robotPose3d.transformBy(VisualConstants.kCameraRelativeToRobot.inverse());
     //   // m_cameraPose = m_robotPose3d;
@@ -146,12 +156,13 @@ public class DriveToAprilTag extends Command {
       if(m_rController.atGoal()){
         m_rSpeed = 0;
       }
-      m_drive.drive(-m_xSpeed, -m_ySpeed, m_rSpeed, false);
+      m_drive.drive(-m_xSpeed, -m_ySpeed, -m_rSpeed, false);
       //m_drive.drive(-xSpeed, -ySpeed, rSpeed, false);
     // }else{
     //   m_lostTarget = true;
     // }
     
+
   }
 
   // Called once the command ends or is interrupted.
@@ -163,8 +174,6 @@ public class DriveToAprilTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
-
-    return false;
+    return m_lostTarget;
   }
 }
