@@ -4,21 +4,13 @@
 
 package frc.robot.commands.COMMAND_DRIVE;
 
-import java.util.Optional;
-import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
-
-import com.pathplanner.lib.config.PIDConstants;
-import com.pathplanner.lib.config.RobotConfig;
-import com.revrobotics.spark.config.MAXMotionConfig;
-import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -30,7 +22,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.utils.DriveUtils;
 import frc.robot.PhotonCam;
 import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.VisualConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -39,7 +30,6 @@ import frc.robot.subsystems.DriveSubsystem;
 public class DriveToAprilTag extends Command {
   private DriveSubsystem m_drive;
   private PhotonCam m_PhotonCam;
-  private double m_speed;
   private DriveUtils m_DriveUtils;
   private AprilTagFieldLayout m_aprilTagLayout;
   private int m_tagID;
@@ -75,7 +65,6 @@ public class DriveToAprilTag extends Command {
     m_pose = pose;
     m_PhotonCam = photonCam;
     m_drive = drive;
-    m_speed = speed;
     m_lostTarget = false;
     m_aprilTagLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
@@ -101,17 +90,11 @@ public class DriveToAprilTag extends Command {
       //m_targetPose = m_robotPose3d.transformBy(m_PhotonCam.getBestTarget().getBestCameraToTarget());
       if (m_PhotonCam.getFiducialID() != -1) {
         m_lostTarget = false;
-        m_targetPose = m_cameraPose.transformBy(m_PhotonCam.getBestTarget().getBestCameraToTarget());// TODO: Fix access
-                                                                                                     // violation for
-                                                                                                     // getBestTarget()
+        m_targetPose = m_cameraPose.transformBy(m_PhotonCam.getBestTarget().getBestCameraToTarget());
         m_cameraGoalPose = m_targetPose.transformBy(m_tagToGoal);
         m_goalPose = m_cameraGoalPose.transformBy(VisualConstants.kCameraRelativeToRobot).toPose2d();
-        // double rot = (m_goalPose.getRotation().getRadians())*-1;
-        // m_goalPose = new Pose2d(m_goalPose.getX(),m_goalPose.getY(), new Rotation2d(rot));
-        // xController.setGoal(goalPose.getX());
         m_xController.setGoal(m_goalPose.getX());
         m_yController.setGoal(m_goalPose.getY());
-        // yController.setGoal(goalPose.getY());
         m_rController.setGoal(m_goalPose.getRotation().getRadians());
       }else{
         m_lostTarget = true;
@@ -136,12 +119,8 @@ public class DriveToAprilTag extends Command {
     //   m_targetPose = m_cameraPose.transformBy(m_PhotonCam.getBestTarget().getBestCameraToTarget());
     //   m_cameraGoalPose = m_targetPose.transformBy(m_tagToGoal);
     //   m_goalPose = m_cameraGoalPose.transformBy(VisualConstants.kCameraRelativeToRobot).toPose2d();
-    //   //xController.setGoal(goalPose.getX());
-    //   m_xController.setGoal(m_cameraGoalPose.getX());
     //   m_yController.setGoal(m_cameraGoalPose.getY());
-    //  // yController.setGoal(goalPose.getY());
     //  m_rController.setGoal(m_goalPose.getRotation().getRadians());
-      // rController.setGoal(goalPose.getRotation().getRadians());
       SmartDashboard.putNumber("Rotation Goal", m_goalPose.getRotation().getDegrees());
       SmartDashboard.putNumber("Current Rotation", m_robotPose2d.getRotation().getDegrees());
       m_xSpeed = m_xController.calculate(m_robotPose3d.getX());
