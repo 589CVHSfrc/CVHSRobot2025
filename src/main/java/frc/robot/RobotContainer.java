@@ -146,12 +146,9 @@ public class RobotContainer {
 
 
 
-    //m_autoChooser.setDefaultOption("line", new PathPlannerAuto("TuesdayAuto"));
-    m_autoChooser.setDefaultOption("Move forward (Hard Code)", new PathPlannerAuto("Move Forward Hard Code"));
-    //m_autoChooser.addOption("Forward from Zero", new PathPlannerAuto("ZeroOne"));
-    m_autoChooser.addOption("Middle Forward", new PathPlannerAuto("Middle Forward"));
-    m_autoChooser.addOption("Center Forward", new PathPlannerAuto("Center of Field Forward"));
-    m_autoChooser.addOption("Center Trough", new PathPlannerAuto("Center Trough Shoot"));
+    m_autoChooser.addOption("Middle Cage Forward", new PathPlannerAuto("Middle Forward"));
+    m_autoChooser.addOption("Center of Field Forward", new PathPlannerAuto("Center of Field Forward"));
+    m_autoChooser.addOption("Center Trough Shoot", new PathPlannerAuto("Center Trough Shoot"));
 
 
     SmartDashboard.putData("Auto Chooser",m_autoChooser);
