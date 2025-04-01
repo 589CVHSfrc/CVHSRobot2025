@@ -102,7 +102,7 @@ public class DriveToAprilTag extends Command {
       targetPose = cameraPose.transformBy(m_PhotonCam.getBestTarget().getBestCameraToTarget());
       goalPose = targetPose.transformBy(tagToGoal).toPose2d();
       //xController.setGoal(goalPose.getX());
-      xController.setGoal(-m_targetPose2d.getX());
+      xController.setGoal(m_targetPose2d.getX()); //Used to be negative, may have to change
       yController.setGoal(m_targetPose2d.getY());
      // yController.setGoal(goalPose.getY());
       // rController.setGoal(goalPose.getRotation().getRadians());
