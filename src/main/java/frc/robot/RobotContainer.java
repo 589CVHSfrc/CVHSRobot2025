@@ -42,6 +42,7 @@ import frc.robot.commands.COMMAND_DEEPCAGE.MoveClimber;
 import frc.robot.commands.COMMAND_DEEPCAGE.PIDTestingClimb;
 import frc.robot.commands.COMMAND_DRIVE.DrivePose;
 import frc.robot.commands.COMMAND_DRIVE.DriveToAprilTag;
+import frc.robot.commands.COMMAND_DRIVE.DriveToPosition;
 import frc.robot.commands.COMMAND_DRIVE.FlipHeading180;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DeepCageSubsystem;
@@ -97,9 +98,9 @@ public class RobotContainer {
   public RobotContainer() {
     m_MjpegServer0.setSource(m_usbCamera0);
     //m_MjpegServer1.setSource(m_UsbCamera1);
-    // m_usbCamera0.setExposureAuto();
-    // m_usbCamera0.setFPS(30);
-    // m_usbCamera0.setResolution(320, 240);
+    m_usbCamera0.setExposureAuto();
+    m_usbCamera0.setFPS(30);
+    m_usbCamera0.setResolution(320, 240);
     // m_UsbCamera1.setExposureAuto();
     // m_UsbCamera1.setFPS(30);
     // m_UsbCamera1.setResolution(320, 240);
@@ -145,12 +146,9 @@ public class RobotContainer {
 
 
 
-    //m_autoChooser.setDefaultOption("line", new PathPlannerAuto("TuesdayAuto"));
-    m_autoChooser.setDefaultOption("Move forward (Hard Code)", new PathPlannerAuto("Move Forward Hard Code"));
-    //m_autoChooser.addOption("Forward from Zero", new PathPlannerAuto("ZeroOne"));
-    m_autoChooser.addOption("Middle Forward", new PathPlannerAuto("Middle Forward"));
-    m_autoChooser.addOption("Center Forward", new PathPlannerAuto("Center of Field Forward"));
-    m_autoChooser.addOption("Center Trough", new PathPlannerAuto("Center Trough Shoot"));
+    m_autoChooser.addOption("Middle Cage Forward", new PathPlannerAuto("Middle Forward"));
+    m_autoChooser.addOption("Center of Field Forward", new PathPlannerAuto("Center of Field Forward"));
+    m_autoChooser.addOption("Center Trough Shoot", new PathPlannerAuto("Center Trough Shoot"));
 
 
     SmartDashboard.putData("Auto Chooser",m_autoChooser);
@@ -196,7 +194,7 @@ public class RobotContainer {
     //     .whileTrue(new RunCommand(
     //         () -> System.out.println(m_robotDrive.getGyroYawDeg())));
     new JoystickButton(m_driverController, 2)
-        .whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam, Constants.DriveConstants.kSpeedToTarget, ()->m_robotDrive.getPose()));
+        .whileTrue(new DriveToAprilTag(m_robotDrive,m_PhotonCam,0.2,()->m_robotDrive.getPose()));//DriveToAprilTag(m_robotDrive, m_PhotonCam, Constants.DriveConstants.kSpeedToTarget, ()->m_robotDrive.getPose()));
 
     //---------------------------------------SWITCHBOARD------------------------------------------------------
    

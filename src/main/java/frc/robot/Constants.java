@@ -30,16 +30,16 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
   public static final class DriveConstants {
-    public static final int kMaxSensorRange = 127;//254;
+    public static final int kMaxSensorRange = 508;//254;
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
 
-    public static final double kSpeedToTarget = 0.1;
+    public static final double kSpeedToTarget = 0.05;
     public static final double kMaxSpeedMetersPerSecond = 4.8;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
-    public static final int kLeftUlraSonicChannel = 1; // change
-    public static final int kRightUltraSonicChannel = 2; // change
+    public static final int kLeftUlraSonicChannel = 2; 
+    public static final int kRightUltraSonicChannel = 1; 
 
     public static final double kAutoTimeDtSecondsAdjust = 0.02; // ?????????????????????????
 
@@ -169,17 +169,19 @@ public final class Constants {
   public static class ElevatorConstants {
     public static final int kElevatorMotorCANID = 13; 
     public static final double kElevatorP = 0.04;
-    public static final double kElevatorI = 0.00002;
+    public static final double kElevatorI = 0.00002*1.5;
     public static final double kElevatorD = 0;//0.0009;
+    public static final double kElevatorIZone = 2;
+    public static final double kElevatorFF = 0.00325;
     public static final double kElevatorRangeBottom = -0.8;
     public static final double kElevatorRangeTop = 0.8;
     public static final double kElevatorPositionConversionFactor = 1; // change
     public static final double kElevatorVelocityConversionFactor = 1; // change
     public static final double kPositionMargin = 5; // change
-    public static final double kHomingSpeed = -0.4;
+    public static final double kHomingSpeed = -0.2;
 
     public static final double kL2EncoderHight = 14.5;
-    public static final double kCoralStationHight = 19.1; //.45
+    public static final double kCoralStationHight = 19.5; //.45
     public static final double kL3EncoderHight = 26.8;
     public static final double kCoralStationBarHight = 24.5;
     public static final double kL1EncoderHight = 9.14;
@@ -192,7 +194,7 @@ public final class Constants {
     public static final double kShooterP = 0.1;
     public static final double kShooterI = 0.00005;
     public static final double kShooterD = 0;
-    public static final double kIntakeSpeed = -0.2; //duty cycle
+    public static final double kIntakeSpeed = -0.3; //duty cycle
     public static final double kShootingSpeed = 0.35; //duty cycle
     public static final double kL1RightSpeedLeft = 0.36;
     public static final double kL1LeftSpeedLeft = 0.12; // must be 1/3rd the speed of other roller
