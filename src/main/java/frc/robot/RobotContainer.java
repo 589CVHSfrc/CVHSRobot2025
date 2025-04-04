@@ -98,9 +98,9 @@ public class RobotContainer {
   public RobotContainer() {
     m_MjpegServer0.setSource(m_usbCamera0);
     //m_MjpegServer1.setSource(m_UsbCamera1);
-    m_usbCamera0.setExposureAuto();
-    m_usbCamera0.setFPS(30);
-    m_usbCamera0.setResolution(320, 240);
+    // m_usbCamera0.setExposureAuto();
+    // m_usbCamera0.setFPS(30);
+    // m_usbCamera0.setResolution(320, 240);
     // m_UsbCamera1.setExposureAuto();
     // m_UsbCamera1.setFPS(30);
     // m_UsbCamera1.setResolution(320, 240);
