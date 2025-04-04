@@ -119,6 +119,14 @@ public class RobotContainer {
                 true),
             m_robotDrive));
 
+            // new RunCommand(
+            //   () -> m_robotDrive.drive(
+            //       MathUtil.applyDeadband((m_driverController.getLeftY()* Math.abs(m_driverController.getLeftY())), OIConstants.kDriveDeadband), // used to have a -
+            //       MathUtil.applyDeadband((m_driverController.getLeftX()* Math.abs(m_driverController.getLeftX())), OIConstants.kDriveDeadband), // used to have a -
+            //       -MathUtil.applyDeadband((m_driverController.getRawAxis(2) * Math.abs(m_driverController.getRawAxis(2))), OIConstants.kDriveDeadband),
+            //       true),
+            //   m_robotDrive);
+
     NamedCommands.registerCommand("Reset Gyro", new ResetGyro(m_robotDrive, new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()));
     NamedCommands.registerCommand("PathPlanner Reset Gyro", AutoBuilder.resetOdom(new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()));
     NamedCommands.registerCommand("SetHeading180", new FlipHeading180(m_robotDrive));
