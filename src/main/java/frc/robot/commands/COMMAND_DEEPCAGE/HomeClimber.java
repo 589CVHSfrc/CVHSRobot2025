@@ -36,7 +36,9 @@ public class HomeClimber extends Command {
   @Override
   public void end(boolean interrupted) {
     m_cage.move(0);
-    m_cage.zeroEncoder();
+    if(m_cage.isTopPressed()){
+      m_cage.zeroEncoder();
+    }
   }
 
   // Returns true when the command should end.

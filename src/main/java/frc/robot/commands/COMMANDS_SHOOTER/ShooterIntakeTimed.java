@@ -59,7 +59,7 @@ public class ShooterIntakeTimed extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-      return m_timer.get() >= 0.5;
+      return m_timer.get() >= 0.3;
       //return !m_shooter.checkCoral();
   }
 }

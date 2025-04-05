@@ -21,6 +21,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,6 +38,7 @@ import frc.robot.commands.COMMAND_SEQUENCES.CoralStationIntake;
 import frc.robot.commands.COMMANDS_SHOOTER.Shoot;
 import frc.robot.commands.COMMANDS_SHOOTER.ShooterExpelL1;
 import frc.robot.commands.COMMANDS_SHOOTER.ShooterIntake;
+import frc.robot.commands.COMMANDS_SHOOTER.ShooterIntakeTimed;
 import frc.robot.commands.COMMAND_DEEPCAGE.HomeClimber;
 import frc.robot.commands.COMMAND_DEEPCAGE.MoveClimber;
 import frc.robot.commands.COMMAND_DEEPCAGE.PIDTestingClimb;
@@ -125,7 +127,7 @@ public class RobotContainer {
             //       MathUtil.applyDeadband((m_driverController.getLeftX()* Math.abs(m_driverController.getLeftX())), OIConstants.kDriveDeadband), // used to have a -
             //       -MathUtil.applyDeadband((m_driverController.getRawAxis(2) * Math.abs(m_driverController.getRawAxis(2))), OIConstants.kDriveDeadband),
             //       true),
-            //   m_robotDrive);
+            //   m_robotDrive));
 
     NamedCommands.registerCommand("Reset Gyro", new ResetGyro(m_robotDrive, new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()));
     NamedCommands.registerCommand("PathPlanner Reset Gyro", AutoBuilder.resetOdom(new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()));
@@ -188,15 +190,17 @@ public class RobotContainer {
     new JoystickButton(m_driverController, 8).whileTrue(new Shoot(m_shooter, ShooterConstants.kShootingSpeed));
     //new JoystickButton(m_driverController, 3).whileTrue(new MoveClimber(m_CageSubsystem, 0.25));//up
 
-    new JoystickButton(m_driverController, 1).whileTrue(new PIDTestingClimb(m_CageSubsystem, ClimberConstants.kMaxSpeedDown));
-    new JoystickButton(m_driverController, 3).whileTrue(new PIDTestingClimb(m_CageSubsystem, ClimberConstants.kMaxSpeedUp));
+    // new JoystickButton(m_driverController, 1).whileTrue(new PIDTestingClimb(m_CageSubsystem, ClimberConstants.kMaxSpeedDown));
+    // new JoystickButton(m_driverController, 3).whileTrue(new PIDTestingClimb(m_CageSubsystem, ClimberConstants.kMaxSpeedUp));
+    new JoystickButton(m_driverController, 1).whileTrue(new HomeClimber(m_CageSubsystem, ClimberConstants.kHomingSpeed));
 
     //new JoystickButton(m_driverController, 7).whileTrue(new HomeClimber(m_CageSubsystem, 0.25));
-    //new JoystickButton(m_driverController, 1).whileTrue(new MoveClimber(m_CageSubsystem, -0.25));//down
+    new JoystickButton(m_driverController, 3).whileTrue(new MoveClimber(m_CageSubsystem, -0.25));//down
 
     new JoystickButton(m_driverController,5).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kLeft));
     new JoystickButton(m_driverController, 6).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kRight));
     new JoystickButton(m_driverController, 7).onTrue(new HomeElevator(m_elevatorSubsystem));
+    //new JoystickButton(m_driverController, 8).onTrue(new ShooterIntakeTimed(m_shooter, ShooterConstants.kIntakeSpeed));
 
     // new JoystickButton(m_driverController, Button.kSquare.value)
     //     .whileTrue(new RunCommand(

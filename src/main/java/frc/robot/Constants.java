@@ -178,7 +178,7 @@ public final class Constants {
     public static final double kElevatorPositionConversionFactor = 1; // change
     public static final double kElevatorVelocityConversionFactor = 1; // change
     public static final double kPositionMargin = 5; // change
-    public static final double kHomingSpeed = -0.2;
+    public static final double kHomingSpeed = -0.3;
 
     public static final double kL2EncoderHight = 14.5;
     public static final double kCoralStationHight = 19.5; //.45

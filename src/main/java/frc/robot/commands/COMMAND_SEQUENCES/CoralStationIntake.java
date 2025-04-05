@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.COMMANDS_SHOOTER.ShooterIntake;
+import frc.robot.commands.COMMANDS_SHOOTER.ShooterIntakeTimed;
 import frc.robot.commands.COMMAND_ELEVATOR.ElevatorToPosition;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -22,7 +23,7 @@ public class CoralStationIntake extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ElevatorToPosition(elevator, ElevatorConstants.kCoralStationHight),
-      new ShooterIntake(shooter, ShooterConstants.kIntakeSpeed),
+      new ShooterIntakeTimed(shooter, ShooterConstants.kIntakeSpeed),
       new ElevatorToPosition(elevator, ElevatorConstants.kCoralStationBarHight));
       addRequirements(elevator, shooter);
   }
