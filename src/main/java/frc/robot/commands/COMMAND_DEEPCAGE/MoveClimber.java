@@ -39,6 +39,7 @@ public class MoveClimber extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_cage.getEncoderPosition() <= -79);
+    return (m_cage.getEncoderPosition() <= -79
+    );
   }
 }

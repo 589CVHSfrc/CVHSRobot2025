@@ -59,6 +59,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /*
@@ -136,6 +137,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("Home Elevator", new HomeElevator(m_elevatorSubsystem));
     NamedCommands.registerCommand("Elevator L1", new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL1EncoderHight));
     NamedCommands.registerCommand("Shoot L1 Right", new ShooterExpelL1(m_shooter, ShooterConstants.kRight));
+    NamedCommands.registerCommand("Elevator L3", new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL3EncoderHight));
+    // NamedCommands.registerCommand("Elevator L3", new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL3EncoderHight));
+    NamedCommands.registerCommand("Shoot", new Shoot(m_shooter, ShooterConstants.kShootingSpeed));
     
     
     // new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()
@@ -159,6 +163,8 @@ public class RobotContainer {
     m_autoChooser.addOption("Middle Cage Forward", new PathPlannerAuto("Middle Forward"));
     m_autoChooser.addOption("Center of Field Forward", new PathPlannerAuto("Center of Field Forward"));
     m_autoChooser.addOption("Center Trough Shoot", new PathPlannerAuto("Center Trough Shoot"));
+    m_autoChooser.addOption("Outside Taxi", new PathPlannerAuto("Outside Taxi"));
+    m_autoChooser.addOption("Center Start to Top Coral Right (Driver POV) - L3 Shoot", new PathPlannerAuto("Center Start to Top Coral Right (Driver POV) - L3 Shoot"));
 
 
     SmartDashboard.putData("Auto Chooser",m_autoChooser);
@@ -203,10 +209,11 @@ public class RobotContainer {
     //new JoystickButton(m_driverController, 8).onTrue(new ShooterIntakeTimed(m_shooter, ShooterConstants.kIntakeSpeed));
 
     // new JoystickButton(m_driverController, Button.kSquare.value)
-    //     .whileTrue(new RunCommand(
+    //     .whileTrue(new RunCommand( 
     //         () -> System.out.println(m_robotDrive.getGyroYawDeg())));
     new JoystickButton(m_driverController, 2)
         .whileTrue(new DriveToAprilTag(m_robotDrive,m_PhotonCam,0.2,()->m_robotDrive.getPose()));//DriveToAprilTag(m_robotDrive, m_PhotonCam, Constants.DriveConstants.kSpeedToTarget, ()->m_robotDrive.getPose()));
+    new JoystickButton(m_driverController, 9).whileTrue(new PathPlannerAuto("Center Start to Top Coral Right (Driver POV) - L3 Shoot"));
 
     //---------------------------------------SWITCHBOARD------------------------------------------------------
    

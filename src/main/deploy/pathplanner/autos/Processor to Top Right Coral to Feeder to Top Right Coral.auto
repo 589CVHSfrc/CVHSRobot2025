@@ -1,0 +1,31 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Processor Start to Top Right Coral Right (Driver POV)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Top Right Coral Right to Right Feeder Station (Driver POV)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Feeder Station Right to Top Left Coral Left (Driver POV)"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "New Folder",
+  "choreoAuto": false
+}
