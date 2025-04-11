@@ -72,7 +72,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   double m_counter = 0;
   private final Pigeon2 m_pigeon = new Pigeon2(DriveConstants.kPigeon2CanId);
-  
 
   public SwerveDrivePoseEstimator m_estimator;
   AnalogPotentiometer m_rightUltraSonic, m_leftUltraSonic;
@@ -84,7 +83,6 @@ public class DriveSubsystem extends SubsystemBase {
   private boolean m_first = true;
   boolean m_slowMode = false;
   double m_speedMultiplier = 1.0;
-
 
   // ts were here
 
@@ -102,11 +100,15 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    //m_rightUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kRightUltraSonicChannel, DriveConstants.kMaxSensorRange);
-    m_rightUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kRightUltraSonicChannel,DriveConstants.kMaxSensorRange);
+    // m_rightUltraSonic = new
+    // AnalogPotentiometer(Constants.DriveConstants.kRightUltraSonicChannel,
+    // DriveConstants.kMaxSensorRange);
+    m_rightUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kRightUltraSonicChannel,
+        DriveConstants.kMaxSensorRange);
     m_rightUltraSonicEnable = new DigitalOutput(DriveConstants.kRightUltraSonicChannel);
     m_rightUltraSonicEnable.set(true);
-    m_leftUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kLeftUlraSonicChannel,DriveConstants.kMaxSensorRange);
+    m_leftUltraSonic = new AnalogPotentiometer(Constants.DriveConstants.kLeftUlraSonicChannel,
+        DriveConstants.kMaxSensorRange);
     m_leftUltraSonicEnable = new DigitalOutput(DriveConstants.kLeftUlraSonicChannel);
     m_leftUltraSonicEnable.set(true);
 
@@ -130,8 +132,8 @@ public class DriveSubsystem extends SubsystemBase {
         new PPHolonomicDriveController(
             // new PIDConstants(5.0, 0.0, 0.0),
             // new PIDConstants(5.0, 0.0, 0.0)),
-            new PIDConstants(0.04, 0.0, 0.0), //2024 values - Mr. G
-            new PIDConstants(1.0, 0.0, 0.0)), // 2024 values - Mr. G      
+            new PIDConstants(0.04, 0.0, 0.0), // 2024 values - Mr. G
+            new PIDConstants(1.0, 0.0, 0.0)), // 2024 values - Mr. G
         config,
         () -> {
           var alliance = DriverStation.getAlliance();
@@ -155,11 +157,11 @@ public class DriveSubsystem extends SubsystemBase {
     return m_rightUSvalue;
   }
 
-  public void toggleGEARSHIFT(){
-    if(m_slowMode){
-        m_slowMode = false;
-        m_speedMultiplier = 1.0;
-    }else{
+  public void toggleGEARSHIFT() {
+    if (m_slowMode) {
+      m_slowMode = false;
+      m_speedMultiplier = 1.0;
+    } else {
       m_slowMode = true;
       m_speedMultiplier = 0.5;
     }
@@ -174,7 +176,6 @@ public class DriveSubsystem extends SubsystemBase {
     return false;
   }
 
-
   /**
    * Returns the currently-estimated pose of the robot.
    *
@@ -186,11 +187,12 @@ public class DriveSubsystem extends SubsystemBase {
     if (m_first) {
       m_first = false;
       return m_odometry.getPoseMeters();
-      //return new Pose2d(0, 0, new Rotation2d(0));
+      // return new Pose2d(0, 0, new Rotation2d(0));
     }
 
     return m_estimator.getEstimatedPosition();
   }
+
   public SwerveModulePosition[] getSwerveModulePositions() {
     return new SwerveModulePosition[] {
         m_frontLeft.getPosition(),
@@ -221,6 +223,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
+  public Pose2d getEstimatedPose() {
+    return m_estimator.getEstimatedPosition();
+  }
   // private HolonomicPathFollowerConfig m_driveConfig = new
   // HolonomicPathFollowerConfig(
   // new PIDConstants(ModuleConstants.kDrivingP, ModuleConstants.kDrivingI,
@@ -268,13 +273,11 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void driveRobotRelative(ChassisSpeeds speeds) {
     ChassisSpeeds targetspeeds = ChassisSpeeds.discretize(speeds, DriveConstants.kAutoTimeDtSecondsAdjust);
-    //targetspeeds.times(m_speedMultiplier); //TODO: SCALE FACTOR?
+    // targetspeeds.times(m_speedMultiplier); //TODO: SCALE FACTOR?
 
     SwerveModuleState[] targetStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(targetspeeds);
     setModuleStates(targetStates);
   }
-
-  
 
   /**
    * Resets the odometry to the specified pose.
@@ -371,7 +374,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putData("Field Pos", m_field);
   }
 
-  public void setHeading(double yaw){
+  public void setHeading(double yaw) {
     m_pigeon.setYaw(yaw);
   }
 
@@ -414,18 +417,16 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_counter++;
-    var mod = m_counter%100;
-    if(mod == 10){
+    var mod = m_counter % 100;
+    if (mod == 10) {
       m_leftUltraSonicEnable.set(false);
       m_rightUltraSonicEnable.set(false);
-    }
-    else if(mod == 0){
-      if(m_UltraSonicSwitch){
+    } else if (mod == 0) {
+      if (m_UltraSonicSwitch) {
         m_leftUltraSonicEnable.set(true);
         readLeftUltraSonic();
         m_rightUltraSonicEnable.set(false);
-      }
-      else{
+      } else {
         m_rightUltraSonicEnable.set(true);
         readRightUltraSonic();
         m_leftUltraSonicEnable.set(false);

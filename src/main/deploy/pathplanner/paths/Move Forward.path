@@ -20,8 +20,8 @@
         "y": 0.0
       },
       "prevControl": {
-        "x": 0.12489754098360695,
-        "y": 0.023975409836064776
+        "x": 0.12489754098360684,
+        "y": 0.02397540983606478
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "New Folder",
+  "folder": "Comp Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

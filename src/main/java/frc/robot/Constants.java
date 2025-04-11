@@ -30,7 +30,7 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
   public static final class DriveConstants {
-    public static final int kMaxSensorRange = 508;//254;
+    public static final int kMaxSensorRange = 508;// 254;
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
 
@@ -38,14 +38,13 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = 4.8;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
-    public static final int kLeftUlraSonicChannel = 2; 
-    public static final int kRightUltraSonicChannel = 1; 
+    public static final int kLeftUlraSonicChannel = 2;
+    public static final int kRightUltraSonicChannel = 1;
 
     public static final double kAutoTimeDtSecondsAdjust = 0.02; // ?????????????????????????
 
     public static final int kDriveCurrentLimit = 60;
 
-    
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(26.5);
     // Distance between centers of right and left wheels on robot
@@ -91,32 +90,35 @@ public final class Constants {
 
     public static final int kPigeon2CanId = 60;
 
-    //field piece positions:
-    public static final Pose2d kShootingPositionLeftReefRED = new Pose2d(0, 0, new Rotation2d(0)); //change later placeholder vals
-    public static final Pose2d kShootingPositionLeftReefBLUE = new Pose2d(0, 0, new Rotation2d(0)); //change later placeholder vals
-    public static final Pose2d kShootingPositionRightReefRED = new Pose2d(0, 0, new Rotation2d(0)); //change later placeholder vals
-    public static final Pose2d kShootingPositionRightReefBLUE = new Pose2d(0, 0, new Rotation2d(0)); //change later placeholder vals
+    // field piece positions:
+    public static final Pose2d kShootingPositionLeftReefRED = new Pose2d(0, 0, new Rotation2d(0)); // change later
+                                                                                                   // placeholder vals
+    public static final Pose2d kShootingPositionLeftReefBLUE = new Pose2d(0, 0, new Rotation2d(0)); // change later
+                                                                                                    // placeholder vals
+    public static final Pose2d kShootingPositionRightReefRED = new Pose2d(0, 0, new Rotation2d(0)); // change later
+                                                                                                    // placeholder vals
+    public static final Pose2d kShootingPositionRightReefBLUE = new Pose2d(0, 0, new Rotation2d(0)); // change later
+                                                                                                     // placeholder vals
 
   }
 
-  public static final class VisualConstants{
+  public static final class VisualConstants {
     // public static final Transform3d kCameraRelativeToRobot = ;
-  //   public static final Transform3d kCameraRelativeToRobot = new Transform3d(
-  //       Units.inchesToMeters(-4),
-  //       Units.inchesToMeters(0),
-  //       Units.inchesToMeters(20),
-  //       new Rotation3d(0,
-  //           Units.degreesToRadians(-40), 0));
-  // }
+    // public static final Transform3d kCameraRelativeToRobot = new Transform3d(
+    // Units.inchesToMeters(-4),
+    // Units.inchesToMeters(0),
+    // Units.inchesToMeters(20),
+    // new Rotation3d(0,
+    // Units.degreesToRadians(-40), 0));
+    // }
 
-  public static final Transform3d kCameraRelativeToRobot = new Transform3d(
-    Units.inchesToMeters(8.5),
-    Units.inchesToMeters(-9.0),
-    Units.inchesToMeters(21.75),
-    new Rotation3d(0,
-        Units.degreesToRadians(0), 0));
-}
-
+    public static final Transform3d kCameraRelativeToRobot = new Transform3d(
+        Units.inchesToMeters(8.5),
+        Units.inchesToMeters(-9.0),
+        Units.inchesToMeters(21.75),
+        new Rotation3d(0,
+            Units.degreesToRadians(0), 0));
+  }
 
   public static final class ModuleConstants {
     // The MAXSwerve module can be configured with one of three pinion gears: 12T,
@@ -124,15 +126,14 @@ public final class Constants {
     // more teeth will result in a robot that drives faster).
     public static final int kDrivingMotorPinionTeeth = 14;
 
-    
     // Calculations required for driving motor conversion factors and feed forward
     public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
     public static final double kWheelDiameterMeters = 0.0762;
     // Wheel radius
     public static final double kWheelRadius = kWheelDiameterMeters / 2.0;
 
-    //The coefficient of friction between the drive wheel and the carpet.
-    public static final double kWheelFrictionCoefficient = 1.200; //CHANGE THIS!!!
+    // The coefficient of friction between the drive wheel and the carpet.
+    public static final double kWheelFrictionCoefficient = 1.200; // CHANGE THIS!!!
 
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
     // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
@@ -167,10 +168,10 @@ public final class Constants {
   }
 
   public static class ElevatorConstants {
-    public static final int kElevatorMotorCANID = 13; 
+    public static final int kElevatorMotorCANID = 13;
     public static final double kElevatorP = 0.04;
-    public static final double kElevatorI = 0.00002*1.5;
-    public static final double kElevatorD = 0;//0.0009;
+    public static final double kElevatorI = 0.00002 * 1.5;
+    public static final double kElevatorD = 0;// 0.0009;
     public static final double kElevatorIZone = 2;
     public static final double kElevatorFF = 0.00325;
     public static final double kElevatorRangeBottom = -0.8;
@@ -181,7 +182,7 @@ public final class Constants {
     public static final double kHomingSpeed = -0.3;
 
     public static final double kL2EncoderHight = 14.5;
-    public static final double kCoralStationHight = 19.5; //.45
+    public static final double kCoralStationHight = 19.5; // .45
     public static final double kL3EncoderHight = 26.8;
     public static final double kCoralStationBarHight = 24.5;
     public static final double kL1EncoderHight = 9.14;
@@ -194,8 +195,8 @@ public final class Constants {
     public static final double kShooterP = 0.1;
     public static final double kShooterI = 0.00005;
     public static final double kShooterD = 0;
-    public static final double kIntakeSpeed = -0.3; //duty cycle
-    public static final double kShootingSpeed = 0.35; //duty cycle
+    public static final double kIntakeSpeed = -0.3; // duty cycle
+    public static final double kShootingSpeed = 0.35; // duty cycle
     public static final double kL1RightSpeedLeft = 0.36;
     public static final double kL1LeftSpeedLeft = 0.12; // must be 1/3rd the speed of other roller
     public static final double kL1RightSpeedRight = 0.12;
@@ -215,16 +216,16 @@ public final class Constants {
     public static final double kClimbD = 0;
     public static final double kClimbingSpeed = 0; // change
     public static final double kHomingSpeed = 0.25; // Change only if different from climbing speed, otherwise just
-                                                 // multiply climbing speed by -1.
+    // multiply climbing speed by -1.
     public static final double kPeakedCurrent = 0; // change
 
     public static final double kClimbedEncoderPosition = 6.3;
   }
 
   public static class GroundIntakeConstants {
-    public static final int kBeamBreakDIOPort = 0; 
-    public static final int kbottomRollerCANID = 43; 
-    public static final int ktopRollerCANID = 44; 
+    public static final int kBeamBreakDIOPort = 0;
+    public static final int kbottomRollerCANID = 43;
+    public static final int ktopRollerCANID = 44;
     public static final double kGroundIntakeP = 1.0; // change
     public static final double kGroundIntakeI = 0; // change
     public static final double kGroundIntakeD = 0; // change
