@@ -169,11 +169,11 @@ public final class Constants {
 
   public static class ElevatorConstants {
     public static final int kElevatorMotorCANID = 13;
-    public static final double kElevatorP = 0.04;
+    public static final double kElevatorP = 0.03;// 0.04;
     public static final double kElevatorI = 0.00002 * 1.5;
     public static final double kElevatorD = 0;// 0.0009;
     public static final double kElevatorIZone = 2;
-    public static final double kElevatorFF = 0.00325;
+    public static final double kElevatorFF = 0.00325; // 0.00325; old value
     public static final double kElevatorRangeBottom = -0.8;
     public static final double kElevatorRangeTop = 0.8;
     public static final double kElevatorPositionConversionFactor = 1; // change

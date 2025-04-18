@@ -73,14 +73,16 @@ public class RobotContainer {
 
   private final UsbCamera m_usbCamera0 = new UsbCamera("USB Camera 0", 0);
   private final MjpegServer m_MjpegServer0 = new MjpegServer("Camera Server", 1181);
-  //private final MjpegServer m_MjpegServer1 = new MjpegServer("Camera Server", 1182);
+  // private final MjpegServer m_MjpegServer1 = new MjpegServer("Camera Server",
+  // 1182);
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final PhotonCam m_PhotonCam = new PhotonCam();
   private String m_currentPath;
 
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
-  // private final GroundIntakeSubsystem m_groundIntake = new GroundIntakeSubsystem();
+  // private final GroundIntakeSubsystem m_groundIntake = new
+  // GroundIntakeSubsystem();
   private final DeepCageSubsystem m_CageSubsystem = new DeepCageSubsystem();
   // private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem();
 
@@ -100,7 +102,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     m_MjpegServer0.setSource(m_usbCamera0);
-    //m_MjpegServer1.setSource(m_UsbCamera1);
+    // m_MjpegServer1.setSource(m_UsbCamera1);
     // m_usbCamera0.setExposureAuto();
     // m_usbCamera0.setFPS(30);
     // m_usbCamera0.setResolution(320, 240);
@@ -122,52 +124,58 @@ public class RobotContainer {
                 true),
             m_robotDrive));
 
-            // new RunCommand(
-            //   () -> m_robotDrive.drive(
-            //       MathUtil.applyDeadband((m_driverController.getLeftY()* Math.abs(m_driverController.getLeftY())), OIConstants.kDriveDeadband), // used to have a -
-            //       MathUtil.applyDeadband((m_driverController.getLeftX()* Math.abs(m_driverController.getLeftX())), OIConstants.kDriveDeadband), // used to have a -
-            //       -MathUtil.applyDeadband((m_driverController.getRawAxis(2) * Math.abs(m_driverController.getRawAxis(2))), OIConstants.kDriveDeadband),
-            //       true),
-            //   m_robotDrive));
+    // new RunCommand(
+    // () -> m_robotDrive.drive(
+    // MathUtil.applyDeadband((m_driverController.getLeftY()*
+    // Math.abs(m_driverController.getLeftY())), OIConstants.kDriveDeadband), //
+    // used to have a -
+    // MathUtil.applyDeadband((m_driverController.getLeftX()*
+    // Math.abs(m_driverController.getLeftX())), OIConstants.kDriveDeadband), //
+    // used to have a -
+    // -MathUtil.applyDeadband((m_driverController.getRawAxis(2) *
+    // Math.abs(m_driverController.getRawAxis(2))), OIConstants.kDriveDeadband),
+    // true),
+    // m_robotDrive));
 
-    NamedCommands.registerCommand("Reset Gyro", new ResetGyro(m_robotDrive, new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()));
-    NamedCommands.registerCommand("PathPlanner Reset Gyro", AutoBuilder.resetOdom(new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()));
+    NamedCommands.registerCommand("Reset Gyro",
+        new ResetGyro(m_robotDrive, new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()));
+    NamedCommands.registerCommand("PathPlanner Reset Gyro",
+        AutoBuilder.resetOdom(new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()));
     NamedCommands.registerCommand("SetHeading180", new FlipHeading180(m_robotDrive));
     NamedCommands.registerCommand("ZeroHeading", new ZeroHeading(m_robotDrive));
     NamedCommands.registerCommand("Home Elevator", new HomeElevator(m_elevatorSubsystem));
-    NamedCommands.registerCommand("Elevator L1", new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL1EncoderHight));
+    NamedCommands.registerCommand("Elevator L1",
+        new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL1EncoderHight));
     NamedCommands.registerCommand("Shoot L1 Right", new ShooterExpelL1(m_shooter, ShooterConstants.kRight));
-    NamedCommands.registerCommand("Elevator L3", new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL3EncoderHight));
-    // NamedCommands.registerCommand("Elevator L3", new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL3EncoderHight));
+    NamedCommands.registerCommand("Elevator L3",
+        new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL3EncoderHight));
+    // NamedCommands.registerCommand("Elevator L3", new
+    // ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL3EncoderHight));
     NamedCommands.registerCommand("Shoot", new Shoot(m_shooter, ShooterConstants.kShootingSpeed));
-    
-    
-    // new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()
-    // m_autoChooser.setDefaultOption("Default", "Default Auto");
-    
 
+    // new
+    // PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()
+    // m_autoChooser.setDefaultOption("Default", "Default Auto");
 
     // getHolonomic.. from path plan)
     // m_robotDrive.setPose2d();//initial pos for selected path
     // try {
-    //   PathPlannerPath path = PathPlannerAuto.getPathGroupFromAutoFile(m_currentPath).get(0);
-    //   m_robotDrive.setPose(path.getStartingHolonomicPose().get());
+    // PathPlannerPath path =
+    // PathPlannerAuto.getPathGroupFromAutoFile(m_currentPath).get(0);
+    // m_robotDrive.setPose(path.getStartingHolonomicPose().get());
     // } catch(Exception e) {
-    //   e.printStackTrace();
+    // e.printStackTrace();
 
     // }
-    
-
-
 
     m_autoChooser.addOption("Middle Cage Forward", new PathPlannerAuto("Middle Forward"));
     m_autoChooser.addOption("Center of Field Forward", new PathPlannerAuto("Center of Field Forward"));
     m_autoChooser.addOption("Center Trough Shoot", new PathPlannerAuto("Center Trough Shoot"));
     m_autoChooser.addOption("Outside Taxi", new PathPlannerAuto("Outside Taxi"));
-    m_autoChooser.addOption("Center Start to Top Coral Right (Driver POV) - L3 Shoot", new PathPlannerAuto("Center Start to Top Coral Right (Driver POV) - L3 Shoot"));
+    m_autoChooser.addOption("Center Start to Top Coral Right (Driver POV) - L3 Shoot",
+        new PathPlannerAuto("Center Start to Top Coral Right (Driver POV) - L3 Shoot"));
 
-
-    SmartDashboard.putData("Auto Chooser",m_autoChooser);
+    SmartDashboard.putData("Auto Chooser", m_autoChooser);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -185,56 +193,72 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // new JoystickButton(m_driverController, Button.kR1.value)
-    //     .whileTrue(new RunCommand(
-    //         () -> m_robotDrive.setX(),
-    //         m_robotDrive));
+    // .whileTrue(new RunCommand(
+    // () -> m_robotDrive.setX(),
+    // m_robotDrive));
 
-    //---------------------------------DRIVER CONTROLLER------------------------------------------------------
+    // ---------------------------------DRIVER
+    // CONTROLLER------------------------------------------------------
     new JoystickButton(m_driverController, Button.kTriangle.value)
         .whileTrue(new ResetGyro(m_robotDrive, new Pose2d()));
 
     new JoystickButton(m_driverController, 8).whileTrue(new Shoot(m_shooter, ShooterConstants.kShootingSpeed));
-    //new JoystickButton(m_driverController, 3).whileTrue(new MoveClimber(m_CageSubsystem, 0.25));//up
+    // new JoystickButton(m_driverController, 3).whileTrue(new
+    // MoveClimber(m_CageSubsystem, 0.25));//up
 
-    // new JoystickButton(m_driverController, 1).whileTrue(new PIDTestingClimb(m_CageSubsystem, ClimberConstants.kMaxSpeedDown));
-    // new JoystickButton(m_driverController, 3).whileTrue(new PIDTestingClimb(m_CageSubsystem, ClimberConstants.kMaxSpeedUp));
-    new JoystickButton(m_driverController, 1).whileTrue(new HomeClimber(m_CageSubsystem, ClimberConstants.kHomingSpeed));
+    // new JoystickButton(m_driverController, 1).whileTrue(new
+    // PIDTestingClimb(m_CageSubsystem, ClimberConstants.kMaxSpeedDown));
+    // new JoystickButton(m_driverController, 3).whileTrue(new
+    // PIDTestingClimb(m_CageSubsystem, ClimberConstants.kMaxSpeedUp));
+    new JoystickButton(m_driverController, 1)
+        .whileTrue(new HomeClimber(m_CageSubsystem, ClimberConstants.kHomingSpeed));
 
-    //new JoystickButton(m_driverController, 7).whileTrue(new HomeClimber(m_CageSubsystem, 0.25));
-    new JoystickButton(m_driverController, 3).whileTrue(new MoveClimber(m_CageSubsystem, -0.25));//down
+    // new JoystickButton(m_driverController, 7).whileTrue(new
+    // HomeClimber(m_CageSubsystem, 0.25));
+    new JoystickButton(m_driverController, 3).whileTrue(new MoveClimber(m_CageSubsystem, -0.25));// down
 
-    new JoystickButton(m_driverController,5).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kLeft));
+    new JoystickButton(m_driverController, 5).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kLeft));
     new JoystickButton(m_driverController, 6).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kRight));
     new JoystickButton(m_driverController, 7).onTrue(new HomeElevator(m_elevatorSubsystem));
-    //new JoystickButton(m_driverController, 8).onTrue(new ShooterIntakeTimed(m_shooter, ShooterConstants.kIntakeSpeed));
+    // new JoystickButton(m_driverController, 8).onTrue(new
+    // ShooterIntakeTimed(m_shooter, ShooterConstants.kIntakeSpeed));
 
     // new JoystickButton(m_driverController, Button.kSquare.value)
-    //     .whileTrue(new RunCommand( 
-    //         () -> System.out.println(m_robotDrive.getGyroYawDeg())));
+    // .whileTrue(new RunCommand(
+    // () -> System.out.println(m_robotDrive.getGyroYawDeg())));
     new JoystickButton(m_driverController, 2)
-        .whileTrue(new DriveToAprilTag(m_robotDrive,m_PhotonCam,0.2,()->m_robotDrive.getPose()));//DriveToAprilTag(m_robotDrive, m_PhotonCam, Constants.DriveConstants.kSpeedToTarget, ()->m_robotDrive.getPose()));
-    new JoystickButton(m_driverController, 9).whileTrue(new PathPlannerAuto("Center Start to Top Coral Right (Driver POV) - L3 Shoot"));
+        .whileTrue(new DriveToAprilTag(m_robotDrive, m_PhotonCam, 0.2, () -> m_robotDrive.getPose()));// DriveToAprilTag(m_robotDrive,
+                                                                                                      // m_PhotonCam,
+                                                                                                      // Constants.DriveConstants.kSpeedToTarget,
+                                                                                                      // ()->m_robotDrive.getPose()));
+    new JoystickButton(m_driverController, 9)
+        .whileTrue(new PathPlannerAuto("Center Start to Top Coral Right (Driver POV) - L3 Shoot"));
 
-    //---------------------------------------SWITCHBOARD------------------------------------------------------
-   
+    // ---------------------------------------SWITCHBOARD------------------------------------------------------
+
     // new JoystickButton(m_driverController, Button.kCircle.value)
     // // .whileTrue(()->m_DrivePose.driveToReefLeft());
 
     new JoystickButton(m_switchboard, 1).onTrue(new CoralStationIntake(m_elevatorSubsystem, m_shooter));
-    new JoystickButton(m_switchboard, 2).whileTrue(new MoveElevator(m_elevatorSubsystem, 0.15));
-    new JoystickButton(m_switchboard, 3).whileTrue(new Shoot(m_shooter,ShooterConstants.kShootingSpeed));
-    new JoystickButton(m_switchboard, 4).whileTrue(new MoveElevator(m_elevatorSubsystem, -0.075));
-    new JoystickButton(m_switchboard, 5).onTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL2EncoderHight));
-    new JoystickButton(m_switchboard, 6).onTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL1EncoderHight));
-    new JoystickButton(m_switchboard, 8).onTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL3EncoderHight));
-    new JoystickButton(m_switchboard, 9).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kLeft) );
+    new JoystickButton(m_switchboard, 2).whileTrue(new MoveElevator(m_elevatorSubsystem, 0.2));
+
+    new JoystickButton(m_switchboard, 3).whileTrue(new Shoot(m_shooter, ShooterConstants.kShootingSpeed));
+    // new JoystickButton(m_switchboard, 4).whileTrue(new
+    // MoveElevator(m_elevatorSubsystem, -0.1));
+    new JoystickButton(m_switchboard, 4)
+        .onTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kCoralStationBarHight));
+    new JoystickButton(m_switchboard, 5)
+        .onTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL2EncoderHight));
+    new JoystickButton(m_switchboard, 6)
+        .onTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL1EncoderHight));
+    new JoystickButton(m_switchboard, 8)
+        .onTrue(new ElevatorToPosition(m_elevatorSubsystem, ElevatorConstants.kL3EncoderHight));
+    new JoystickButton(m_switchboard, 9).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kLeft));
     new JoystickButton(m_switchboard, 10).whileTrue(new ShooterIntake(m_shooter, ShooterConstants.kIntakeSpeed));
     new JoystickButton(m_switchboard, 11).whileTrue(new ShooterExpelL1(m_shooter, ShooterConstants.kRight));
     new JoystickButton(m_switchboard, 12).onTrue(new HomeElevator(m_elevatorSubsystem));
-    
 
   }
-
 
   /**
    * 
@@ -245,9 +269,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // // Create config for trajectory
     Pose2d pose = new PathPlannerAuto(m_autoChooser.getSelected().getName()).getStartingPose();
-    //m_currentPath = m_autoChooser.getSelected().getName();
-    if(pose == null)
-    {
+    // m_currentPath = m_autoChooser.getSelected().getName();
+    if (pose == null) {
       return null;
     }
     m_robotDrive.resetOdometry(pose);
