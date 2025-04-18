@@ -173,7 +173,7 @@ public class RobotContainer {
     m_autoChooser.addOption("Center Trough Shoot", new PathPlannerAuto("Center Trough Shoot"));
     m_autoChooser.addOption("Outside Taxi", new PathPlannerAuto("Outside Taxi"));
     m_autoChooser.addOption("Center Start to Top Coral Right (Driver POV) - L3 Shoot",
-        new PathPlannerAuto("Center Start to Top Coral Right (Driver POV) - L3 Shoot"));
+        new PathPlannerAuto("Center Start to Coral Top Left V2 (Driver POV) - L3 Shoot Auto"));
 
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
 

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.0,
-        "y": 0.0
+        "x": 7.5855,
+        "y": 4.05425
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.654477004420552,
-        "y": 0.0
+        "x": 6.5855,
+        "y": 4.05425
       },
       "isLocked": false,
-      "linkedName": "ZeroZero"
+      "linkedName": "Center Start"
     },
     {
       "anchor": {
-        "x": 1.0,
-        "y": 0.0
+        "x": 5.814036885245901,
+        "y": 4.354661885245902
       },
       "prevControl": {
-        "x": 0.12489754098360673,
-        "y": 0.023975409836064783
+        "x": 6.814036885245901,
+        "y": 4.354661885245902
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "OneZero"
+      "linkedName": "Coral Top Left V2 (Driver POV)"
     }
   ],
   "rotationTargets": [],
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
-    "maxAcceleration": 0.5,
+    "maxVelocity": 1.2,
+    "maxAcceleration": 1.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 180.0,
     "nominalVoltage": 12.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Comp Paths",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
