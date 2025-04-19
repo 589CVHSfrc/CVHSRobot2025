@@ -118,8 +118,16 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> m_robotDrive.drive(
-                MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband), // used to have a -
-                MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband), // used to have a -
+                MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband), // used
+                                                                                                   // to
+                                                                                                   // have
+                                                                                                   // a
+                                                                                                   // -
+                MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband), // used
+                                                                                                   // to
+                                                                                                   // have
+                                                                                                   // a
+                                                                                                   // -
                 -MathUtil.applyDeadband(m_driverController.getRawAxis(2), OIConstants.kDriveDeadband),
                 true),
             m_robotDrive));
@@ -138,7 +146,8 @@ public class RobotContainer {
     // m_robotDrive));
 
     NamedCommands.registerCommand("Reset Gyro",
-        new ResetGyro(m_robotDrive, new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()));
+        new ResetGyro(m_robotDrive,
+            new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()));
     NamedCommands.registerCommand("PathPlanner Reset Gyro",
         AutoBuilder.resetOdom(new PathPlannerAuto((m_autoChooser.getSelected().getName())).getStartingPose()));
     NamedCommands.registerCommand("SetHeading180", new FlipHeading180(m_robotDrive));
@@ -173,7 +182,26 @@ public class RobotContainer {
     m_autoChooser.addOption("Center Trough Shoot", new PathPlannerAuto("Center Trough Shoot"));
     m_autoChooser.addOption("Outside Taxi", new PathPlannerAuto("Outside Taxi"));
     m_autoChooser.addOption("Center Start to Top Coral Right (Driver POV) - L3 Shoot",
-        new PathPlannerAuto("Center Start to Coral Top Left V2 (Driver POV) - L3 Shoot Auto"));
+        new PathPlannerAuto(
+            "Center Start to Top Coral Right (Driver POV) - L3 Shoot"));
+
+    // don't use these in an actual match PLEASE PLEASE PLEASE
+    m_autoChooser.addOption(
+        "Left Start to Bottom Left Reef Full - L3 and Bottom Reef Full - L3 (Driver POV) TESTING",
+        new PathPlannerAuto(
+            "Left Start to Bottom Left Reef Full - L3 and Bottom Reef Full - L3 (Driver POV) Auto"));
+    m_autoChooser.addOption(
+        "Center Start to Bottom Left Reef Full - L3 and Bottom Reef Full - L3 (Driver POV) TESTING",
+        new PathPlannerAuto(
+            "Center Start to Bottom Left Reef Full - L3 and Bottom Reef Full - L3 (Driver POV) Auto"));
+    m_autoChooser.addOption(
+        "Center Start to Bottom Right Reef Full - L3 and Bottom Reef Full - L3 (Driver POV) TESTING",
+        new PathPlannerAuto(
+            "Center Start to Bottom Right Reef Full - L3 and Bottom Reef Full - L3 (Driver POV) Auto"));
+    m_autoChooser.addOption(
+        "Right Start to Bottom Right Reef Full - L3 and Bottom Reef Full - L3 (Driver POV) TESTING",
+        new PathPlannerAuto(
+            "Right Start to Bottom Right Reef Full - L3 and Bottom Reef Full - L3 (Driver POV) Auto"));
 
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
 
