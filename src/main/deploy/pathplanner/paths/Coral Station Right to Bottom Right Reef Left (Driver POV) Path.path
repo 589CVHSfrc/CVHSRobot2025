@@ -1,0 +1,63 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.6098760637802143,
+        "y": 0.687679683346987
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.1910052097587793,
+        "y": 1.5014910347634096
+      },
+      "isLocked": false,
+      "linkedName": "Coral Station Right (Driver POV)"
+    },
+    {
+      "anchor": {
+        "x": 3.6915707722601416,
+        "y": 2.9751939834108008
+      },
+      "prevControl": {
+        "x": 3.1915707722601416,
+        "y": 2.1091685796263624
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Bottom Right Reef Left (Driver POV)"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.05,
+      "rotationDegrees": -125.53
+    },
+    {
+      "waypointRelativePos": 0.95,
+      "rotationDegrees": 59.99999999999999
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": true
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 59.99999999999999
+  },
+  "reversed": false,
+  "folder": "Intake to Reef",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -125.53
+  },
+  "useDefaultConstraints": true
+}
