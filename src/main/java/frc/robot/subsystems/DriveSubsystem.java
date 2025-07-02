@@ -4,11 +4,8 @@
 // from pathplannerlib.auto import NamedCommands
 package frc.robot.subsystems;
 
-import java.util.function.Supplier;
-
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -23,26 +20,18 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.PhotonCam;
-import frc.robot.Constants.AutoConstants;
 // import edu.wpi.first.wpilibj.ADIS16470_IMU;
 // import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.ModuleConstants;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.util.sendable.Sendable;
 
 public class DriveSubsystem extends SubsystemBase {
 

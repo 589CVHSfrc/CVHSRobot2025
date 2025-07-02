@@ -1,9 +1,6 @@
 package frc.utils;
 
-import java.nio.file.Path;
 import java.util.List;
-import java.util.function.DoubleSupplier;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.IdealStartingState;
@@ -14,7 +11,6 @@ import com.pathplanner.lib.path.Waypoint;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;

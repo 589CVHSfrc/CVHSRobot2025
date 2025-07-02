@@ -4,7 +4,6 @@
 
 package frc.robot.commands.COMMAND_DRIVE;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.DriveSubsystem;
 

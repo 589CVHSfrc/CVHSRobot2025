@@ -5,8 +5,6 @@
 package frc.robot.commands.COMMAND_SEQUENCES;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.COMMANDS_SHOOTER.ShooterExpelL1;
-import frc.robot.commands.COMMAND_ELEVATOR.HomeElevator;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 

@@ -5,7 +5,6 @@
 package frc.robot;
 
 
-import java.io.IOException;
 import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
@@ -19,18 +18,13 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
-import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.VisualConstants;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
 // import frc.robot.Constants.VisualConstants;
 /** Add your docs here. */
 public class PhotonCam{

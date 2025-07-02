@@ -4,9 +4,7 @@ package frc.robot.commands.COMMAND_ELEVATOR;
 // the WPILib BSD license file in the root directory of this project.
 
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */

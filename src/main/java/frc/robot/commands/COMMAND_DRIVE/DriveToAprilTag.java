@@ -29,7 +29,6 @@ import frc.robot.subsystems.DriveSubsystem;
 public class DriveToAprilTag extends Command {
   private DriveSubsystem m_drive;
   private PhotonCam m_PhotonCam;
-  private DriveUtils m_DriveUtils;
   private AprilTagFieldLayout m_aprilTagLayout;
   private int m_tagID;
   private Pose2d m_robotPose2d, m_targetPose2d;
@@ -77,7 +76,7 @@ public class DriveToAprilTag extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_DriveUtils = new DriveUtils(m_drive);
+    new DriveUtils(m_drive);
     m_robotPose2d = m_pose.get();
     m_robotPose3d = new Pose3d(
         m_robotPose2d.getX(), m_robotPose2d.getY(), 0.0,

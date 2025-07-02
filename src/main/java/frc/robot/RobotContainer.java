@@ -4,24 +4,15 @@
 
 package frc.robot;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.Optional;
-import java.util.function.Supplier;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
-
 import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,28 +29,21 @@ import frc.robot.commands.COMMAND_SEQUENCES.CoralStationIntake;
 import frc.robot.commands.COMMANDS_SHOOTER.Shoot;
 import frc.robot.commands.COMMANDS_SHOOTER.ShooterExpelL1;
 import frc.robot.commands.COMMANDS_SHOOTER.ShooterIntake;
-import frc.robot.commands.COMMANDS_SHOOTER.ShooterIntakeTimed;
 import frc.robot.commands.COMMAND_DEEPCAGE.HomeClimber;
 import frc.robot.commands.COMMAND_DEEPCAGE.MoveClimber;
-import frc.robot.commands.COMMAND_DEEPCAGE.PIDTestingClimb;
 import frc.robot.commands.COMMAND_DRIVE.DrivePose;
 import frc.robot.commands.COMMAND_DRIVE.DriveToAprilTag;
-import frc.robot.commands.COMMAND_DRIVE.DriveToPosition;
 import frc.robot.commands.COMMAND_DRIVE.FlipHeading180;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DeepCageSubsystem;
 // import frc.robot.commands.TESTING_COMMANDS.ElevatorToPosition;
 // import frc.robot.commands.TESTING_COMMANDS.HomeElevator;
 // import frc.robot.commands.TESTING_COMMANDS.MoveElevator;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.GroundIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 // import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /*
