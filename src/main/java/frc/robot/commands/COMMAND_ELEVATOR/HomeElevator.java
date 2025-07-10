@@ -13,8 +13,6 @@ public class HomeElevator extends Command {
   public HomeElevator(ElevatorSubsystem elevator) {
     m_elevator = elevator;
     addRequirements(m_elevator);
-
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -32,9 +30,6 @@ public class HomeElevator extends Command {
   @Override
   public void end(boolean interrupted) {
     m_elevator.zeroEncoder();
-    double position = m_elevator.getElevatorPosition();
-    //System.out.println("--------------------zero-----------------------------");
-    //System.out.println(position);
     m_elevator.move(0);
   }
 

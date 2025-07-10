@@ -29,9 +29,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class DriveToAprilTag extends Command {
   private DriveSubsystem m_drive;
   private PhotonCam m_PhotonCam;
-  private AprilTagFieldLayout m_aprilTagLayout;
-  private int m_tagID;
-  private Pose2d m_robotPose2d, m_targetPose2d;
+  private Pose2d m_robotPose2d;
   private Pose3d m_robotPose3d;
   private TrapezoidProfile.Constraints m_XConstraints;
   private TrapezoidProfile.Constraints m_YConstraints;
@@ -65,7 +63,7 @@ public class DriveToAprilTag extends Command {
     m_PhotonCam = photonCam;
     m_drive = drive;
     m_lostTarget = false;
-    m_aprilTagLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
+    AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
     m_xController.setTolerance(0.2);
     m_yController.setTolerance(0.2);

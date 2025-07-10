@@ -4,9 +4,6 @@
 
 package frc.robot.commands.COMMAND_DRIVE;
 
-import frc.robot.PhotonCam;
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -14,15 +11,11 @@ import frc.robot.subsystems.DriveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class DriveToReefLeft extends Command {
-  private DoubleSupplier m_speed;
   private DriveSubsystem m_drive;
-  private PhotonCam m_PhotonCam;
 
   /** Creates a new DriveToReefLeft. */
-  public DriveToReefLeft(DoubleSupplier speed, DriveSubsystem drive) {
-    m_speed = speed;
+  public DriveToReefLeft(DriveSubsystem drive) {
     m_drive = drive;
-    //m_PhotonCam = photonCam;
   }
 
   // Called when the command is initially scheduled.

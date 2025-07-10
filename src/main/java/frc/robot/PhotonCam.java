@@ -4,9 +4,7 @@
 
 package frc.robot;
 
-
 import java.util.Optional;
-
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -41,7 +39,6 @@ public class PhotonCam{
             // //System.out.println(e);
         // }
 
-
         m_poseEstimator = new PhotonPoseEstimator(m_aprilTagLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,VisualConstants.kCameraRelativeToRobot); //euler angles
     
         m_poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
@@ -61,10 +58,7 @@ public class PhotonCam{
     public static PhotonCam get() {
         if (m_arduCam == null) {
             m_arduCam = new PhotonCam();
-            var name = PhotonCamera.kTableName;
             PhotonCamera.setVersionCheckEnabled(false);
-            //System.out.print("====== PHOTON CAMERA NAME: ======");
-            //System.out.println(name);
         }
         return m_arduCam;
     }
@@ -77,40 +71,14 @@ public class PhotonCam{
             EstimatedRobotPose estimation = OPestimation.get();
             Pose2d estimatedPose2d = estimation.estimatedPose.toPose2d();
             
-            // if estimation exists, then add Vision Measurement, to odom in class
             estimator.addVisionMeasurement(estimatedPose2d, estimation.timestampSeconds);
-
-            // estimator.resetPosition(estimatedPose2d.getRotation(),
-            // drive.getSwerveModulePositions(),
-            // estimatedPose2d);
         }
     }
 
     // Get estimated pose based on odom and vision?
-
-    // public Pose2d getEstimatedPose(Pose2d odomPose) {
-    //     // Gets Estimation from camera
-    //     Optional<EstimatedRobotPose> OPestimation = m_poseEstimator.update(m_photonArduCam.getLatestResult());
-
-    //     if (OPestimation.isPresent()) {
-    //         EstimatedRobotPose estimation = OPestimation.get();
-    //         Pose2d estimatedPose2d = estimation.estimatedPose.toPose2d();
-            
-
-    //     }
-
-    //     return new Pose2d();
-    // }
-
-    /*--------------
-    * | Check this |
-    * --------------
-    */
-
     public double distanceToTargetRange(){
         return PhotonUtils.calculateDistanceToTargetMeters(VisualConstants.kCameraRelativeToRobot.getZ(), m_aprilTagLayout.getTagPose(getFiducialID()).get().getZ(),0, m_aprilTagLayout.getTagPose(getFiducialID()).get().getRotation().getAngle());
     }
-
     
     public void setAlliance(boolean alliance){
         if (alliance) {
@@ -123,15 +91,11 @@ public class PhotonCam{
     }
     public int getFiducialID(){
         PhotonPipelineResult result = m_photonArduCam.getLatestResult();
-        //System.out.println(result);
         
         if(result.hasTargets()) {
-            //System.out.println(result.getBestTarget());
-            //System.out.println(result.getBestTarget().getFiducialId());
             return result.getBestTarget().getFiducialId();
         }
         return -1;
-        // return 1;
     }
 
     public PhotonTrackedTarget getBestTarget() {
