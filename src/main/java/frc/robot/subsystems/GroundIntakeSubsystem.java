@@ -60,9 +60,9 @@ public class GroundIntakeSubsystem extends SubsystemBase {
     return m_coralLimitSwitch.isPressed();
   }
 
+  // This method will be called once per scheduler run
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Ground Intake Is Coral Present", isCoralPresent());
-    // This method will be called once per scheduler run
   }
 }

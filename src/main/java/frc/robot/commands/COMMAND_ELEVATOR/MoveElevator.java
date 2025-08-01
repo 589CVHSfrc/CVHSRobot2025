@@ -16,7 +16,6 @@ public class MoveElevator extends Command {
     m_elevator = elevator;
     m_speed = speed;
     addRequirements(m_elevator);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

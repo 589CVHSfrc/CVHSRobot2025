@@ -25,10 +25,10 @@ public class FollowPath extends Command {
 
     /** Creates a new DriveToPose. */
     public FollowPath(DriveSubsystem drive, String autoName) {
-        // Use addRequirements() here to declare subsystem dependencies.
         m_drive = drive;
         m_auto = new PathPlannerAuto(autoName);
         m_pose = m_auto.getStartingPose();
+        addRequirements(drive);        
     }
 
     // Called when the command is initially scheduled.

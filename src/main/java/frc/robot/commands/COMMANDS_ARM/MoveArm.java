@@ -16,7 +16,6 @@ public class MoveArm extends Command {
     m_arm = arm;
     m_speed = speed;
     addRequirements(m_arm);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

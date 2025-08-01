@@ -24,26 +24,6 @@ public class DriveUtils {
         // m_drive.configureHolonomicAutoBuilder();
     }
 
-//     public Command driveToPoseORIG(Pose2d requestedPose) {
-//         Pose2d startingPose = m_drive.getPose();
-
-//         List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startingPose, requestedPose);
-
-//         // Create the path using the bezier points created above
-//         PathPlannerPath path = new PathPlannerPath(
-//                 bezierPoints,
-//                 new PathConstraints(
-//                         DriveConstants.kMaxSpeedMetersPerSecond / 2,
-//                         AutoConstants.kMaxAccelerationMetersPerSecondSquared / 2,
-//                         DriveConstants.kMaxAngularSpeed,
-//                         AutoConstants.kMaxAngularSpeedRadiansPerSecondSquared),
-//                 new GoalEndState(0.1, requestedPose.getRotation()));
-
-//         // Prevent the path from being flipped if the coordinates are already correct
-//         path.preventFlipping = true;
-//         return AutoBuilder.followPath(path);
-//     }
-
     public Command driveToPose(Pose2d requestedPose, double speed) {
         Pose2d startingPose = m_drive.getPose();
         double[] xy = { (requestedPose.getX() - startingPose.getX()),
@@ -52,7 +32,6 @@ public class DriveUtils {
         List<Waypoint> bezierPoints = PathPlannerPath.bezierFromPoses(startingPose, midPose, requestedPose);
 
         // Create the path using the bezier points created above
-
         PathPlannerPath path = new PathPlannerPath(
                 bezierPoints,
                 new PathConstraints(
@@ -66,7 +45,6 @@ public class DriveUtils {
                 new GoalEndState(0.05, requestedPose.getRotation())
         );
 
-
         // Prevent the path from being flipped if the coordinates are already correct
         //path.preventFlipping = true;
         // return AutoBuilder.pathfindToPose(requestedPose, new PathConstraints(
@@ -76,5 +54,4 @@ public class DriveUtils {
         //                 AutoConstants.kMaxAngularSpeedRadiansPerSecondSquared), 0);
         return AutoBuilder.followPath(path);
     }
-
 }

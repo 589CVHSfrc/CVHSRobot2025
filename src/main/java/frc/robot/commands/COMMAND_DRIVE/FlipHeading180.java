@@ -15,7 +15,6 @@ public class FlipHeading180 extends InstantCommand {
   public FlipHeading180(DriveSubsystem drive) {
     m_drive = drive;
     addRequirements(drive);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

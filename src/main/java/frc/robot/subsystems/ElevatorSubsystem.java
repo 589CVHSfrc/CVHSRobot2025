@@ -101,13 +101,13 @@ public class ElevatorSubsystem extends SubsystemBase {
     return false;
   }
 
+  // This method will be called once per scheduler run
   @Override
   public void periodic() {
     // m_targetPosition = SmartDashboard.getNumber("Elevator Target Position", 0);
      SmartDashboard.putNumber(" Elevator Encoder", m_encoder.getPosition());
      SmartDashboard.putBoolean("Top Elevator Limit Switch", topIsPressed());
      SmartDashboard.putBoolean("Bottom Elevator Limit Switch", bottomIsPressed());
-    // This method will be called once per scheduler run
   }
 
   public void move(double speed){

@@ -5,12 +5,14 @@
 package frc.robot.commands.COMMAND_DRIVE;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.DriveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class DriveToReefRight extends Command {
+  private DriveSubsystem m_drive;  
   /** Creates a new DriveToReefRight. */
-  public DriveToReefRight() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public DriveToReefRight(DriveSubsystem drive) {
+    m_drive = drive;
   }
 
   // Called when the command is initially scheduled.

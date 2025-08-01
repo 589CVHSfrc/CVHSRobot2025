@@ -16,9 +16,10 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class FeederIntakeHome extends SequentialCommandGroup {
 
   /** Creates a new IntakeHome. */
-  public FeederIntakeHome(ShooterSubsystem m_shooter, ElevatorSubsystem m_elevator, double speed) {
+  public FeederIntakeHome(ShooterSubsystem shooter, ElevatorSubsystem elevator, double speed) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ShooterIntake(m_shooter, speed), new HomeElevator(m_elevator));
+    addCommands(new ShooterIntake(shooter, speed), new HomeElevator(elevator));
+    // addRequirements(elevator, shooter);    
   }
 }

@@ -17,7 +17,6 @@ public class Climb extends Command {
   public Climb(DeepCageSubsystem cage) {
     m_cage = cage;
     addRequirements(m_cage);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

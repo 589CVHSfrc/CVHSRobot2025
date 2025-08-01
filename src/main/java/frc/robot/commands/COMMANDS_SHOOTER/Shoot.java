@@ -16,7 +16,6 @@ public class Shoot extends Command {
     m_shooter = shoot;
     m_speed = speed;
     addRequirements(m_shooter);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

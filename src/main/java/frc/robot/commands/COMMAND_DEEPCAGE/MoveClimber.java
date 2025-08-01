@@ -14,9 +14,8 @@ public class MoveClimber extends Command {
   /** Creates a new MoveCLimber. */
   public MoveClimber(DeepCageSubsystem cage, double speed) {
     m_cage = cage;
-    addRequirements(m_cage);
     m_speed = speed;
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_cage);
   }
 
   // Called when the command is initially scheduled.

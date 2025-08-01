@@ -85,13 +85,6 @@ public class DeepCageSubsystem extends SubsystemBase {
     m_encoder.setPosition(0);
   }
 
-  // public void home(double speed){
-  //   if (isBottomPressed()){
-  //     //m_cageMotor.set(Constants.ClimberConstants.kHomingSpeed);
-  //     m_closedLoopController.setReference(speed, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
-  //   }
-  // }
-
   public void movePID(double speed){
     m_closedLoopController.setReference(speed, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
   }
@@ -102,7 +95,6 @@ public class DeepCageSubsystem extends SubsystemBase {
 
   public void climb(){
     if (isTopPressed()){
-      //m_cageMotor.set(Constants.ClimberConstants.kClimbingSpeed);
       m_closedLoopController.setReference(Constants.ClimberConstants.kClimbingSpeed, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
     }
   }

@@ -80,12 +80,7 @@ public class DriveToAprilTag extends Command {
         m_robotPose2d.getX(), m_robotPose2d.getY(), 0.0,
         new Rotation3d(0.0, 0.0, m_robotPose2d.getRotation().getRadians()));
     m_cameraPose = m_robotPose3d.transformBy(VisualConstants.kCameraRelativeToRobot.inverse());
-    // Pose3d TempCameraPose =
-    // m_robotPose3d.transformBy(VisualConstants.kCameraRelativeToRobot.inverse());
-    // m_cameraPose = m_robotPose3d;
-    // m_targetPose2d = m_PhotonCam.getPoseToTarget2d();
-    // m_targetPose =
-    // m_robotPose3d.transformBy(m_PhotonCam.getBestTarget().getBestCameraToTarget());
+
     if (m_PhotonCam.getFiducialID() != -1) {
       m_lostTarget = false;
       m_targetPose = m_cameraPose.transformBy(m_PhotonCam.getBestTarget().getBestCameraToTarget());
@@ -103,26 +98,14 @@ public class DriveToAprilTag extends Command {
   @Override
   public void execute() {
     m_robotPose2d = m_pose.get();
-    // m_robotPose = new Pose3d(
-    // m_robotPose2d.getX(),m_robotPose2d.getY(),0.0,
-    // new Rotation3d(0.0,0.0, m_robotPose2d.getRotation().getRadians())
-    // );
+
     if (m_PhotonCam.getFiducialID() != -1) {
       m_lostTarget = true;
     }
-    // cameraPose = m_robotPose.transformBy(VisualConstants.kCameraRelativeToRobot);
-    // m_targetPose2d = m_PhotonCam.getPoseToTarget2d();
 
-    // targetPose =
-    // cameraPose.transformBy(m_PhotonCam.getBestTarget().getBestCameraToTarget());
-    // goalPose = targetPose.transformBy(tagToGoal).toPose2d();
-    // //xController.setGoal(goalPose.getX());
-    // xController.setGoal(-m_targetPose2d.getX());
-    // yController.setGoal(m_targetPose2d.getY());
-    // yController.setGoal(goalPose.getY());
-    // rController.setGoal(goalPose.getRotation().getRadians());
     SmartDashboard.putNumber("Rotation Goal", m_goalPose.getRotation().getDegrees());
     SmartDashboard.putNumber("Current Rotation", m_robotPose2d.getRotation().getDegrees());
+    
     m_xSpeed = m_xController.calculate(m_robotPose3d.getX());
     if (m_xController.atGoal()) {
       m_xSpeed = 0;
@@ -136,11 +119,6 @@ public class DriveToAprilTag extends Command {
       m_rSpeed = 0;
     }
     m_drive.drive(-m_xSpeed, -m_ySpeed, -m_rSpeed, false);
-    // m_drive.drive(-xSpeed, -ySpeed, rSpeed, false);
-    // }else{
-    // m_lostTarget = true;
-    // }
-
   }
 
   // Called once the command ends or is interrupted.

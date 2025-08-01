@@ -15,7 +15,6 @@ public class ZeroHeading extends InstantCommand {
   public ZeroHeading(DriveSubsystem drive) {
     m_drive = drive;
     addRequirements(drive);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

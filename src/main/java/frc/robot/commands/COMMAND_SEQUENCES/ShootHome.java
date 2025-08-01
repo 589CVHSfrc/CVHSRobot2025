@@ -14,7 +14,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ShootHome extends SequentialCommandGroup {
   /** Creates a new ShootHome. */
-  public ShootHome(ShooterSubsystem m_shooter, ElevatorSubsystem m_elevator) {
-    addCommands(new Shoot(m_shooter, 0), new HomeElevator(m_elevator));
+  public ShootHome(ShooterSubsystem shooter, ElevatorSubsystem elevator) {
+    addCommands(new Shoot(shooter, 0), new HomeElevator(elevator));
   }
 }

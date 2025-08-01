@@ -17,7 +17,6 @@ public class GroundIntakePickUp extends Command {
     m_groundIntake = intake;
     m_isIntaking = isIntaking;
     addRequirements(m_groundIntake);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

@@ -15,10 +15,10 @@ public class DrivePose {
     private double m_speed;
     private DriveSubsystem m_drive;
     private PhotonCam m_PhotonCam;
+
     public DrivePose(double speed, DriveSubsystem drive) {
         m_speed = speed;
         m_drive = drive;
-        //m_PhotonCam = photonCam;
     }
 
     public Command driveToReefLeft() {
@@ -60,7 +60,5 @@ public class DrivePose {
             }
             return new DriveUtils(m_drive).driveToPose(m_drive.getPose(), m_speed);
         }
-        
-        //replace with correct vals later
     }
 }

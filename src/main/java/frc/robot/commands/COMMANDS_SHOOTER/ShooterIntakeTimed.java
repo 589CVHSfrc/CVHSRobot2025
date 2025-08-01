@@ -21,7 +21,6 @@ public class ShooterIntakeTimed extends Command {
     m_timer = new Timer();
     m_timerStarted = false;
     addRequirements(m_shooter);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

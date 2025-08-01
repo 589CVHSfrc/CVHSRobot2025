@@ -14,14 +14,12 @@ public class HomeClimber extends Command {
   /** Creates a new HomeClimber. */
   public HomeClimber(DeepCageSubsystem cage, double speed) {
     m_cage = cage;
-    addRequirements(m_cage);
     m_speed = speed;
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_cage);
   }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
