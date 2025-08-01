@@ -24,7 +24,6 @@ public class ShooterExpelL1 extends Command {
       m_leftSpeed = ShooterConstants.kL1LeftSpeedLeft;
       m_rightSpeed = ShooterConstants.kL1RightSpeedLeft;
     }
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
