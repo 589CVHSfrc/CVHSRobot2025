@@ -99,13 +99,13 @@ public class DriveToAprilTag extends Command {
   public void execute() {
     m_robotPose2d = m_pose.get();
 
-    if (m_PhotonCam.getFiducialID() != -1) {
+    if (m_PhotonCam.getFiducialID() == -1) {
       m_lostTarget = true;
     }
 
     SmartDashboard.putNumber("Rotation Goal", m_goalPose.getRotation().getDegrees());
     SmartDashboard.putNumber("Current Rotation", m_robotPose2d.getRotation().getDegrees());
-    
+
     m_xSpeed = m_xController.calculate(m_robotPose3d.getX());
     if (m_xController.atGoal()) {
       m_xSpeed = 0;
@@ -114,17 +114,21 @@ public class DriveToAprilTag extends Command {
     if (m_yController.atGoal()) {
       m_ySpeed = 0;
     }
-    m_rSpeed = m_rController.calculate(m_robotPose2d.getRotation().getRadians());
+  
+    m_rSpeed =-m_rController.calculate(m_robotPose2d.getRotation().getRadians());
+    System.out.println("---------------------ROTATION SPEED: " + m_rSpeed);
     if (m_rController.atGoal()) {
-      m_rSpeed = 0;
+    m_rSpeed = 0; // LOOK HERE!
     }
     m_drive.drive(-m_xSpeed, -m_ySpeed, -m_rSpeed, false);
+    //System.out.println("-----------------COMMAND RUNNING--------------------" + m_lostTarget);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_drive.drive(0, 0, 0, true);
+    System.out.println("-------------COMMAND TERMINATED--------------------" + m_lostTarget);
   }
 
   // Returns true when the command should end.
